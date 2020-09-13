@@ -38,13 +38,13 @@ public class CharacterCustomizationUI : MonoBehaviour
         customizerScript = this.GetComponent<CharacterCustomizerScript>();
 
         //start with empty colors
-        avatarColorValues = new Vector3(0,0,0);
-        hatColorValues = new Vector3(0,0,0);
+        avatarColorValues = new Vector3(1,1,1);
+        hatColorValues = new Vector3(1,1,1);
 
         //set all sliders to 0 in beginning
         foreach(Slider slider in sliders)
         {
-            slider.SetValueWithoutNotify(0);
+            slider.SetValueWithoutNotify(1);
         }
 
         //start in login panel
