@@ -78,22 +78,26 @@ public class CharacterCustomizationUI : MonoBehaviour
 //------Mesh Display Management-----
     public void AvatarMeshUp()
     {
-        customizerScript.activeAvatarID += 1;
+        //customizerScript.activeAvatarID += 1;
+        customizerScript.AvatarIdIncrement(1);
         avatarIdTxt.SetText(customizerScript.activeAvatarID.ToString());
     }
      public void AvatarMeshDown()
     {
-        customizerScript.activeAvatarID -= 1;
+        //customizerScript.activeAvatarID -= 1;
+        customizerScript.AvatarIdIncrement(-1);
         avatarIdTxt.SetText(customizerScript.activeAvatarID.ToString());
     }
     public void HatMeshUp()
     {
-        customizerScript.activeHatID += 1;
+        //customizerScript.activeHatID += 1;
+        customizerScript.HatIDIncrement(1);
         hatIdTxt.SetText(customizerScript.activeHatID.ToString());
     }
      public void HatMeshDown()
     {
-        customizerScript.activeHatID -= 1;
+        //customizerScript.activeHatID -= 1;
+        customizerScript.HatIDIncrement(-1);
         hatIdTxt.SetText(customizerScript.activeHatID.ToString());
     }
 

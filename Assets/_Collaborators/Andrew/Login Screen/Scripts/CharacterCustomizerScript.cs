@@ -40,6 +40,18 @@ public class CharacterCustomizerScript : MonoBehaviour
         ActiveAvatarTraitAssigner();
     }
 
+    public void AvatarIdIncrement(int changeInt)
+    {
+            activeAvatarID += changeInt;
+            activeAvatarID = Mathf.Clamp(activeAvatarID, 0, BaseAvatarGameObjects.Length - 1);
+    }
+
+    public void HatIDIncrement(int changeInt)
+    {
+        activeHatID += changeInt;
+        activeHatID = Mathf.Clamp(activeHatID, 0, hatMeshes.Length - 1);
+    }
+
     void BaseAvatarAssigner()
     {
         if (activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().avatarID != activeAvatarID) //checks to see if the avatar is matching the ID, if not it deletes it and spawns the appropriate one
