@@ -18,6 +18,8 @@ public class CharacterCustomizerScript : MonoBehaviour
 
     public Material defaultHatMaterial; //this is only temporary, eventually this will be coupled with the meshes so that each hat has its own texture
 
+    public SavedAvatarInfoScript savedInfo;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,5 +83,17 @@ public class CharacterCustomizerScript : MonoBehaviour
 
         activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().hatTransform.GetComponent<MeshRenderer>().material = defaultHatMaterial; //temporary, after the hats are designed there will be custom materials for them
         activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().hatTransform.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", hatColor);//sets the hat color
+    }
+
+    public void SaveTraitsToScript()
+    {
+        savedInfo.userName = characterName;
+        savedInfo.AvatarMeshID = activeAvatarID;
+        savedInfo.HatMeshId = activeHatID;
+        savedInfo.AvatarColor = new Vector3(bodyColor.r,bodyColor.b,bodyColor.g);
+        savedInfo.hatColor = new Vector3(hatColor.r, hatColor.b, hatColor.g);
+
+        savedInfo.hatLocalPosition = activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().hatTransform.transform.localPosition;
+        savedInfo.hatLocalScale = activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().hatTransform.transform.localScale;
     }
 }

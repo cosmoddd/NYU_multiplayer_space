@@ -72,6 +72,8 @@ public class CharacterCustomizationUI : MonoBehaviour
 
     public void Enter()
     {
+        //SAVE PRESET
+        customizerScript.SaveTraitsToScript();
         //TODO - loads into game
     }
 
