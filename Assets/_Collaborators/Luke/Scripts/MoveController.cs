@@ -6,6 +6,7 @@ public class MoveController : MonoBehaviour
 {
     public float walkSpeed = 20.0f;
     public float runSpeed = 40.0f;
+    public bool bAllowJumping = true;
     float moveSpeed;
 
     public float gravity = 9.81f;
