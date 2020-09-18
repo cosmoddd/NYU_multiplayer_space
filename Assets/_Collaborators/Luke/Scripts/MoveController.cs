@@ -57,7 +57,16 @@ public class MoveController : MonoBehaviour
         // decide which speed to use based on bool parameter input
         moveSpeed = (isSprinting ? runSpeed : walkSpeed) * inputDir.magnitude;
 
-        Vector3 velocity = transform.forward * moveSpeed; 
+        Vector3 slopeNormal;
+        Vector3 forwardAngle = transform.forward;
+        if (OnSlope(out slopeNormal))
+        {
+            // if we are on a slope find the slope angle and make that our forward vector
+            forwardAngle = Vector3.Cross(slopeNormal, inputDir.magnitude * -transform.right);
+        }
+
+        Vector3 velocity = forwardAngle * moveSpeed;
+
         velocityY -= Time.deltaTime * gravity;
 
         // apply vertical direction based on Y velocity
@@ -81,5 +90,27 @@ public class MoveController : MonoBehaviour
             float jumpVelocity = Mathf.Sqrt(2 * gravity * jumpHeight);
             velocityY = jumpVelocity;
         }
+    }
+
+    bool OnSlope(out Vector3 slopeNormal)
+    {
+        if(cc.isGrounded)
+        {
+            slopeNormal = Vector3.zero;
+            return false;
+        }
+
+        RaycastHit Hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out Hit, (cc.height / 2) + 2.0f))
+        {
+            if (Hit.normal != Vector3.up)
+            {
+                slopeNormal = Hit.normal;
+                return true;
+            }
+        }
+
+        slopeNormal = Vector3.zero;
+        return false;
     }
 }
