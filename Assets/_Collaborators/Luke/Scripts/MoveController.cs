@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class MoveController : MonoBehaviour
+public class MoveController : NetworkBehaviour
 {
     public float walkSpeed = 20.0f;
     public float runSpeed = 40.0f;
@@ -15,6 +16,8 @@ public class MoveController : MonoBehaviour
     public float turnSmoothTime = 0.2f;
     float turnSmoothVelocity;
 
+    public GameObject cameraPrefab;
+
     CharacterController cc;
     Transform cameraTransform;
 
@@ -23,26 +26,35 @@ public class MoveController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cc = GetComponent<CharacterController>();
-        cameraTransform = Camera.main.transform;
+        // only spawn and assign camera if we are the owning player
+        if(isLocalPlayer)
+        {
+            cc = GetComponent<CharacterController>();
+            GameObject cameraObject = Instantiate(cameraPrefab, transform.position, transform.rotation);
+            cameraObject.GetComponent<CameraController>().target = transform;
+            cameraTransform = cameraObject.transform;
+        }     
     }
 
     // Update is called once per frame
     void Update()
     {
-        // using GetAxis so that Gamepads will also be compatible
-        Vector2 inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        inputDirection.Normalize();
-
-        bool isSprinting = Input.GetAxisRaw("Sprint") > 0;
-
-        // function to handle actual movement
-        Move(inputDirection, isSprinting);
-
-        if(Input.GetAxisRaw("Jump") > 0)
+        if(isLocalPlayer)
         {
-            Jump();
-        }
+            // using GetAxis so that Gamepads will also be compatible
+            Vector2 inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            inputDirection.Normalize();
+
+            bool isSprinting = Input.GetAxisRaw("Sprint") > 0;
+
+            // function to handle actual movement
+            Move(inputDirection, isSprinting);
+
+            if (Input.GetAxisRaw("Jump") > 0)
+            {
+                Jump();
+            }
+        }       
     }
 
     void Move(Vector2 inputDir, bool isSprinting)
