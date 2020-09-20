@@ -19,7 +19,6 @@ public class CameraController : MonoBehaviour
   {
     if (!cursorVisible)
     {
-
       Cursor.lockState = CursorLockMode.Locked;
       Cursor.visible = cursorVisible;
     }
@@ -30,12 +29,19 @@ public class CameraController : MonoBehaviour
   {
     if (!clickToMove || Input.GetKey(KeyCode.Mouse1))
     {
+      Cursor.lockState = CursorLockMode.Locked;
+      Cursor.visible = false;
       // yaw for looking side to side, pitch for looking up and down
       yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
       pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
       pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
       transform.eulerAngles = new Vector3(pitch, yaw);
+    }
+    else if (Input.GetKeyUp(KeyCode.Mouse1))
+    {
+      Cursor.lockState = CursorLockMode.None;
+      Cursor.visible = cursorVisible;
     }
 
     transform.position = target.position - transform.forward * distFromTarget;

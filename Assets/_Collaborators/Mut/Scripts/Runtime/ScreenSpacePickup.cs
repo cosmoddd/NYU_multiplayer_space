@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace NYUMultiplayerSpace
 {
+  [RequireComponent(typeof(MoveController))]
   public class ScreenSpacePickup : MonoBehaviour
   {
 
@@ -17,7 +18,6 @@ namespace NYUMultiplayerSpace
       attemptingPickup,
       Holding,
     }
-
 
     [Header("Input")]
     [SerializeField] private KeyCode pickupKey;
@@ -36,24 +36,26 @@ namespace NYUMultiplayerSpace
 
     [SerializeField] private LayerMask collisionLayerMask;
 
-
     //[SerializeField] private BoolReference attemptingPickup;
 
-    private new Camera camera;
+    private Camera _camera;
+    private new Camera camera
+    {
+      get
+      {
+        if (_camera == null)
+        {
+          _camera = cameraReference.Value.GetComponent<Camera>();
+        }
+        return _camera;
+      }
+    }
+
     private Vector3 raycastHitPosition;
     private Pickable objectPicked;
 
-    private void OnValidate()
-    {
-      if (cameraReference == null)
-        Debug.LogError("ScreenSpacePickup has no camera reference attached to it");
-      if (cameraReference.Value.GetComponent<Camera>() == null)
-        Debug.LogError("Screenspacepickup camera reference has no camera component");
-    }
-
     private void Awake()
     {
-      camera = cameraReference.Value.GetComponent<Camera>();
       state = PickupState.Idle;
     }
 
