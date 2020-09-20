@@ -6,13 +6,21 @@ public class CharacterCustomizerScript : MonoBehaviour
 {
     public string characterName; 
 
-    public GameObject[] BaseAvatarGameObjects; //array of avatar gameobjects with hat gameobjects and pertenint compoenents as children
-    public int activeAvatarID; 
+
     public Color bodyColor;
     public Color hatColor;
+    public Color headColor;
+    public Color footColor;
 
     public int activeHatID;
     public Mesh[] hatMeshes;
+
+    public int activeHeadID;
+    public Mesh[] headMeshes;
+
+    public int activeFootID;
+    public Mesh[] leftFootMeshes;
+    public Mesh[] rightFootMeshes;
 
     public GameObject activeAvatar; //current avatar that you are working on
 
@@ -20,32 +28,43 @@ public class CharacterCustomizerScript : MonoBehaviour
 
     public SavedAvatarInfoScript savedInfo;
 
+    Camera mainCam;
+    float fov;
     // Start is called before the first frame update
     void Start()
     {
-        activeAvatarID = 0;
-        bodyColor = Color.white;
-        hatColor = Color.white;
-
-        Instantiate(BaseAvatarGameObjects[activeAvatarID],transform); //spawns avatar with ID of 0 as a child of this gameobject (the default avatar position)
+        fov = 42;
+        mainCam = Camera.main;
+        mainCam.fieldOfView = fov;
+        bodyColor = Color.grey;
+        hatColor = Color.grey;
+        headColor = Color.grey;
+        footColor = Color.grey;
     }
 
     // Update is called once per frame
     void Update()
     {
-        activeAvatarID = Mathf.Clamp(activeAvatarID,0,BaseAvatarGameObjects.Length-1); //makes it so that the ID always is referencing an existing entry in the array
         activeHatID = Mathf.Clamp(activeHatID,0,hatMeshes.Length-1);
+        activeHeadID = Mathf.Clamp(activeHeadID, 0, headMeshes.Length - 1);
+        activeFootID = Mathf.Clamp(activeFootID, 0, leftFootMeshes.Length - 1);
 
-        //currently the IDs do NOT wrap around from the last entry to the first
-
-        BaseAvatarAssigner(); //assigns the gameobject with the base avatar mesh based on the activeavatarID
         ActiveAvatarTraitAssigner();
+        if (characterName != "")
+        {
+            Zoom();
+        }
     }
 
-    public void AvatarIdIncrement(int changeInt)
+
+    public void Zoom()
     {
-            activeAvatarID += changeInt;
-            activeAvatarID = Mathf.Clamp(activeAvatarID, 0, BaseAvatarGameObjects.Length - 1);
+        fov -= Input.GetAxisRaw("Mouse ScrollWheel") * Time.deltaTime * 3000;
+        fov = Mathf.Clamp(fov,21,42);
+
+
+
+        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView,fov,Time.deltaTime * 5);
     }
 
     public void HatIDIncrement(int changeInt)
@@ -54,14 +73,6 @@ public class CharacterCustomizerScript : MonoBehaviour
         activeHatID = Mathf.Clamp(activeHatID, 0, hatMeshes.Length - 1);
     }
 
-    void BaseAvatarAssigner()
-    {
-        if (activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().avatarID != activeAvatarID) //checks to see if the avatar is matching the ID, if not it deletes it and spawns the appropriate one
-        {
-            Destroy(activeAvatar);
-            Instantiate(BaseAvatarGameObjects[activeAvatarID], transform);
-        }
-    }
 
     void ActiveAvatarTraitAssigner()
     {
@@ -71,29 +82,26 @@ public class CharacterCustomizerScript : MonoBehaviour
             bodyRenderer.material.SetColor("_Color", bodyColor);
         }
 
-        if (activeHatID>0) // sets the hat mesh, with zero being no hat
+        AssignFromArray(activeHatID,hatMeshes, activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().hatTransform,hatColor);
+        AssignFromArray(activeHeadID,headMeshes, activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().headTransform,headColor);
+        AssignFromArray(activeFootID,leftFootMeshes, activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().leftFootTransform,footColor);
+        AssignFromArray(activeFootID,rightFootMeshes, activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().rightFootTransform,footColor);
+
+    }
+
+    void AssignFromArray(int ID, Mesh[] meshes, GameObject point,Color color)
+    {
+        if (ID > 0)
         {
-            activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().hatTransform.GetComponent<MeshFilter>().mesh = hatMeshes[activeHatID];
+            point.GetComponent<MeshFilter>().mesh = meshes[ID];
         }
         else
         {
-            activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().hatTransform.GetComponent<MeshFilter>().mesh = null;
+            point.GetComponent<MeshFilter>().mesh = null;
         }
 
-
-        activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().hatTransform.GetComponent<MeshRenderer>().material = defaultHatMaterial; //temporary, after the hats are designed there will be custom materials for them
-        activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().hatTransform.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", hatColor);//sets the hat color
+        point.GetComponent<Renderer>().material.SetColor("_Color", color);
+        point.GetComponent<Renderer>().material.SetColor("_BaseColor", color);
     }
 
-    public void SaveTraitsToScript()
-    {
-        savedInfo.userName = characterName;
-        savedInfo.AvatarMeshID = activeAvatarID;
-        savedInfo.HatMeshId = activeHatID;
-        savedInfo.AvatarColor = new Vector3(bodyColor.r,bodyColor.b,bodyColor.g);
-        savedInfo.hatColor = new Vector3(hatColor.r, hatColor.b, hatColor.g);
-
-        savedInfo.hatLocalPosition = activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().hatTransform.transform.localPosition;
-        savedInfo.hatLocalScale = activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().hatTransform.transform.localScale;
-    }
 }

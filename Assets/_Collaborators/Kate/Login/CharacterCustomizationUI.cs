@@ -38,13 +38,13 @@ public class CharacterCustomizationUI : MonoBehaviour
         customizerScript = this.GetComponent<CharacterCustomizerScript>();
 
         //start with empty colors
-        avatarColorValues = new Vector3(1,1,1);
-        hatColorValues = new Vector3(1,1,1);
+        avatarColorValues = new Vector3(.5f,.5f,.5f);
+        hatColorValues = new Vector3(.5f, .5f, .5f);
 
         //set all sliders to 0 in beginning
-        foreach(Slider slider in sliders)
+        foreach (Slider slider in sliders)
         {
-            slider.SetValueWithoutNotify(1);
+            slider.SetValueWithoutNotify(.5f);
         }
 
         //start in login panel
@@ -73,7 +73,7 @@ public class CharacterCustomizationUI : MonoBehaviour
     public void Enter()
     {
         //SAVE PRESET
-        customizerScript.SaveTraitsToScript();
+        //customizerScript.SaveTraitsToScript();
         //TODO - loads into game
     }
 
@@ -81,14 +81,14 @@ public class CharacterCustomizationUI : MonoBehaviour
     public void AvatarMeshUp()
     {
         //customizerScript.activeAvatarID += 1;
-        customizerScript.AvatarIdIncrement(1);
-        avatarIdTxt.SetText(customizerScript.activeAvatarID.ToString());
+        //customizerScript.AvatarIdIncrement(1);
+        //avatarIdTxt.SetText(customizerScript.activeAvatarID.ToString());
     }
      public void AvatarMeshDown()
     {
         //customizerScript.activeAvatarID -= 1;
-        customizerScript.AvatarIdIncrement(-1);
-        avatarIdTxt.SetText(customizerScript.activeAvatarID.ToString());
+        //customizerScript.AvatarIdIncrement(-1);
+        //avatarIdTxt.SetText(customizerScript.activeAvatarID.ToString());
     }
     public void HatMeshUp()
     {
