@@ -4,30 +4,46 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target;
-    public float distFromTarget = 5.0f;
-    public float mouseSensitivity = 10.0f;
-    public Vector2 pitchMinMax = new Vector2(-45, 90);
+  public Transform target;
+  public float distFromTarget = 5.0f;
+  public float mouseSensitivity = 10.0f;
+  public Vector2 pitchMinMax = new Vector2(-45, 90);
 
-    float pitch, yaw;
+  float pitch, yaw;
 
-    // Start is called before the first frame update
-    void Start()
+  public bool cursorVisible;
+  public bool clickToMove = true;
+
+  // Start is called before the first frame update
+  void Start()
+  {
+    if (!cursorVisible)
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+      Cursor.lockState = CursorLockMode.Locked;
+      Cursor.visible = cursorVisible;
+    }
+  }
+
+  // Update is called once per frame
+  void LateUpdate()
+  {
+    if (!clickToMove || Input.GetKey(KeyCode.Mouse1))
+    {
+      Cursor.lockState = CursorLockMode.Locked;
+      Cursor.visible = false;
+      // yaw for looking side to side, pitch for looking up and down
+      yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
+      pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+      pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
+
+      transform.eulerAngles = new Vector3(pitch, yaw);
+    }
+    else if (Input.GetKeyUp(KeyCode.Mouse1))
+    {
+      Cursor.lockState = CursorLockMode.None;
+      Cursor.visible = cursorVisible;
     }
 
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        // yaw for looking side to side, pitch for looking up and down
-        yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-        pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-        pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
-
-        transform.eulerAngles = new Vector3(pitch, yaw);
-
-        transform.position = target.position - transform.forward * distFromTarget;
-    }
+    transform.position = target.position - transform.forward * distFromTarget;
+  }
 }
