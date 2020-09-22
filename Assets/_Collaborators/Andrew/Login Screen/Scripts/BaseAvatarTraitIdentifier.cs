@@ -10,6 +10,8 @@ public class BaseAvatarTraitIdentifier : MonoBehaviour
     public GameObject leftFootTransform;
     public GameObject rightFootTransform;
 
+    public Transform[] TorsoNodes;
+
     public Renderer[] bodyRenderers; //this is an array for people who have multiple meshes / renderers that make up what we would consider the body portionof the avatar
 
     CharacterCustomizerScript customizer;

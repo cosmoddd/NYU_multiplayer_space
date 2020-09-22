@@ -124,11 +124,13 @@ public class CharacterCustomizationUI : MonoBehaviour
 
     public void TorsoMeshUp()
     {
-        
+        customizerScript.TorsoIDIncrement(1);
+        torsoIdTxt.SetText(customizerScript.activeTorsoID.ToString());
     }
     public void TorsoMeshDown()
     {
-        
+        customizerScript.TorsoIDIncrement(-1);
+        torsoIdTxt.SetText(customizerScript.activeTorsoID.ToString());
     }
 
 //------Color Slider Management-----

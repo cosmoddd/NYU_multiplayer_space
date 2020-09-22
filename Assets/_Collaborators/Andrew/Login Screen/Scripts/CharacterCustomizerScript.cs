@@ -31,6 +31,15 @@ public class CharacterCustomizerScript : MonoBehaviour
 
     Camera mainCam;
     float fov;
+
+    public int activeTorsoID;
+
+    public float[] torsoPreset_0;
+    public float[] torsoPreset_1;
+    public float[] torsoPreset_2;
+    public float[] torsoPreset_3;
+
+    public List<float[]> presets;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +50,16 @@ public class CharacterCustomizerScript : MonoBehaviour
         hatColor = Color.grey;
         headColor = Color.grey;
         footColor = Color.grey;
+        LoadTorsoPresets();
+    }
+
+    void LoadTorsoPresets()
+    {
+        presets = new List<float[]>();
+        presets.Add(torsoPreset_0);
+        presets.Add(torsoPreset_1);
+        presets.Add(torsoPreset_2);
+        presets.Add(torsoPreset_3);
     }
 
     // Update is called once per frame
@@ -49,6 +68,7 @@ public class CharacterCustomizerScript : MonoBehaviour
         activeHatID = Mathf.Clamp(activeHatID,0,hatMeshes.Length-1);
         activeHeadID = Mathf.Clamp(activeHeadID, 0, headMeshes.Length - 1);
         activeFootID = Mathf.Clamp(activeFootID, 0, leftFootMeshes.Length - 1);
+        activeTorsoID = Mathf.Clamp(activeTorsoID, 0, presets.Count - 1);
 
         ActiveAvatarTraitAssigner();
         if (characterName != "")
@@ -86,6 +106,11 @@ public class CharacterCustomizerScript : MonoBehaviour
         activeFootID = Mathf.Clamp(activeFootID, 0, leftFootMeshes.Length - 1);
     }
 
+    public void TorsoIDIncrement(int changeInt)
+    {
+        activeTorsoID += changeInt;
+        activeTorsoID = Mathf.Clamp(activeTorsoID, 0, presets.Count - 1);
+    }
 
     void ActiveAvatarTraitAssigner()
     {
@@ -99,6 +124,14 @@ public class CharacterCustomizerScript : MonoBehaviour
         AssignFromArray(activeHeadID,headMeshes, activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().headTransform,headColor);
         AssignFromArray(activeFootID,leftFootMeshes, activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().leftFootTransform,footColor);
         AssignFromArray(activeFootID,rightFootMeshes, activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().rightFootTransform,footColor);
+
+
+        for (int i = 0; i < activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().TorsoNodes.Length; i++)
+        {
+            activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().TorsoNodes[i].localScale = Vector3.Lerp(activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().TorsoNodes[i].localScale, 
+                                                                                                           Vector3.one * presets[activeTorsoID][i],
+                                                                                                           Time.deltaTime * 10);
+        }
 
     }
 
