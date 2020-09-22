@@ -22,6 +22,7 @@ public class CharacterCustomizerScript : MonoBehaviour
     public Mesh[] leftFootMeshes;
     public Mesh[] rightFootMeshes;
 
+
     public GameObject activeAvatar; //current avatar that you are working on
 
     public Material defaultHatMaterial; //this is only temporary, eventually this will be coupled with the meshes so that each hat has its own texture
@@ -71,6 +72,18 @@ public class CharacterCustomizerScript : MonoBehaviour
     {
         activeHatID += changeInt;
         activeHatID = Mathf.Clamp(activeHatID, 0, hatMeshes.Length - 1);
+    }
+
+    public void HeadIDIncrement(int changeInt)
+    {
+        activeHeadID += changeInt;
+        activeHeadID = Mathf.Clamp(activeHeadID, 0, headMeshes.Length - 1);
+    }
+
+    public void FootIDIncrement(int changeInt)
+    {
+        activeFootID += changeInt;
+        activeFootID = Mathf.Clamp(activeFootID, 0, leftFootMeshes.Length - 1);
     }
 
 

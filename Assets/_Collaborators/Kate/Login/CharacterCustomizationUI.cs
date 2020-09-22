@@ -18,15 +18,23 @@ public class CharacterCustomizationUI : MonoBehaviour
     public TMP_InputField passwordField;
     //--Text--
     public TextMeshProUGUI usernameTxt;
-    public TextMeshProUGUI avatarIdTxt;
     public TextMeshProUGUI hatIdTxt;
+    public TextMeshProUGUI headIdTxt;
+
+    public TextMeshProUGUI torsoIdTxt;
+    public TextMeshProUGUI feetIdTxt;
     //--Sliders--
-    public Slider[] sliders; //0-2 are avatar, 3-5 are hat
+    public Slider[] sliders; //0-2 are hat, 3-5 are head, 6-9 are torso, 10-12 are feet
     //private vars
     CharacterCustomizerScript customizerScript;
      //--ColorValues--   these are used to make new colors when the sliders change
-    Vector3 avatarColorValues;
+    
     Vector3 hatColorValues;
+    Vector3 headColorValues;
+    Vector3 torsoColorValues;
+    Vector3 feetColorValues;
+
+
 
 
 
@@ -38,8 +46,10 @@ public class CharacterCustomizationUI : MonoBehaviour
         customizerScript = this.GetComponent<CharacterCustomizerScript>();
 
         //start with empty colors
-        avatarColorValues = new Vector3(.5f,.5f,.5f);
         hatColorValues = new Vector3(.5f, .5f, .5f);
+        headColorValues = new Vector3(.5f, .5f, .5f);
+        torsoColorValues = new Vector3(.5f, .5f, .5f);
+        feetColorValues = new Vector3(.5f, .5f, .5f);
 
         //set all sliders to 0 in beginning
         foreach (Slider slider in sliders)
@@ -78,29 +88,47 @@ public class CharacterCustomizationUI : MonoBehaviour
     }
 
 //------Mesh Display Management-----
-    public void AvatarMeshUp()
-    {
-        //customizerScript.activeAvatarID += 1;
-        //customizerScript.AvatarIdIncrement(1);
-        //avatarIdTxt.SetText(customizerScript.activeAvatarID.ToString());
-    }
-     public void AvatarMeshDown()
-    {
-        //customizerScript.activeAvatarID -= 1;
-        //customizerScript.AvatarIdIncrement(-1);
-        //avatarIdTxt.SetText(customizerScript.activeAvatarID.ToString());
-    }
+
     public void HatMeshUp()
     {
-        //customizerScript.activeHatID += 1;
         customizerScript.HatIDIncrement(1);
         hatIdTxt.SetText(customizerScript.activeHatID.ToString());
     }
-     public void HatMeshDown()
+    public void HatMeshDown()
     {
-        //customizerScript.activeHatID -= 1;
         customizerScript.HatIDIncrement(-1);
         hatIdTxt.SetText(customizerScript.activeHatID.ToString());
+    }
+
+    public void HeadMeshUp()
+    {
+        customizerScript.HeadIDIncrement(1);
+        headIdTxt.SetText(customizerScript.activeHeadID.ToString());
+    }
+    public void HeadMeshDown()
+    {
+        customizerScript.HeadIDIncrement(-1);
+        headIdTxt.SetText(customizerScript.activeHeadID.ToString());
+    }
+
+    public void FeetMeshUp()
+    {
+        customizerScript.FootIDIncrement(1);
+        feetIdTxt.SetText(customizerScript.activeFootID.ToString());
+    }
+    public void FeetMeshDown()
+    {
+        customizerScript.FootIDIncrement(-1);
+        feetIdTxt.SetText(customizerScript.activeFootID.ToString());
+    }
+
+    public void TorsoMeshUp()
+    {
+        
+    }
+    public void TorsoMeshDown()
+    {
+        
     }
 
 //------Color Slider Management-----
@@ -109,25 +137,25 @@ public class CharacterCustomizationUI : MonoBehaviour
 /// Sets body color on characterCustomizer
 /// </summary>
 /// <param name="color"></param>
-    void AvatarColorChange(Vector3 color)
+    void HeadColorChange(Vector3 color)
     {
-        customizerScript.bodyColor = new Color(color.x, color.y, color.z, 1);
+        customizerScript.headColor = new Color(color.x, color.y, color.z, 1);
     }
-//----Button Functions for Avatar Color Change---
-    public void AvatarColorChangeRed(float value)
+//----Button Functions for Head Color Change---
+    public void HeadColorChangeRed(float value)
     {
-        avatarColorValues.x = value;
-        AvatarColorChange(avatarColorValues);
+        headColorValues.x = value;
+        HeadColorChange(headColorValues);
     }
-    public void AvatarColorChangeGreen(float value)
+    public void HeadColorChangeGreen(float value)
     {
-        avatarColorValues.y = value;
-        AvatarColorChange(avatarColorValues);
+        headColorValues.y = value;
+        HeadColorChange(headColorValues);
     }
-    public void AvatarColorChangeBlue(float value)
+    public void HeadColorChangeBlue(float value)
     {
-        avatarColorValues.z = value;
-        AvatarColorChange(avatarColorValues);
+        headColorValues.z = value;
+        HeadColorChange(headColorValues);
     }
 
 /// <summary>
@@ -153,6 +181,57 @@ public class CharacterCustomizationUI : MonoBehaviour
     {
         hatColorValues.z = value;
         HatColorChange(hatColorValues);
+    }
+
+    
+/// <summary>
+/// Sets feet color
+/// </summary>
+/// <param name="color"></param>
+    void FeetColorChange(Vector3 color)
+    {
+        customizerScript.footColor = new Color(color.x, color.y, color.z, 1);
+    }
+//----Button Functions for FeetColor Change---
+    public void FeetColorChangeRed(float value)
+    {
+        feetColorValues.x = value;
+        FeetColorChange(feetColorValues);
+    }
+    public void FeetColorChangeGreen(float value)
+    {
+        feetColorValues.y = value;
+        FeetColorChange(feetColorValues);
+    }
+    public void FeetColorChangeBlue(float value)
+    {
+        feetColorValues.z = value;
+        FeetColorChange(feetColorValues);
+    }
+
+    /// <summary>
+/// Sets torso color
+/// </summary>
+/// <param name="color"></param>
+    void TorsoColorChange(Vector3 color)
+    {
+        customizerScript.bodyColor = new Color(color.x, color.y, color.z, 1);
+    }
+//----Button Functions for FeetColor Change---
+    public void TorsoColorChangeRed(float value)
+    {
+        torsoColorValues.x = value;
+        TorsoColorChange(torsoColorValues);
+    }
+    public void TorsoColorChangeGreen(float value)
+    {
+        torsoColorValues.y = value;
+        TorsoColorChange(torsoColorValues);
+    }
+    public void TorsoColorChangeBlue(float value)
+    {
+        torsoColorValues.z = value;
+        TorsoColorChange(torsoColorValues);
     }
 
 
