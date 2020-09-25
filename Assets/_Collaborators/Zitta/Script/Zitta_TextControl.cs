@@ -24,7 +24,7 @@ public class Zitta_TextControl : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.S))
         {
             GameObject G = Instantiate(TextRenderer);
-            G.GetComponent<Zitta_TextRenderer>().Ini("Something", TempObject, 2f, 2f, null);
+            G.GetComponent<Zitta_TextRenderer>().Ini("Something", TempObject, 1f, 5f, null);
         }
     }
 }
