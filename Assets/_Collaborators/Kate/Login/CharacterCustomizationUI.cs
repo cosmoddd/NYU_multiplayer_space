@@ -26,7 +26,7 @@ public class CharacterCustomizationUI : MonoBehaviour
     //--Sliders--
     public Slider[] sliders; //0-2 are hat, 3-5 are head, 6-9 are torso, 10-12 are feet
     //private vars
-    CharacterCustomizerScript customizerScript;
+    public CharacterCustomizerScript customizerScript;
      //--ColorValues--   these are used to make new colors when the sliders change
     
     Vector3 hatColorValues;
@@ -43,7 +43,7 @@ public class CharacterCustomizationUI : MonoBehaviour
 
     void Start()
     {
-        customizerScript = this.GetComponent<CharacterCustomizerScript>();
+        //customizerScript = this.GetComponent<CharacterCustomizerScript>();
 
         //start with empty colors
         hatColorValues = new Vector3(.5f, .5f, .5f);
