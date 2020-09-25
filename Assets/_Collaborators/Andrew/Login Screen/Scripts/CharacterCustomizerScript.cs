@@ -46,10 +46,10 @@ public class CharacterCustomizerScript : MonoBehaviour
         fov = 42;
         mainCam = Camera.main;
         mainCam.fieldOfView = fov;
-        bodyColor = Color.grey;
-        hatColor = Color.grey;
-        headColor = Color.grey;
-        footColor = Color.grey;
+        //bodyColor = Color.grey;
+        //hatColor = Color.grey;
+        //headColor = Color.grey;
+        //footColor = Color.grey;
         LoadTorsoPresets();
     }
 
@@ -75,8 +75,26 @@ public class CharacterCustomizerScript : MonoBehaviour
         {
             Zoom();
         }
+
+        //only Temp!!!
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SaveTraitsToScript();
+        }
     }
 
+    public void assignFromSavedInfo()
+    {
+        activeHatID = savedInfo.HatMeshID;
+        activeHeadID = savedInfo.HeadMeshID;
+        activeFootID = savedInfo.FeetMeshID;
+        activeTorsoID = savedInfo.TorsoID;
+
+        footColor = new Color(savedInfo.FootColor.x, savedInfo.FootColor.y, savedInfo.FootColor.z,1);
+        hatColor = new Color(savedInfo.HatColor.x, savedInfo.HatColor.y, savedInfo.HatColor.z, 1);
+        bodyColor = new Color(savedInfo.BodyColor.x, savedInfo.BodyColor.y, savedInfo.BodyColor.z, 1);
+        headColor = new Color(savedInfo.HeadColor.x, savedInfo.HeadColor.y, savedInfo.HeadColor.z, 1);
+    }
 
     public void Zoom()
     {
@@ -112,7 +130,7 @@ public class CharacterCustomizerScript : MonoBehaviour
         activeTorsoID = Mathf.Clamp(activeTorsoID, 0, presets.Count - 1);
     }
 
-    void ActiveAvatarTraitAssigner()
+    public void ActiveAvatarTraitAssigner()
     {
         foreach (Renderer bodyRenderer in activeAvatar.GetComponent<BaseAvatarTraitIdentifier>().bodyRenderers)//sets the body color
         {
@@ -148,6 +166,21 @@ public class CharacterCustomizerScript : MonoBehaviour
 
         point.GetComponent<Renderer>().material.SetColor("_Color", color);
         point.GetComponent<Renderer>().material.SetColor("_BaseColor", color);
+    }
+
+    public void SaveTraitsToScript()
+    {
+        savedInfo.userName = characterName;
+
+        savedInfo.HeadMeshID = activeHeadID;
+        savedInfo.FeetMeshID = activeFootID;
+        savedInfo.HatMeshID = activeHatID;
+        savedInfo.TorsoID = activeTorsoID;
+
+        savedInfo.HeadColor = new Vector3(headColor.r, headColor.g,headColor.b);
+        savedInfo.BodyColor = new Vector3(bodyColor.r, bodyColor.g, bodyColor.b);
+        savedInfo.FootColor = new Vector3(footColor.r, footColor.g, footColor.b);
+        savedInfo.HatColor = new Vector3(hatColor.r, hatColor.g, hatColor.b);
     }
 
 }
