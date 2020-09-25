@@ -5,23 +5,16 @@ using UnityEngine;
 public class SavedAvatarInfoScript : MonoBehaviour
 {
     public string userName;
-    public int AvatarMeshID;
-    public int HatMeshId;
-    public Vector3 AvatarColor;
-    public Vector3 hatColor;
-    public Vector3 hatLocalPosition;
-    public Vector3 hatLocalScale;
 
+    public int HeadMeshID;
+    public int FeetMeshID;
+    public int HatMeshID;
+    public int TorsoID;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //public float[] TorsoPresets;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Vector3 BodyColor;
+    public Vector3 HeadColor;
+    public Vector3 HatColor;
+    public Vector3 FootColor;
 }

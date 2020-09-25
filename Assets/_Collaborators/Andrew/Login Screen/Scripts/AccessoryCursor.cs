@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AccessoryCursor : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class AccessoryCursor : MonoBehaviour
     float rot;
     float rotLerp;
 
+    public GameObject cylinder;
+    public Transform parenter;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,11 @@ public class AccessoryCursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
 
         Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit);
 
@@ -30,6 +38,12 @@ public class AccessoryCursor : MonoBehaviour
 
             lerpNormal = Vector3.Lerp(lerpNormal,hit.normal,Time.deltaTime * 15);
             transform.up = lerpNormal;
+
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                Instantiate(cylinder, transform.position, transform.rotation,parenter);
+            }
+
         }
         else
         {
