@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5488944320682044733
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5488944320682044706}
+  - component: {fileID: 5488944320682044707}
+  - component: {fileID: 5488944320682044704}
+  m_Layer: 0
+  m_Name: CharacterManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5488944320682044706
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5488944320682044733}
+  m_LocalRotation: {x: -0, y: -0.9965351, z: -0, w: 0.08317321}
+  m_LocalPosition: {x: -0.056363113, y: 0.98006034, z: -0.14967443}
+  m_LocalScale: {x: 0.06314968, y: 0.68059677, z: 0.06666666}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -170.458, z: 0}
+--- !u!114 &5488944320682044707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5488944320682044733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27482051dd0dbf4da94ed8035156935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: 
+  bodyColor: {r: 0, g: 0, b: 0, a: 0}
+  hatColor: {r: 0, g: 0, b: 0, a: 0}
+  headColor: {r: 0, g: 0, b: 0, a: 0}
+  footColor: {r: 0, g: 0, b: 0, a: 0}
+  activeHatID: 0
+  hatMeshes:
+  - {fileID: 0}
+  - {fileID: 2534964839176971238, guid: fb2241170af3dff49ad95034dbbf9a86, type: 3}
+  - {fileID: 4493585093827132993, guid: 84bbfa572e478a949b68b2555b3fdca9, type: 3}
+  - {fileID: 3613567641014311022, guid: 276c7b7e91edc094e92974b1c8c95c75, type: 3}
+  - {fileID: -5495902117074765545, guid: fd70dc3e80c14204c8942400fcb3b618, type: 3}
+  activeHeadID: 0
+  headMeshes:
+  - {fileID: 0}
+  - {fileID: -8839368762345780380, guid: a3a785ab34fadba49bafcde35497ee43, type: 3}
+  - {fileID: -8839368762345780380, guid: 7137f6599febf4d43a875e5691f23a8f, type: 3}
+  - {fileID: -8839368762345780380, guid: 50472f318e393d446a3e0af85009b3a7, type: 3}
+  - {fileID: -8839368762345780380, guid: 50160a1b92e7ba942bb3c16c47a1c063, type: 3}
+  activeFootID: 0
+  leftFootMeshes:
+  - {fileID: 0}
+  - {fileID: -6056006050371905083, guid: e00c1d1a70d85e146b7a4d19da1962c8, type: 3}
+  rightFootMeshes:
+  - {fileID: 0}
+  - {fileID: -6056006050371905083, guid: e00c1d1a70d85e146b7a4d19da1962c8, type: 3}
+  activeAvatar: {fileID: 0}
+  defaultHatMaterial: {fileID: 2100000, guid: 7cb90547d00ea8348839a10041d211e0, type: 2}
+  savedInfo: {fileID: 0}
+  activeTorsoID: 0
+  torsoPreset_0:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  torsoPreset_1:
+  - 1.3
+  - 1
+  - 1
+  - 1
+  - 1
+  - 0.8
+  torsoPreset_2:
+  - 1.23
+  - 1.2
+  - 0.75
+  - 0.88
+  - 1
+  - 1.3
+  torsoPreset_3:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1.5
+  - 0.68
+--- !u!114 &5488944320682044704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5488944320682044733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c57c8381bcbadf4892376fe990c2314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loginPanel: {fileID: 0}
+  customizePanel: {fileID: 0}
+  usernameField: {fileID: 0}
+  passwordField: {fileID: 0}
+  usernameTxt: {fileID: 0}
+  hatIdTxt: {fileID: 0}
+  headIdTxt: {fileID: 0}
+  torsoIdTxt: {fileID: 0}
+  feetIdTxt: {fileID: 0}
+  sliders:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
