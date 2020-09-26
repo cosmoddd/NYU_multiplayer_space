@@ -16,26 +16,6 @@ public class NetworkManagerNYU : NetworkManager
         NetworkServer.RegisterHandler<SendPlayerMessage>(SpawnPlayerWithMessage);
     }
 
-    void SpawnPlayerWithMessage(NetworkConnection connection, SendPlayerMessage m)
-    {
-        GameObject spawn = Instantiate(playerPrefab);
-        CharacterCustomizerScript customizer = spawn.GetComponent<CharacterCustomizerScript>();
-
-        SavedAvatarInfoScript info = spawn.GetComponent<SavedAvatarInfoScript>();
-
-        info.userName = m.userName;
-        info.HeadMeshID = m.HeadMeshID;
-        info.HatMeshID = m.HatMeshID;
-        info.TorsoID = m.TorsoID;
-
-        info.BodyColor = m.BodyColor;
-        info.HatColor = m.HatColor;
-        info.HeadColor = m.HeadColor;
-        info.FootColor = m.FootColor;
-
-        customizer.assignFromSavedInfo();
-        NetworkServer.AddPlayerForConnection(connection, spawn);
-    }
 
     public override void OnClientConnect(NetworkConnection conn)
     {
@@ -56,5 +36,32 @@ public class NetworkManagerNYU : NetworkManager
         conn.Send(thisMessage);
 
     }
+
+    
+    void SpawnPlayerWithMessage(NetworkConnection connection, SendPlayerMessage m)
+    {
+        GameObject spawn = Instantiate(playerPrefab);
+
+        CharacterCustomizerScript customizer = spawn.GetComponent<CharacterCustomizerScript>();
+        SavedAvatarInfoScript info = spawn.GetComponent<SavedAvatarInfoScript>();
+
+        print("message received: "+m.userName);
+        print("message received: "+m.HeadMeshID);
+        print("message received: "+m.HatMeshID);
+        print("message received: "+m.TorsoID);
+
+        info.userName = m.userName;
+        info.HeadMeshID = m.HeadMeshID;
+        info.HatMeshID = m.HatMeshID;
+        info.TorsoID = m.TorsoID;
+
+        info.BodyColor = m.BodyColor;
+        info.HatColor = m.HatColor;
+        info.HeadColor = m.HeadColor;
+        info.FootColor = m.FootColor;
+
+        NetworkServer.AddPlayerForConnection(connection, spawn);
+    }
+
 
 }
