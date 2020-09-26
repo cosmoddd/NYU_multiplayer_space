@@ -85,6 +85,7 @@ public class CharacterCustomizerScript : MonoBehaviour
 
     public void assignFromSavedInfo()
     {
+        print("assignFromSavedInfo");
         activeHatID = savedInfo.HatMeshID;
         activeHeadID = savedInfo.HeadMeshID;
         activeFootID = savedInfo.FeetMeshID;

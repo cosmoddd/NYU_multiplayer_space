@@ -34,6 +34,7 @@ public class NetworkManagerNYU : NetworkManager
         info.FootColor = m.FootColor;
 
         customizer.assignFromSavedInfo();
+        NetworkServer.AddPlayerForConnection(connection, spawn);
     }
 
     public override void OnClientConnect(NetworkConnection conn)
