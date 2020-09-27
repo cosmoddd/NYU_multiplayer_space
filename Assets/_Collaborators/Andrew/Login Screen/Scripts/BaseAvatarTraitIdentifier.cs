@@ -5,7 +5,6 @@ using UnityEngine;
 public class BaseAvatarTraitIdentifier : MonoBehaviour
 {
     public GameObject hatTransform; //this Gameobject has a mesh filter and mesh renderer that can be referenced by the customizer to display the different hat meshes
-
     public GameObject headTransform;
     public GameObject leftFootTransform;
     public GameObject rightFootTransform;

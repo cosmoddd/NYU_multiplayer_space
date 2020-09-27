@@ -5,9 +5,7 @@ using Mirror;
 
 public class NetworkManagerNYU : NetworkManager
 {
-
     public SavedAvatarInfoScript avatarInfo;
-    //public CharacterCustomizerScript customizer;
 
     public override void OnStartServer()
     {
@@ -54,7 +52,6 @@ public class NetworkManagerNYU : NetworkManager
         thisMessage.FootColor = avatarInfo.FootColor;
 
         conn.Send(thisMessage);
-
     }
 
 }

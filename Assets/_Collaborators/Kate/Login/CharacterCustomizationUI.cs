@@ -34,13 +34,6 @@ public class CharacterCustomizationUI : MonoBehaviour
     Vector3 torsoColorValues;
     Vector3 feetColorValues;
 
-
-
-
-
-
-
-
     void Start()
     {
         //customizerScript = this.GetComponent<CharacterCustomizerScript>();
@@ -61,8 +54,6 @@ public class CharacterCustomizationUI : MonoBehaviour
         customizePanel.SetActive(false);
         loginPanel.SetActive(true);
     }
-
-
 
 /// <summary>
 ///  when "Go" is pressed, this function sets the character name to the user name
