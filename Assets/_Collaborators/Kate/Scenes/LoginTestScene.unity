@@ -5318,6 +5318,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c57c8381bcbadf4892376fe990c2314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   loginPanel: {fileID: 546598113}
   customizePanel: {fileID: 525851658}
   usernameField: {fileID: 6778343}
@@ -5341,6 +5343,7 @@ MonoBehaviour:
   - {fileID: 1161526650}
   - {fileID: 270018007}
   customizerScript: {fileID: 1163944096}
+  manager: {fileID: 320053945}
 --- !u!1 &682717637
 GameObject:
   m_ObjectHideFlags: 0

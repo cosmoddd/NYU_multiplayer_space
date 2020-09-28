@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class CharacterCustomizerScript : MonoBehaviour
+public class CharacterCustomizerScript : NetworkBehaviour
 {
     public string characterName; 
 
@@ -77,10 +78,10 @@ public class CharacterCustomizerScript : MonoBehaviour
         }
 
         //only Temp!!!
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            SaveTraitsToScript();
-        }
+        //if (Input.GetKeyDown(KeyCode.Return))
+        //{
+        //    SaveTraitsToScript();
+        //}
     }
 
     public void assignFromSavedInfo()
@@ -182,6 +183,12 @@ public class CharacterCustomizerScript : MonoBehaviour
         savedInfo.BodyColor = new Vector3(bodyColor.r, bodyColor.g, bodyColor.b);
         savedInfo.FootColor = new Vector3(footColor.r, footColor.g, footColor.b);
         savedInfo.HatColor = new Vector3(hatColor.r, hatColor.g, hatColor.b);
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        assignFromSavedInfo();
     }
 
 }
