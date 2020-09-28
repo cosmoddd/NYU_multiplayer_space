@@ -1,27 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class SavedAvatarInfoScript : MonoBehaviour
+public class SavedAvatarInfoScript : NetworkBehaviour
 {
+    [SyncVar]
     public string userName;
-    public int AvatarMeshID;
-    public int HatMeshId;
-    public Vector3 AvatarColor;
-    public Vector3 hatColor;
-    public Vector3 hatLocalPosition;
-    public Vector3 hatLocalScale;
+    [SyncVar]    
+    public int HeadMeshID;
+    [SyncVar]
+    public int FeetMeshID;
+    [SyncVar]
+    public int HatMeshID;
+    [SyncVar]
+    public int TorsoID;
 
+    //public float[] TorsoPresets;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SyncVar]
+    public Vector3 BodyColor;
+    [SyncVar]
+    public Vector3 HeadColor;
+    [SyncVar]
+    public Vector3 HatColor;
+    [SyncVar]
+    public Vector3 FootColor;
 }
