@@ -46,11 +46,7 @@ public class CharacterCustomizerScript : NetworkBehaviour
     {
         fov = 42;
         mainCam = Camera.main;
-        
-        if (mainCam)
-        {
-            mainCam.fieldOfView = fov;
-        }
+        mainCam.fieldOfView = fov;
         //bodyColor = Color.grey;
         //hatColor = Color.grey;
         //headColor = Color.grey;
@@ -82,13 +78,13 @@ public class CharacterCustomizerScript : NetworkBehaviour
         }
 
         //only Temp!!!
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            SaveTraitsToScript();
-        }
+        //if (Input.GetKeyDown(KeyCode.Return))
+        //{
+        //    SaveTraitsToScript();
+        //}
     }
 
-    public void AssignFromSavedInfo()
+    public void assignFromSavedInfo()
     {
         print("assignFromSavedInfo");
         activeHatID = savedInfo.HatMeshID;
@@ -189,11 +185,10 @@ public class CharacterCustomizerScript : NetworkBehaviour
         savedInfo.HatColor = new Vector3(hatColor.r, hatColor.g, hatColor.b);
     }
 
-  public override void OnStartClient()
+    public override void OnStartClient()
     {
         base.OnStartClient();
-
-        AssignFromSavedInfo();
+        assignFromSavedInfo();
     }
 
 }

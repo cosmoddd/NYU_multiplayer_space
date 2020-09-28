@@ -7,7 +7,7 @@ public class SavedAvatarInfoScript : NetworkBehaviour
 {
     [SyncVar]
     public string userName;
-    [SyncVar]    
+    [SyncVar]
     public int HeadMeshID;
     [SyncVar]
     public int FeetMeshID;
@@ -17,7 +17,6 @@ public class SavedAvatarInfoScript : NetworkBehaviour
     public int TorsoID;
 
     //public float[] TorsoPresets;
-
     [SyncVar]
     public Vector3 BodyColor;
     [SyncVar]
