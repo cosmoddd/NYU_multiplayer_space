@@ -1,18 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraController : MonoBehaviour
 {
   public Transform target;
-  public float distFromTarget = 5.0f;
+
+  [Header("Player Settings")]
   public float mouseSensitivity = 10.0f;
-  public Vector2 pitchMinMax = new Vector2(-45, 90);
+  public float distFromTargetChangeSensitivity;
 
-  float pitch, yaw;
-
+  [Header("Cursor Settings")]
   public bool cursorVisible;
   public bool clickToMove = true;
+
+  [Header("Camera settings")]
+  public Vector2 pitchMinMax = new Vector2(-45, 90);
+
+  [Header("Distance from target settings")]
+  [FormerlySerializedAs("distFromTarget")]
+  public float initialDistFromTarget = 5.0f;
+  public float minDistFromTarget;
+  public float maxDistFromTarget;
+  public float distFromTargetChangeSmooth;
+
+  private float pitch, yaw;
+
+  private float currentDistFromTarget;
+  // The distance from the target we are currently lerping towards
+  private float expectedDistFromTarget;
+
+
 
   // Start is called before the first frame update
   void Start()
@@ -22,6 +41,9 @@ public class CameraController : MonoBehaviour
       Cursor.lockState = CursorLockMode.Locked;
       Cursor.visible = cursorVisible;
     }
+
+    currentDistFromTarget = initialDistFromTarget;
+    expectedDistFromTarget = initialDistFromTarget;
   }
 
   // Update is called once per frame
@@ -44,6 +66,13 @@ public class CameraController : MonoBehaviour
       Cursor.visible = cursorVisible;
     }
 
-    transform.position = target.position - transform.forward * distFromTarget;
+    if (Mathf.Abs(Input.mouseScrollDelta.y) > 0)
+    {
+      expectedDistFromTarget -= distFromTargetChangeSensitivity * Input.mouseScrollDelta.y;
+      expectedDistFromTarget = Mathf.Clamp(expectedDistFromTarget, minDistFromTarget, maxDistFromTarget);
+      currentDistFromTarget = Mathf.Lerp(currentDistFromTarget, expectedDistFromTarget, distFromTargetChangeSmooth);
+    }
+
+    transform.position = target.position - transform.forward * currentDistFromTarget;
   }
 }
