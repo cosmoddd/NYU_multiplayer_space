@@ -3181,6 +3181,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8870266722738534142}
+  - component: {fileID: 4348368466216441210}
+  - component: {fileID: 4348368466216441209}
   m_Layer: 0
   m_Name: Multi player Base Avatar
   m_TagString: Untagged
@@ -3195,7 +3197,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8093624092541594692}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3215,7 +3217,39 @@ Transform:
   - {fileID: 2068454652932646983}
   m_Father: {fileID: 8976586562111085666}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &4348368466216441210
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8093624092541594692}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1f904b4fa2821474eb75ab13901d8475, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4348368466216441209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8093624092541594692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9012a07659ffa0744b15bce99c27394f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animController: {fileID: 4348368466216441210}
 --- !u!1 &8133440631669097697
 GameObject:
   m_ObjectHideFlags: 0
@@ -3543,8 +3577,11 @@ GameObject:
   - component: {fileID: 4506903425616043344}
   - component: {fileID: 7776964193868067687}
   - component: {fileID: 8740127771495643519}
+  - component: {fileID: 8616596827814190311}
+  - component: {fileID: 5479427390246189364}
+  - component: {fileID: 5479427390246189363}
   m_Layer: 0
-  m_Name: Base Example Avatar (1)
+  m_Name: Base Avatar (RON AND COMPANY)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3557,14 +3594,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8976586562111085665}
-  m_LocalRotation: {x: -0, y: -0.49048924, z: -0, w: 0.87144727}
-  m_LocalPosition: {x: 1.91, y: -1.62, z: 9.85}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 8870266722738534142}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -58.745, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2245660329815344353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3615,6 +3652,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f5e33b37641d349be4c2fa53e12aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   userName: 
   HeadMeshID: 0
   FeetMeshID: 0
@@ -3636,6 +3675,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b27482051dd0dbf4da94ed8035156935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   characterName: 
   bodyColor: {r: 0, g: 0, b: 0, a: 0}
   hatColor: {r: 0, g: 0, b: 0, a: 0}
@@ -3710,3 +3751,61 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!114 &8616596827814190311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976586562111085665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  localPositionSensitivity: 0.01
+  localRotationSensitivity: 0.01
+  localScaleSensitivity: 0.01
+--- !u!114 &5479427390246189364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976586562111085665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1796bd1d58edb6240bd712423201d64c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  walkSpeed: 12
+  runSpeed: 18
+  bAllowJumping: 1
+  gravity: 20
+  jumpHeight: 3.5
+  turnSmoothTime: 0.2
+  cameraPrefab: {fileID: 5915573456097954982, guid: 536a57c0fc35bc3408e88fcc5f3415ab, type: 3}
+  clientCameraObject: {fileID: 11400000, guid: 8a75307a09304274d97a79912e06c462, type: 2}
+--- !u!143 &5479427390246189363
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976586562111085665}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 14.72
+  m_Radius: 3.65
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 11.2, z: 0}

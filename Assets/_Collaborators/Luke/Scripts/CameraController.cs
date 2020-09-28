@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 
 public class CameraController : MonoBehaviour
 {
+  [HideInInspector]
   public Transform target;
 
   [Header("Player Settings")]
@@ -31,6 +32,7 @@ public class CameraController : MonoBehaviour
   // The distance from the target we are currently lerping towards
   private float expectedDistFromTarget;
 
+  public Vector3 cameraOffset;
 
 
   // Start is called before the first frame update
@@ -73,6 +75,6 @@ public class CameraController : MonoBehaviour
       currentDistFromTarget = Mathf.Lerp(currentDistFromTarget, expectedDistFromTarget, distFromTargetChangeSmooth);
     }
 
-    transform.position = target.position - transform.forward * currentDistFromTarget;
+    transform.position = target.position + cameraOffset - transform.forward * currentDistFromTarget;
   }
 }

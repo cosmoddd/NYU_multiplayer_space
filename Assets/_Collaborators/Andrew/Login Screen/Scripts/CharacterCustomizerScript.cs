@@ -46,7 +46,11 @@ public class CharacterCustomizerScript : NetworkBehaviour
     {
         fov = 42;
         mainCam = Camera.main;
-        mainCam.fieldOfView = fov;
+        
+        if (mainCam)
+        {
+            mainCam.fieldOfView = fov;
+        }
         //bodyColor = Color.grey;
         //hatColor = Color.grey;
         //headColor = Color.grey;
