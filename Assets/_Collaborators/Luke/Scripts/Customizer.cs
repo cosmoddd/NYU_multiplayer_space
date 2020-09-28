@@ -39,6 +39,8 @@ public class Customizer : MonoBehaviour
     public GameObject activeAvatar; //current avatar that you are working on
     public Material defaultHatMaterial; //this is only temporary, eventually this will be coupled with the meshes so that each hat has its own texture
     public SavedAvatarInfoScript savedInfo;
+
+    public NetworkManagerGC manager;
     
     // Start is called before the first frame update
     void Start()
@@ -48,6 +50,29 @@ public class Customizer : MonoBehaviour
         mainCam.fieldOfView = fov;
         bodyMeshes = new Mesh[][] { hatMeshes, headMeshes, leftFootMeshes, rightFootMeshes};
         LoadTorsoPresets();
+
+        manager = FindObjectOfType<NetworkManagerGC>();
+        if(manager)
+        {
+            Debug.Log(manager);
+        }
+        else
+        {
+            Debug.Log("Could not find manager");
+        }
+    }
+
+    public void SaveData()
+    {
+        manager.dataMessage.bodyIDs = bodyIDs;
+        manager.dataMessage.userName = characterName;
+        
+        for(int i = 0; i < bodyColors.Length; i++)
+        {
+            manager.dataMessage.bodyColors[i] = new Vector3(bodyColors[i].r, bodyColors[i].g, bodyColors[i].b);
+        }
+
+        manager.DisplayData();
     }
 
     void LoadTorsoPresets()
@@ -76,23 +101,9 @@ public class Customizer : MonoBehaviour
         //only Temp!!!
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            //SaveTraitsToScript();
+            SaveData();
         }
     }
-
-    //public void assignFromSavedInfo()
-    //{
-    //    print("assignFromSavedInfo");
-    //    activeHatID = savedInfo.HatMeshID;
-    //    activeHeadID = savedInfo.HeadMeshID;
-    //    activeFootID = savedInfo.FeetMeshID;
-    //    activeTorsoID = savedInfo.TorsoID;
-
-    //    footColor = new Color(savedInfo.FootColor.x, savedInfo.FootColor.y, savedInfo.FootColor.z, 1);
-    //    hatColor = new Color(savedInfo.HatColor.x, savedInfo.HatColor.y, savedInfo.HatColor.z, 1);
-    //    bodyColor = new Color(savedInfo.BodyColor.x, savedInfo.BodyColor.y, savedInfo.BodyColor.z, 1);
-    //    headColor = new Color(savedInfo.HeadColor.x, savedInfo.HeadColor.y, savedInfo.HeadColor.z, 1);
-    //}
 
     public void Zoom()
     {
@@ -123,6 +134,7 @@ public class Customizer : MonoBehaviour
             bodyRenderer.material.SetColor("_Color", bodyColors[4]);
         }
 
+        // loop through body parts and assign meshes and colros accordingly
         for(int i = 0; i < bodyMeshes.Length; i++)
         {
             AssignFromArray(bodyIDs[i], bodyMeshes[i], bodyTransforms[i], bodyColors[i]);
@@ -149,21 +161,6 @@ public class Customizer : MonoBehaviour
         point.GetComponent<Renderer>().material.SetColor("_Color", color);
         point.GetComponent<Renderer>().material.SetColor("_BaseColor", color);
     }
-
-    //public void SaveTraitsToScript()
-    //{
-    //    savedInfo.userName = characterName;
-
-    //    savedInfo.HeadMeshID = activeHeadID;
-    //    savedInfo.FeetMeshID = activeFootID;
-    //    savedInfo.HatMeshID = activeHatID;
-    //    savedInfo.TorsoID = activeTorsoID;
-
-    //    savedInfo.HeadColor = new Vector3(headColor.r, headColor.g, headColor.b);
-    //    savedInfo.BodyColor = new Vector3(bodyColor.r, bodyColor.g, bodyColor.b);
-    //    savedInfo.FootColor = new Vector3(footColor.r, footColor.g, footColor.b);
-    //    savedInfo.HatColor = new Vector3(hatColor.r, hatColor.g, hatColor.b);
-    //}
 
     public void RotateCharacter()
     {     

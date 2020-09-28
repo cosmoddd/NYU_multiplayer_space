@@ -2373,17 +2373,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213408429}
   m_CullTransparentMesh: 0
---- !u!114 &215763210 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8266991908322705019, guid: bff6fc751416715489254014a2f8d351, type: 3}
-  m_PrefabInstance: {fileID: 763978450}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 763978474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75f5e33b37641d349be4c2fa53e12aba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &217914878
 GameObject:
   m_ObjectHideFlags: 0
@@ -3280,12 +3269,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 320053946}
-  - component: {fileID: 320053945}
   - component: {fileID: 320053944}
   - component: {fileID: 320053947}
+  - component: {fileID: 320053945}
   m_Layer: 0
   m_Name: NetworkManager
-  m_TagString: Untagged
+  m_TagString: NetworkManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3341,27 +3330,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 320053943}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb0c17844b8629e42af0334124793932, type: 3}
+  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 1
-  runInBackground: 1
-  autoStartServerBuild: 1
-  showDebugMessages: 0
-  serverTickRate: 30
-  offlineScene: Assets/_Collaborators/Kate/Scenes/LoginTestScene.unity
-  onlineScene: Assets/_Collaborators/Andrew/Login Screen/OnlineTestScene.unity
-  transport: {fileID: 320053944}
-  networkAddress: localhost
-  maxConnections: 4
-  disconnectInactiveConnections: 0
-  disconnectInactiveTimeout: 60
-  authenticator: {fileID: 0}
-  playerPrefab: {fileID: 3504575070710447946, guid: bff6fc751416715489254014a2f8d351, type: 3}
-  autoCreatePlayer: 0
-  playerSpawnMethod: 0
-  spawnPrefabs: []
-  avatarInfo: {fileID: 215763210}
+  showGUI: 1
+  offsetX: 0
+  offsetY: 0
 --- !u!4 &320053946
 Transform:
   m_ObjectHideFlags: 0
@@ -3385,12 +3359,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 320053943}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d30bb7ebbc96dc429223c12b12ea8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showGUI: 1
-  offsetX: 670
-  offsetY: 0
+  dontDestroyOnLoad: 1
+  runInBackground: 1
+  autoStartServerBuild: 1
+  showDebugMessages: 0
+  serverTickRate: 30
+  offlineScene: Assets/_Collaborators/Kate/Scenes/LoginTestScene.unity
+  onlineScene: Assets/_Collaborators/Luke/Scenes/Test.unity
+  transport: {fileID: 320053944}
+  networkAddress: localhost
+  maxConnections: 4
+  disconnectInactiveConnections: 0
+  disconnectInactiveTimeout: 60
+  authenticator: {fileID: 0}
+  playerPrefab: {fileID: 347298431901307214, guid: 2a4e98fd43027f242a96be28e8134522, type: 3}
+  autoCreatePlayer: 0
+  playerSpawnMethod: 0
+  spawnPrefabs: []
 --- !u!1 &336851757
 GameObject:
   m_ObjectHideFlags: 0
@@ -5924,6 +5912,7 @@ MonoBehaviour:
   activeAvatar: {fileID: 763978474}
   defaultHatMaterial: {fileID: 2100000, guid: 7cb90547d00ea8348839a10041d211e0, type: 2}
   savedInfo: {fileID: 0}
+  manager: {fileID: 0}
 --- !u!1 &774763004
 GameObject:
   m_ObjectHideFlags: 0
@@ -10742,8 +10731,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
+      - m_Target: {fileID: 662276913}
+        m_TargetAssemblyTypeName: CustomizationUI, Assembly-CSharp
         m_MethodName: Enter
         m_Mode: 1
         m_Arguments:

@@ -27,22 +27,10 @@ public class CustomizationUI : MonoBehaviour
     public Slider[] sliders; //0-2 are hat, 3-5 are head, 6-9 are torso, 10-12 are feet
     //private vars
     public Customizer customizerScript;
-    //--ColorValues--   these are used to make new colors when the sliders change
-
-    Vector3 hatColorValues;
-    Vector3 headColorValues;
-    Vector3 torsoColorValues;
-    Vector3 feetColorValues;
 
     void Start()
     {
         //customizerScript = this.GetComponent<CharacterCustomizerScript>();
-
-        //start with empty colors
-        hatColorValues = new Vector3(.5f, .5f, .5f);
-        headColorValues = new Vector3(.5f, .5f, .5f);
-        torsoColorValues = new Vector3(.5f, .5f, .5f);
-        feetColorValues = new Vector3(.5f, .5f, .5f);
 
         //set all sliders to 0 in beginning
         foreach (Slider slider in sliders)
@@ -57,15 +45,19 @@ public class CustomizationUI : MonoBehaviour
 
     void Update()
     {
-        hatColorValues = new Vector3 (sliders[0].value, sliders[1].value, sliders[2].value);
-        headColorValues = new Vector3(sliders[3].value, sliders[4].value, sliders[5].value);
-        feetColorValues = new Vector3(sliders[9].value, sliders[10].value, sliders[11].value);
-        torsoColorValues = new Vector3(sliders[6].value, sliders[7].value, sliders[8].value);
+        // Assigning colors based on slider values
+        // Hat color
+        customizerScript.bodyColors[0] = new Color(sliders[0].value, sliders[1].value, sliders[2].value);
 
-        HatColorChange(hatColorValues);
-        HeadColorChange(headColorValues);
-        FeetColorChange(feetColorValues);
-        TorsoColorChange(torsoColorValues);
+        // Head color
+        customizerScript.bodyColors[1] = new Color(sliders[3].value, sliders[4].value, sliders[5].value);
+
+        // Feet colors
+        customizerScript.bodyColors[2] = new Color(sliders[9].value, sliders[10].value, sliders[11].value);
+        customizerScript.bodyColors[3] = new Color(sliders[9].value, sliders[10].value, sliders[11].value);
+
+        // Torso color
+        customizerScript.bodyColors[4] = new Color(sliders[6].value, sliders[7].value, sliders[8].value);
     }
 
     /// <summary>
@@ -87,7 +79,8 @@ public class CustomizationUI : MonoBehaviour
     public void Enter()
     {
         //SAVE PRESET
-        //customizerScript.SaveTraitsToScript();
+        customizerScript.SaveData();
+        customizerScript.manager.StartHost();
         //TODO - loads into game
     }
 
@@ -137,44 +130,5 @@ public class CustomizationUI : MonoBehaviour
     {
         customizerScript.bodyIDChange(4, -1);
         torsoIdTxt.SetText(customizerScript.bodyIDs[4].ToString());
-    }
-
-    //------Color Slider Management-----
-
-    /// <summary>
-    /// Sets body color on characterCustomizer
-    /// </summary>
-    /// <param name="color"></param>
-    void HeadColorChange(Vector3 color)
-    {
-        customizerScript.bodyColors[1] = new Color(color.x, color.y, color.z, 1);
-    }
-
-    /// <summary>
-    /// Sets hat color
-    /// </summary>
-    /// <param name="color"></param>
-    void HatColorChange(Vector3 color)
-    {
-        customizerScript.bodyColors[0] = new Color(color.x, color.y, color.z, 1);
-    }
-
-    /// <summary>
-    /// Sets feet color
-    /// </summary>
-    /// <param name="color"></param>
-    void FeetColorChange(Vector3 color)
-    {
-        customizerScript.bodyColors[2] = new Color(color.x, color.y, color.z, 1);
-        customizerScript.bodyColors[3] = new Color(color.x, color.y, color.z, 1);
-    }
-
-    /// <summary>
-    /// Sets torso color
-    /// </summary>
-    /// <param name="color"></param>
-    void TorsoColorChange(Vector3 color)
-    {
-        customizerScript.bodyColors[4] = new Color(color.x, color.y, color.z, 1);
     }
 }
