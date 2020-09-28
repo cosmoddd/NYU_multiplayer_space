@@ -1059,8 +1059,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15fd1a355eede9d4db630df3c471ddac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 2089082756}
-  distFromTarget: 14.11
+  target: {fileID: 3968606648211541967}
+  distFromTarget: 27
   mouseSensitivity: 10
   pitchMinMax: {x: -45, y: 90}
 --- !u!114 &1620556709
@@ -1251,11 +1251,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 9.52, z: 0}
---- !u!4 &2089082756 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: df05521b851546242a45ff8cfcc10f02, type: 3}
-  m_PrefabInstance: {fileID: 2107095556}
-  m_PrefabAsset: {fileID: 0}
 --- !u!136 &2089082757
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2448,6 +2443,11 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &3968606648211541967 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8870266722738534142, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  m_PrefabInstance: {fileID: 5479427390246189361}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4188148938103826832
 Transform:
   m_ObjectHideFlags: 0
@@ -2539,7 +2539,7 @@ Animator:
   m_GameObject: {fileID: 4348368466216441205}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1f904b4fa2821474eb75ab13901d8475, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
