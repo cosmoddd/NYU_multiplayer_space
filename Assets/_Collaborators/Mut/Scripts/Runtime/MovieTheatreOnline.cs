@@ -21,24 +21,24 @@ namespace NYUMultiplayerSpace
 
     private void Update()
     {
-      if (Input.GetKeyDown(KeyCode.Exclaim))
-      {
-        currentServerPosition = (0.25f);
-
-      }
-      if (Input.GetKeyDown(KeyCode.At))
-      {
-        currentServerPosition = (0.50f);
-
-      }
-      if (Input.GetKeyDown(KeyCode.Hash))
-      {
-        currentServerPosition = (0.75f);
-      }
+      // ////currentServerPosition = movieTheatre.
+      // /if (Input.GetKeyDown(KeyCode.Alpha1))
+      // {
+      //   currentServerPosition = (0.25f);
+      // }
+      // if (Input.GetKeyDown(KeyCode.Alpha1))
+      // {
+      //   currentServerPosition = (0.50f);
+      // }
+      // if (Input.GetKeyDown(KeyCode.Alpha2))
+      // {
+      //   currentServerPosition = (0.75f);
+      // }
     }
 
     void ChangeCurrentServerPosition(float oldValue, float newValue)
     {
+      print(newValue);
       if (isServer)
       {
         RpcChangeVideoPosition(newValue);
@@ -51,27 +51,54 @@ namespace NYUMultiplayerSpace
       {
         RpcPlay();
       }
-      movieTheatre.Play();
+      else
+      {
+        CmdPlay();
+      }
     }
 
     public void Pause()
     {
       if (isServer)
       {
-        RpcPlay();
+        RpcPause();
       }
-      movieTheatre.Pause();
+      else
+      {
+        CmdPause();
+      }
     }
 
     public void Stop()
     {
       if (isServer)
       {
-        RpcPause();
+        RpcStop();
+        currentServerPosition = 0;
+      }
+      else
+      {
+        CmdStop();
       }
 
-      movieTheatre.Pause();
-      currentServerPosition = 0;
+    }
+
+    [Command]
+    void CmdPlay()
+    {
+      RpcPlay();
+    }
+
+    [Command]
+    void CmdPause()
+    {
+      RpcPause();
+    }
+
+    [Command]
+    void CmdStop()
+    {
+      RpcStop();
     }
 
     [ClientRpc]
@@ -84,6 +111,12 @@ namespace NYUMultiplayerSpace
     void RpcPlay()
     {
       movieTheatre.Play();
+    }
+
+    [ClientRpc]
+    void RpcStop()
+    {
+      movieTheatre.Stop();
     }
 
     [ClientRpc]

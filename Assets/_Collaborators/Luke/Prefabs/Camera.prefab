@@ -129,8 +129,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  distFromTarget: 7
   mouseSensitivity: 2
-  pitchMinMax: {x: 0, y: 90}
+  distFromTargetChangeSensitivity: 0
   cursorVisible: 1
   clickToMove: 1
+  pitchMinMax: {x: 0, y: 90}
+  initialDistFromTarget: 7
+  minDistFromTarget: 7
+  maxDistFromTarget: 7
+  distFromTargetChangeSmooth: 1
