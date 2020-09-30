@@ -33,7 +33,7 @@ public class NetworkManagerNYU : NetworkManager
         info.HeadColor = m.HeadColor;
         info.FootColor = m.FootColor;
 
-        customizer.assignFromSavedInfo();
+        //customizer.assignFromSavedInfo();
         NetworkServer.AddPlayerForConnection(connection, spawn);
     }
 

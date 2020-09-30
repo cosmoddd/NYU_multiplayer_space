@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Mirror;
 /* author: Kate Howell
 *  This script controls the User Interface for the Character Customizer and Login Screen
 *  public UI elements must be set in inspector
 */
-public class CharacterCustomizationUI : MonoBehaviour
+public class CharacterCustomizationUI : NetworkBehaviour
 {
     //public UI elements to be set in inspector
     //---Panels--
@@ -37,7 +38,7 @@ public class CharacterCustomizationUI : MonoBehaviour
 
 
 
-
+    public NetworkManager manager;
 
 
 
@@ -83,8 +84,9 @@ public class CharacterCustomizationUI : MonoBehaviour
     public void Enter()
     {
         //SAVE PRESET
-        //customizerScript.SaveTraitsToScript();
-        //TODO - loads into game
+        customizerScript.SaveTraitsToScript();
+        manager.StartHost();
+        
     }
 
 //------Mesh Display Management-----
