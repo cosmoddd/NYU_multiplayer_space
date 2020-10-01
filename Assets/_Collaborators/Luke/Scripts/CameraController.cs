@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
   private float expectedDistFromTarget;
 
   public Vector3 cameraOffset;
-
+  Vector3 startingEuler;
 
   // Start is called before the first frame update
   void Start()
@@ -46,6 +46,8 @@ public class CameraController : MonoBehaviour
 
     currentDistFromTarget = initialDistFromTarget;
     expectedDistFromTarget = initialDistFromTarget;
+
+    startingEuler = transform.eulerAngles;
   }
 
   // Update is called once per frame
@@ -60,7 +62,8 @@ public class CameraController : MonoBehaviour
       pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
       pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
-      transform.eulerAngles = new Vector3(pitch, yaw);
+      
+      transform.eulerAngles = new Vector3(pitch, yaw) + startingEuler; // starting offset
     }
     else if (Input.GetKeyUp(KeyCode.Mouse1))
     {
