@@ -28,6 +28,8 @@ public class CharacterCustomizerScript : NetworkBehaviour
 
     public SavedAvatarInfoScript savedInfo;
 
+    public float scrollSpeed = 4f;
+
     Camera mainCam;
     float fov;
 
@@ -98,7 +100,7 @@ public class CharacterCustomizerScript : NetworkBehaviour
 
     public void Zoom()
     {
-        fov -= Input.GetAxisRaw("Mouse ScrollWheel") * Time.deltaTime * 3000;
+        fov -= Input.GetAxisRaw("Mouse ScrollWheel") * Time.deltaTime * scrollSpeed * 1000;
         fov = Mathf.Clamp(fov,21,42);
 
 

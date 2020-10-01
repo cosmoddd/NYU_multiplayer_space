@@ -18,7 +18,8 @@ public class NetworkManagerNYU : NetworkManager
 
     void SpawnPlayerWithMessage(NetworkConnection connection, SendPlayerMessage m)
     {
-        GameObject spawn = Instantiate(playerPrefab, GetStartPosition());
+        GameObject spawn = Instantiate(playerPrefab, GetStartPosition().position, GetStartPosition().rotation);
+        
         CharacterCustomizerScript customizer = spawn.GetComponent<CharacterCustomizerScript>();
 
         SavedAvatarInfoScript info = spawn.GetComponent<SavedAvatarInfoScript>();

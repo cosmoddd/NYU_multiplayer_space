@@ -18,6 +18,7 @@ public class CameraController : MonoBehaviour
 
   [Header("Camera settings")]
   public Vector2 pitchMinMax = new Vector2(-45, 90);
+  public float mouseScrollweelSensitivity = 1f;
 
   [Header("Distance from target settings")]
   [FormerlySerializedAs("distFromTarget")]
@@ -71,9 +72,9 @@ public class CameraController : MonoBehaviour
       Cursor.visible = cursorVisible;
     }
 
-    if (Mathf.Abs(Input.mouseScrollDelta.y) > 0)
+    // if (Mathf.Abs(Input.mouseScrollDelta.y) > 0)
     {
-      expectedDistFromTarget -= distFromTargetChangeSensitivity * Input.mouseScrollDelta.y;
+      expectedDistFromTarget -= distFromTargetChangeSensitivity * Input.mouseScrollDelta.y * mouseScrollweelSensitivity;
       expectedDistFromTarget = Mathf.Clamp(expectedDistFromTarget, minDistFromTarget, maxDistFromTarget);
       currentDistFromTarget = Mathf.Lerp(currentDistFromTarget, expectedDistFromTarget, distFromTargetChangeSmooth);
     }
