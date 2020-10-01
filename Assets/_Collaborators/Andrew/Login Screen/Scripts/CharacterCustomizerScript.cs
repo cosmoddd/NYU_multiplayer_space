@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class CharacterCustomizerScript : MonoBehaviour
+public class CharacterCustomizerScript : NetworkBehaviour
 {
     public string characterName; 
 
@@ -26,6 +27,8 @@ public class CharacterCustomizerScript : MonoBehaviour
     public Material defaultHatMaterial; //this is only temporary, eventually this will be coupled with the meshes so that each hat has its own texture
 
     public SavedAvatarInfoScript savedInfo;
+
+    public float scrollSpeed = 4f;
 
     Camera mainCam;
     float fov;
@@ -75,10 +78,10 @@ public class CharacterCustomizerScript : MonoBehaviour
         }
 
         //only Temp!!!
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            SaveTraitsToScript();
-        }
+        //if (Input.GetKeyDown(KeyCode.Return))
+        //{
+        //    SaveTraitsToScript();
+        //}
     }
 
     public void assignFromSavedInfo()
@@ -97,7 +100,7 @@ public class CharacterCustomizerScript : MonoBehaviour
 
     public void Zoom()
     {
-        fov -= Input.GetAxisRaw("Mouse ScrollWheel") * Time.deltaTime * 3000;
+        fov -= Input.GetAxisRaw("Mouse ScrollWheel") * Time.deltaTime * scrollSpeed * 1000;
         fov = Mathf.Clamp(fov,21,42);
 
 
@@ -179,6 +182,12 @@ public class CharacterCustomizerScript : MonoBehaviour
         savedInfo.BodyColor = new Vector3(bodyColor.r, bodyColor.g, bodyColor.b);
         savedInfo.FootColor = new Vector3(footColor.r, footColor.g, footColor.b);
         savedInfo.HatColor = new Vector3(hatColor.r, hatColor.g, hatColor.b);
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        assignFromSavedInfo();
     }
 
 }

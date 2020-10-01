@@ -24,7 +24,7 @@ public class BaseAvatarTraitIdentifier : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RotateCharacter();
+    //    RotateCharacter();
     }
 
     public float rot;

@@ -24,7 +24,10 @@ public class MovieTheatre : MonoBehaviour //NetworkBehaviour
     videoPlayer.SetTargetAudioSource(0, audioSource);
     print(videoClip.width);
     print(videoClip.height);
-    transform.localScale = Vector3.Scale(transform.localScale, new Vector3((float)videoClip.width / (float)videoClip.height, 1, 1));
+    transform.localScale = new Vector3(
+      (float)videoClip.width / (float)videoClip.height * transform.localScale.z,
+      transform.localScale.y,
+      transform.localScale.z);
   }
 
   void Update()

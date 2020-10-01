@@ -22,7 +22,8 @@ public class MoveController : NetworkBehaviour
     Transform cameraTransform;
 
     float velocityY;
-
+    public Vector2 inputDirection;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +43,7 @@ public class MoveController : NetworkBehaviour
         if(isLocalPlayer)
         {
             // using GetAxis so that Gamepads will also be compatible
-            Vector2 inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             inputDirection.Normalize();
 
             bool isSprinting = Input.GetAxisRaw("Sprint") > 0;

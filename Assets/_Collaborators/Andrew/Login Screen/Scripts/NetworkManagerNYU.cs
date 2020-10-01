@@ -16,7 +16,8 @@ public class NetworkManagerNYU : NetworkManager
 
     void SpawnPlayerWithMessage(NetworkConnection connection, SendPlayerMessage m)
     {
-        GameObject spawn = Instantiate(playerPrefab);
+        GameObject spawn = Instantiate(playerPrefab, GetStartPosition().position, GetStartPosition().rotation);
+        
         CharacterCustomizerScript customizer = spawn.GetComponent<CharacterCustomizerScript>();
 
         SavedAvatarInfoScript info = spawn.GetComponent<SavedAvatarInfoScript>();
@@ -31,8 +32,11 @@ public class NetworkManagerNYU : NetworkManager
         info.HeadColor = m.HeadColor;
         info.FootColor = m.FootColor;
 
-        customizer.assignFromSavedInfo();
+        //customizer.assignFromSavedInfo();
+
         NetworkServer.AddPlayerForConnection(connection, spawn);
+
+
     }
 
     public override void OnClientConnect(NetworkConnection conn)

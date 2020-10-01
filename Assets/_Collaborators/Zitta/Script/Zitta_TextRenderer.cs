@@ -34,6 +34,11 @@ public class Zitta_TextRenderer : MonoBehaviour {
         Render();
     }
 
+    public void LateUpdate()
+    {
+        Render();
+    }
+
     public void Ini(string value, GameObject Base, float height, float duration, AudioClip Audio)
     {
         transform.parent = Base.transform;
@@ -47,6 +52,7 @@ public class Zitta_TextRenderer : MonoBehaviour {
     public void Render()
     {
         Pivot.transform.forward = -(GetCamera().transform.position - Pivot.transform.position);
+        Pivot.transform.eulerAngles = new Vector3(0, Pivot.transform.eulerAngles.y, Pivot.transform.eulerAngles.z);
         TEXT.text = GetText();
     }
 
