@@ -5,76 +5,84 @@ using UnityEngine.Serialization;
 
 public class CameraController : MonoBehaviour
 {
-  [HideInInspector]
-  public Transform target;
+    [HideInInspector]
+    public Transform target;
 
-  [Header("Player Settings")]
-  public float mouseSensitivity = 10.0f;
-  public float distFromTargetChangeSensitivity;
+    [Header("Player Settings")]
+    public float mouseSensitivity = 10.0f;
+    public float changeCamDistSense = 0.3f;
 
-  [Header("Cursor Settings")]
-  public bool cursorVisible;
-  public bool clickToMove = true;
+    [Header("Cursor Settings")]
+    public bool cursorVisible;
+    public bool clickToMove = true;
 
-  [Header("Camera settings")]
-  public Vector2 pitchMinMax = new Vector2(-45, 90);
+    [Header("Camera settings")]
+    public Vector2 pitchMinMax = new Vector2(-45, 90);
 
-  [Header("Distance from target settings")]
-  [FormerlySerializedAs("distFromTarget")]
-  public float initialDistFromTarget = 5.0f;
-  public float minDistFromTarget;
-  public float maxDistFromTarget;
-  public float distFromTargetChangeSmooth;
+    [Header("Distance from target settings")]
+    [FormerlySerializedAs("distFromTarget")]
+    public float initialCamDist = 5.0f;
+    public float minCamDist;
+    public float maxCamDist;
+    public float distChangeRate;
 
-  private float pitch, yaw;
+    private float pitch, yaw;
 
-  private float currentDistFromTarget;
-  // The distance from the target we are currently lerping towards
-  private float expectedDistFromTarget;
+    private float currentCamDist;
+    private float targetCamDist;
 
-  public Vector3 cameraOffset;
+    public Vector3 cameraOffset;
 
-
-  // Start is called before the first frame update
-  void Start()
-  {
-    if (!cursorVisible)
+    // Start is called before the first frame update
+    void Start()
     {
-      Cursor.lockState = CursorLockMode.Locked;
-      Cursor.visible = cursorVisible;
+        if (!cursorVisible)
+        {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = cursorVisible;
+        }  
+
+        currentCamDist = initialCamDist;
+        targetCamDist = initialCamDist;
     }
 
-    currentDistFromTarget = initialDistFromTarget;
-    expectedDistFromTarget = initialDistFromTarget;
-  }
-
-  // Update is called once per frame
-  void LateUpdate()
-  {
-    if (!clickToMove || Input.GetKey(KeyCode.Mouse1))
+    private void Update()
     {
-      Cursor.lockState = CursorLockMode.Locked;
-      Cursor.visible = false;
-      // yaw for looking side to side, pitch for looking up and down
-      yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-      pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-      pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
-
-      transform.eulerAngles = new Vector3(pitch, yaw);
-    }
-    else if (Input.GetKeyUp(KeyCode.Mouse1))
-    {
-      Cursor.lockState = CursorLockMode.None;
-      Cursor.visible = cursorVisible;
+        // toggle clickToMove option
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            clickToMove = clickToMove ? false : true;
+        }
     }
 
-    if (Mathf.Abs(Input.mouseScrollDelta.y) > 0)
+    // Update is called once per frame
+    void LateUpdate()
     {
-      expectedDistFromTarget -= distFromTargetChangeSensitivity * Input.mouseScrollDelta.y;
-      expectedDistFromTarget = Mathf.Clamp(expectedDistFromTarget, minDistFromTarget, maxDistFromTarget);
-      currentDistFromTarget = Mathf.Lerp(currentDistFromTarget, expectedDistFromTarget, distFromTargetChangeSmooth);
-    }
+        if (!clickToMove || Input.GetKey(KeyCode.Mouse1))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            // yaw for looking side to side, pitch for looking up and down
+            yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
+            pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+            pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
-    transform.position = target.position + cameraOffset - transform.forward * currentDistFromTarget;
-  }
+            transform.eulerAngles = new Vector3(pitch, yaw);
+        }
+        else if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = cursorVisible;
+        }
+
+        // scroll to change camera distance
+        if (Mathf.Abs(Input.mouseScrollDelta.y) > 0)
+        {
+            targetCamDist -= changeCamDistSense * Input.mouseScrollDelta.y;
+            targetCamDist = Mathf.Clamp(targetCamDist, minCamDist, maxCamDist);
+            currentCamDist = Mathf.Lerp(currentCamDist, targetCamDist, distChangeRate);
+        }
+
+        transform.position = target.position + cameraOffset - transform.forward * currentCamDist;
+    }
 }

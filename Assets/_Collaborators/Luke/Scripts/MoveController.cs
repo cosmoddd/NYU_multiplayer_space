@@ -8,7 +8,10 @@ public class MoveController : NetworkBehaviour
     public float walkSpeed = 20.0f;
     public float runSpeed = 40.0f;
     public bool bAllowJumping = true;
-    float moveSpeed;
+
+    public float speedSmoothTime = 0.2f;
+    float currentSpeed;
+    float speedSmoothVelocity;
 
     public float gravity = 9.81f;
     public float jumpHeight = 10.0f;
@@ -67,7 +70,7 @@ public class MoveController : NetworkBehaviour
         }
 
         // decide which speed to use based on bool parameter input
-        moveSpeed = (isSprinting ? runSpeed : walkSpeed) * inputDir.magnitude;
+        currentSpeed = (isSprinting ? runSpeed : walkSpeed) * inputDir.magnitude;
 
         Vector3 slopeNormal;
         Vector3 forwardAngle = transform.forward;
@@ -77,7 +80,7 @@ public class MoveController : NetworkBehaviour
             forwardAngle = Vector3.Cross(slopeNormal, inputDir.magnitude * -transform.right);
         }
 
-        Vector3 velocity = forwardAngle * moveSpeed;
+        Vector3 velocity = forwardAngle * currentSpeed;
 
         velocityY -= Time.deltaTime * gravity;
 

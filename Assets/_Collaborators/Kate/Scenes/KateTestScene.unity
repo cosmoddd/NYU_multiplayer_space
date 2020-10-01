@@ -5305,6 +5305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b27482051dd0dbf4da94ed8035156935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   characterName: 
   bodyColor: {r: 0, g: 0, b: 0, a: 0}
   hatColor: {r: 0, g: 0, b: 0, a: 0}
@@ -5375,6 +5377,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c57c8381bcbadf4892376fe990c2314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   loginPanel: {fileID: 546598113}
   customizePanel: {fileID: 525851658}
   usernameField: {fileID: 6778343}
@@ -5397,6 +5401,8 @@ MonoBehaviour:
   - {fileID: 692176648}
   - {fileID: 1161526650}
   - {fileID: 270018007}
+  customizerScript: {fileID: 0}
+  manager: {fileID: 0}
 --- !u!1 &682717637
 GameObject:
   m_ObjectHideFlags: 0
@@ -5778,6 +5784,10 @@ PrefabInstance:
     - target: {fileID: 3504575070710447946, guid: bff6fc751416715489254014a2f8d351, type: 3}
       propertyPath: m_Name
       value: Base Example Avatar
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853628245405178452, guid: bff6fc751416715489254014a2f8d351, type: 3}
+      propertyPath: sceneId
+      value: 216533359
       objectReference: {fileID: 0}
     - target: {fileID: 3974559746681460181, guid: bff6fc751416715489254014a2f8d351, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9768,13 +9778,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f5e33b37641d349be4c2fa53e12aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   userName: 
-  AvatarMeshID: 0
-  HatMeshId: 0
-  AvatarColor: {x: 0, y: 0, z: 0}
-  hatColor: {x: 0, y: 0, z: 0}
-  hatLocalPosition: {x: 0, y: 0, z: 0}
-  hatLocalScale: {x: 0, y: 0, z: 0}
+  HeadMeshID: 0
+  FeetMeshID: 0
+  HatMeshID: 0
+  TorsoID: 0
+  BodyColor: {x: 0, y: 0, z: 0}
+  HeadColor: {x: 0, y: 0, z: 0}
+  HatColor: {x: 0, y: 0, z: 0}
+  FootColor: {x: 0, y: 0, z: 0}
 --- !u!1 &1537504808
 GameObject:
   m_ObjectHideFlags: 0

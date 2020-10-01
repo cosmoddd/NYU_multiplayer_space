@@ -169,7 +169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2717668470090430107, guid: 48b7a7f83aa7e25428ddd73d05076392, type: 3}
       propertyPath: maxDistFromTarget
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2717668470090430107, guid: 48b7a7f83aa7e25428ddd73d05076392, type: 3}
       propertyPath: minDistFromTarget
@@ -198,6 +198,26 @@ PrefabInstance:
     - target: {fileID: 2717668470090430107, guid: 48b7a7f83aa7e25428ddd73d05076392, type: 3}
       propertyPath: target
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717668470090430107, guid: 48b7a7f83aa7e25428ddd73d05076392, type: 3}
+      propertyPath: initialCamDist
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717668470090430107, guid: 48b7a7f83aa7e25428ddd73d05076392, type: 3}
+      propertyPath: changeCamDistSense
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717668470090430107, guid: 48b7a7f83aa7e25428ddd73d05076392, type: 3}
+      propertyPath: minCamDist
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717668470090430107, guid: 48b7a7f83aa7e25428ddd73d05076392, type: 3}
+      propertyPath: maxCamDist
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2717668470090430107, guid: 48b7a7f83aa7e25428ddd73d05076392, type: 3}
+      propertyPath: distChangeRate
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 2717668470090430110, guid: 48b7a7f83aa7e25428ddd73d05076392, type: 3}
       propertyPath: m_Name
