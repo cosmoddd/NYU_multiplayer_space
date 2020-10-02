@@ -89,6 +89,14 @@ public class CharacterCustomizationUI : NetworkBehaviour
         
     }
 
+    public void EnterClient()
+    {
+        //SAVE PRESET
+        customizerScript.SaveTraitsToScript();
+        manager.StartClient();
+        
+    }
+
 //------Mesh Display Management-----
 
     public void HatMeshUp()

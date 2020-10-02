@@ -58,7 +58,8 @@ public class ChatBehaviour : NetworkBehaviour
 
         //then send
         Debug.Log(message);
-        RpcHandleMessage($"[{connectionToClient.connectionId}]: {message}");
+        string userName = GetComponent<SavedAvatarInfoScript>().userName;
+        RpcHandleMessage($"[{/*connectionToClient.connectionId*/userName}]: {message}");
     }
 
     [ClientRpc]
