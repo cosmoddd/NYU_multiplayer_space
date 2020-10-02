@@ -93,6 +93,7 @@ public class ChatBehaviour : NetworkBehaviour
     private void RpcShowAvatarMessage(string message)
     {
         avatarChat.text = message;
+        StopAllCoroutines();
         StartCoroutine(ShowTextTimer());
     }
 
@@ -106,7 +107,7 @@ public class ChatBehaviour : NetworkBehaviour
 
     IEnumerator ShowTextTimer()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         avatarChat.text = String.Empty;
     }
 

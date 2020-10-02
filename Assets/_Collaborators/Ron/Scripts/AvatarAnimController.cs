@@ -32,12 +32,21 @@ public class AvatarAnimController : NetworkBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                animController.SetTrigger("jump");
+                animController.SetBool("jump", true);
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                animController.SetBool("jump", false);
             }
 
             if (Input.GetKeyDown(KeyCode.V))
             {
-                animController.SetTrigger("wave");
+                animController.SetBool("wave", true);
+            }
+            if (Input.GetKeyUp(KeyCode.V))
+            {
+                animController.SetBool("wave", false);
             }
 
         }
