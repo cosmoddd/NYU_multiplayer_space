@@ -79,6 +79,6 @@ public class CameraController : MonoBehaviour
       currentDistFromTarget = Mathf.Lerp(currentDistFromTarget, expectedDistFromTarget, distFromTargetChangeSmooth);
     }
 
-    transform.position = target.position + cameraOffset - transform.forward * currentDistFromTarget;
+    if (target) transform.position = target.position + cameraOffset - transform.forward * currentDistFromTarget;
   }
 }
