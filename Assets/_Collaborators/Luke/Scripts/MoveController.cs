@@ -5,6 +5,7 @@ using Mirror;
 
 public class MoveController : NetworkBehaviour
 {
+    public float rotateWalkSpeedMult = 0.2f;
     public float walkSpeed = 20.0f;
     public float runSpeed = 40.0f;
     public bool bAllowJumping = true;
@@ -65,10 +66,19 @@ public class MoveController : NetworkBehaviour
             // rotate the character based on the user input direction plus the camera rotation
             float targetRotation = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
+
+            if (targetRotation != transform.eulerAngles.y)
+            {
+                rotateWalkSpeedMult = 0.2f;
+            }
+        }
+        else
+        {
+            rotateWalkSpeedMult = 1.0f;
         }
 
         // decide which speed to use based on bool parameter input
-        moveSpeed = (isSprinting ? runSpeed : walkSpeed) * inputDir.magnitude;
+        moveSpeed = (isSprinting ? runSpeed : walkSpeed) * inputDir.magnitude * rotateWalkSpeedMult;
 
         Vector3 slopeNormal;
         Vector3 forwardAngle = transform.forward;
