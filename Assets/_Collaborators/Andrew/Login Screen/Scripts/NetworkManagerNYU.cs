@@ -58,4 +58,9 @@ public class NetworkManagerNYU : NetworkManager
         conn.Send(thisMessage);
     }
 
+    public void SetServerAddress(string s)
+    {
+        networkAddress = s;
+    }
+
 }
