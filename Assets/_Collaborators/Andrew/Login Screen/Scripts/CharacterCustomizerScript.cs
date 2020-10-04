@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TMPro;
 
 public class CharacterCustomizerScript : NetworkBehaviour
 {
+    [SyncVar]
     public string characterName; 
 
     public Color bodyColor;
@@ -41,6 +43,8 @@ public class CharacterCustomizerScript : NetworkBehaviour
     public float[] torsoPreset_3;
 
     public List<float[]> presets;
+
+    public TextMeshPro playerNameAvatar;
     // Start is called before the first frame update
     void Start()
     {
@@ -96,6 +100,9 @@ public class CharacterCustomizerScript : NetworkBehaviour
         hatColor = new Color(savedInfo.HatColor.x, savedInfo.HatColor.y, savedInfo.HatColor.z, 1);
         bodyColor = new Color(savedInfo.BodyColor.x, savedInfo.BodyColor.y, savedInfo.BodyColor.z, 1);
         headColor = new Color(savedInfo.HeadColor.x, savedInfo.HeadColor.y, savedInfo.HeadColor.z, 1);
+        print("savedInfo.userName");
+        playerNameAvatar.text = savedInfo.userName;
+
     }
 
     public void Zoom()

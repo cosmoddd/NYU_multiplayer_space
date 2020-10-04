@@ -14,18 +14,45 @@ public class ChatBehaviour : NetworkBehaviour
 
     [SerializeField]
     private TMP_Text chatText = null; //chat text
-    //private TextMeshProUGUI chatText = null;
 
     [SerializeField]
     private TMP_InputField inputField = null; //input field
 
     private static event Action<string> OnMessage;
 
+    [Header("Avatar Chat")]
+    public Transform avatarTransform;
+    public TextMeshPro avatarChat;
+    public GameObject playerCamera;
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        print("Chat client connected");
+    }
+
+    // Update is called once per frame
+    void LateUpdate()
+    {
+        if (!playerCamera)
+        {
+            playerCamera = GameObject.FindGameObjectWithTag("PlayerCamera");
+        }
+
+        if (playerCamera)
+        avatarTransform.rotation = playerCamera.transform.rotation;
+
+
+    }
+
+
     public override void OnStartAuthority()
     {
         chatUI.SetActive(true);
 
         OnMessage += HandleNewMessage;
+
+        // print(GetComponent<CharacterCustomizerScript>().characterName);
     }
 
     [ClientCallback]
@@ -38,7 +65,7 @@ public class ChatBehaviour : NetworkBehaviour
     public void HandleNewMessage(string message)
     {
         chatText.text += message;
-        Debug.Log(chatText.text);
+        // Debug.Log(chatText.text);
     }
 
     [Client]
@@ -56,11 +83,20 @@ public class ChatBehaviour : NetworkBehaviour
     {
         //validate messages here (check for bad language/spam)
 
-        //then send
-        Debug.Log(message);
+        RpcShowAvatarMessage(message);
+
         string userName = GetComponent<SavedAvatarInfoScript>().userName;
         RpcHandleMessage($"[{/*connectionToClient.connectionId*/userName}]: {message}");
     }
+
+    [ClientRpc]
+    private void RpcShowAvatarMessage(string message)
+    {
+        avatarChat.text = message;
+        StopAllCoroutines();
+        StartCoroutine(ShowTextTimer());
+    }
+
 
     [ClientRpc]
     private void RpcHandleMessage(string message)
@@ -68,5 +104,11 @@ public class ChatBehaviour : NetworkBehaviour
         OnMessage?.Invoke($"\n{message}");
     }
 
+
+    IEnumerator ShowTextTimer()
+    {
+        yield return new WaitForSeconds(5f);
+        avatarChat.text = String.Empty;
+    }
 
 }
