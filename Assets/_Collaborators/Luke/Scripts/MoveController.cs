@@ -5,7 +5,7 @@ using Mirror;
 
 public class MoveController : NetworkBehaviour
 {
-    public float rotateWalkSpeedMult = 0.2f;
+    public float turnAroundSpeed = 0.2f;
     public float walkSpeed = 20.0f;
     public float runSpeed = 40.0f;
     public bool bAllowJumping = true;
@@ -17,6 +17,9 @@ public class MoveController : NetworkBehaviour
     public float turnSmoothTime = 0.2f;
     float turnSmoothVelocity;
 
+    public float speedSmoothTime = 0.1f;
+    float speedSmoothVelocity;
+
     public GameObject cameraPrefab;
 
     CharacterController cc;
@@ -24,6 +27,7 @@ public class MoveController : NetworkBehaviour
 
     float velocityY;
     public Vector2 inputDirection;
+    Vector2 previousInputDir;
     
     // Start is called before the first frame update
     void Start()
@@ -67,18 +71,18 @@ public class MoveController : NetworkBehaviour
             float targetRotation = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
 
-            if (targetRotation != transform.eulerAngles.y)
+            // slow down speed when new input is opposite direction of our previous input
+            if(Vector2.Dot(inputDir, previousInputDir) < 0.0f)
             {
-                rotateWalkSpeedMult = 0.2f;
+                moveSpeed = turnAroundSpeed;
             }
-        }
-        else
-        {
-            rotateWalkSpeedMult = 1.0f;
+
+            previousInputDir = inputDir;
         }
 
         // decide which speed to use based on bool parameter input
-        moveSpeed = (isSprinting ? runSpeed : walkSpeed) * inputDir.magnitude * rotateWalkSpeedMult;
+        float targetSpeed = (isSprinting ? runSpeed : walkSpeed) * inputDir.magnitude;
+        moveSpeed = Mathf.SmoothDamp(moveSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
         Vector3 slopeNormal;
         Vector3 forwardAngle = transform.forward;
@@ -96,6 +100,9 @@ public class MoveController : NetworkBehaviour
         velocity += Vector3.up * velocityY;
 
         cc.Move(velocity * Time.deltaTime);
+
+        // match current moveSpeed to CharacterController velocity
+        moveSpeed = new Vector2(cc.velocity.x, cc.velocity.z).magnitude;
 
         // reset velocityY when we are on ground
         if (cc.isGrounded)

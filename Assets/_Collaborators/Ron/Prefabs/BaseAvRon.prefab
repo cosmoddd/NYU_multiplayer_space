@@ -5143,12 +5143,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  walkSpeed: 12
-  runSpeed: 18
+  turnAroundSpeed: 0
+  walkSpeed: 18
+  runSpeed: 24
   bAllowJumping: 1
   gravity: 20
   jumpHeight: 3.5
-  turnSmoothTime: 0.2
+  turnSmoothTime: 0.12
+  speedSmoothTime: 0.18
   cameraPrefab: {fileID: 5915573456097954982, guid: 536a57c0fc35bc3408e88fcc5f3415ab, type: 3}
   inputDirection: {x: 0, y: 0}
 --- !u!143 &5479427390246189363
