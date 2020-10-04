@@ -720,12 +720,12 @@ GameObject:
   - component: {fileID: 1960678738689401074}
   - component: {fileID: 8297405208536456785}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button (Not In Use)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7896341848668531531
 RectTransform:
   m_ObjectHideFlags: 0
@@ -826,7 +826,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1960678738689401074}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1457913919047859443}
+        m_TargetAssemblyTypeName: ChatBehaviour, Assembly-CSharp
+        m_MethodName: SendButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1075588136876321750
 GameObject:
   m_ObjectHideFlags: 0
@@ -2551,8 +2563,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -156, y: -132}
-  m_SizeDelta: {x: 539.49176, y: 200.35461}
+  m_AnchoredPosition: {x: -399.7, y: -132}
+  m_SizeDelta: {x: 375.60297, y: 200.35461}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2816922821052690154
 CanvasRenderer:
@@ -2592,7 +2604,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 0.80784315}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2609,8 +2621,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4234,7 +4246,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Send
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
   m_sharedMaterial: {fileID: 7295421662424735576, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
@@ -5143,14 +5155,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  walkSpeed: 12
-  runSpeed: 18
+  turnAroundSpeed: 0
+  walkSpeed: 18
+  runSpeed: 24
   bAllowJumping: 1
   gravity: 20
   jumpHeight: 3.5
-  turnSmoothTime: 0.2
+  turnSmoothTime: 0.12
+  speedSmoothTime: 0.18
   cameraPrefab: {fileID: 5915573456097954982, guid: 536a57c0fc35bc3408e88fcc5f3415ab, type: 3}
   inputDirection: {x: 0, y: 0}
+  inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
 --- !u!143 &5479427390246189363
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5186,9 +5201,11 @@ MonoBehaviour:
   chatUI: {fileID: 8389889082231554546}
   chatText: {fileID: 2762320108895381166}
   inputField: {fileID: 8109384579124758728}
+  sendButton: {fileID: 8297405208536456785}
+  playerCamera: {fileID: 0}
   avatarTransform: {fileID: 2471437610692028880}
   avatarChat: {fileID: 4636986776484052845}
-  playerCamera: {fileID: 0}
+  inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
 --- !u!114 &3032604060024752481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5219,6 +5236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
   animController: {fileID: 7635283257328493970}
 --- !u!95 &7635283257328493970
 Animator:

@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using Mirror;
 using System;
+using UnityEngine.UI;
+using UnityAtoms.BaseAtoms;
 
 //based on code by Dapper Dino https://www.youtube.com/watch?v=p-2QFmCMBt8&ab_channel=DapperDino
 
@@ -17,23 +19,36 @@ public class ChatBehaviour : NetworkBehaviour
 
     [SerializeField]
     private TMP_InputField inputField = null; //input field
+    public Button sendButton;
 
     private static event Action<string> OnMessage;
 
-    [Header("Avatar Chat")]
+    public GameObject playerCamera;
+    [Header("Chat UI")]
     public Transform avatarTransform;
     public TextMeshPro avatarChat;
-    public GameObject playerCamera;
 
+    [Header("Chat Mode Control")]
+    public BoolVariable inChatMode;
+    
     public override void OnStartClient()
     {
         base.OnStartClient();
-        print("Chat client connected");
+
+        if (inChatMode.Value == false)
+            {
+                // print("DISABLE YOU!");
+
+                inputField.gameObject.SetActive(false);
+                // sendButton.gameObject.SetActive(false);
+            }
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
+
+
         if (!playerCamera)
         {
             playerCamera = GameObject.FindGameObjectWithTag("PlayerCamera");
@@ -42,9 +57,30 @@ public class ChatBehaviour : NetworkBehaviour
         if (playerCamera)
         avatarTransform.rotation = playerCamera.transform.rotation;
 
-
     }
 
+    // tab button determines whether or not chat mode is enbaled
+    void Update()
+    {
+        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Tab))
+        {
+            inChatMode.Value = !inChatMode.Value;
+
+            if (inChatMode.Value == false)
+            {
+                inputField.gameObject.SetActive(false);
+                // sendButton.gameObject.SetActive(false);
+            }
+            if (inChatMode.Value == true)
+            {
+                inputField.gameObject.SetActive(true);
+                // sendButton.gameObject.SetActive(true);
+                inputField.Select();
+                inputField.ActivateInputField();
+                // inputField.MoveTextStart(true);
+            }
+        }
+    }
 
     public override void OnStartAuthority()
     {
@@ -76,6 +112,18 @@ public class ChatBehaviour : NetworkBehaviour
 
         CmdSendMessage(message);
         inputField.text = string.Empty; //clear text input field 
+        inputField.Select();
+        inputField.ActivateInputField();
+        // inputField.MoveTextStart(true);
+    }
+
+    [Client]
+    public void SendButton()
+    {
+    if (string.IsNullOrWhiteSpace(inputField.text)) { return; }
+
+        CmdSendMessage(inputField.text);
+        inputField.text = string.Empty; //clear text input field  
     }
 
     [Command]
@@ -86,7 +134,7 @@ public class ChatBehaviour : NetworkBehaviour
         RpcShowAvatarMessage(message);
 
         string userName = GetComponent<SavedAvatarInfoScript>().userName;
-        RpcHandleMessage($"[{/*connectionToClient.connectionId*/userName}]: {message}");
+        RpcHandleMessage($"<color=white>[{userName}]</color>: {message}");
     }
 
     [ClientRpc]

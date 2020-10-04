@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror; 
+using UnityAtoms.BaseAtoms;
+
 public class AvatarAnimController : NetworkBehaviour
 
 {
+    public BoolVariable inChatMode;
+
     public Animator animController;
     // Start is called before the first frame update
     void Start()
@@ -18,7 +22,7 @@ public class AvatarAnimController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && inChatMode.Value == false)
         {
             Vector2 inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
