@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityAtoms.BaseAtoms;
 
 public class CameraController : MonoBehaviour
 {
@@ -41,6 +42,9 @@ public class CameraController : MonoBehaviour
     public Vector3 cameraOffset;
     Vector3 startingEuler;
 
+    [Header("Atoms")]
+    public BoolVariable inChatMode;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +62,9 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        // if in chat mode, don't do this
+        if (inChatMode.Value == true) return;
+ 
         if(Input.GetKeyDown(KeyCode.Y))
         {
             // toggle clickToMove
@@ -79,6 +86,13 @@ public class CameraController : MonoBehaviour
 
             transform.eulerAngles = new Vector3(pitch, yaw) + startingEuler; // starting offset
         }
+        // added immediate feedback for pressing Y to re-enable mouse  - Cosmo D
+        if (clickToMove && !Input.GetKey(KeyCode.Mouse1))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = cursorVisible;            
+        }
+
         else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             Cursor.lockState = CursorLockMode.None;
