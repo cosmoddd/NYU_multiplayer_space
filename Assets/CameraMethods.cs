@@ -23,11 +23,12 @@ namespace MutCommon
 
     public void SetCullingMask(string layerName)
     {
+      // nothing to see here! - cosmo d
 
-      var mask = LayerMask.NameToLayer(layerName);
-      print(layerName);
-      print(mask);
-      camera.cullingMask = 1 << mask;
+      // var mask = LayerMask.NameToLayer(layerName);
+      // print(layerName);
+      // print(mask);
+      // camera.cullingMask = 1 << mask;
     }
   }
 }

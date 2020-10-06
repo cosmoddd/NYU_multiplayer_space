@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityAtoms.BaseAtoms;
 
 public class MoveController : NetworkBehaviour
 {
+    // high-level bool to check if we're in chat mode or not 
+
+
+    public float turnAroundSpeed = 0.2f;
     public float walkSpeed = 20.0f;
     public float runSpeed = 40.0f;
     public bool bAllowJumping = true;
@@ -16,6 +21,9 @@ public class MoveController : NetworkBehaviour
     public float turnSmoothTime = 0.2f;
     float turnSmoothVelocity;
 
+    public float speedSmoothTime = 0.1f;
+    float speedSmoothVelocity;
+
     public GameObject cameraPrefab;
 
     CharacterController cc;
@@ -23,6 +31,10 @@ public class MoveController : NetworkBehaviour
 
     float velocityY;
     public Vector2 inputDirection;
+    Vector2 previousInputDir;
+    
+    [Header("In Chat Mode")]
+    public BoolVariable inChatMode;
     
     // Start is called before the first frame update
     void Start()
@@ -40,7 +52,7 @@ public class MoveController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isLocalPlayer)
+        if(isLocalPlayer && inChatMode.Value == false)
         {
             // using GetAxis so that Gamepads will also be compatible
             inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -65,10 +77,19 @@ public class MoveController : NetworkBehaviour
             // rotate the character based on the user input direction plus the camera rotation
             float targetRotation = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
+
+            // slow down speed when new input is opposite direction of our previous input
+            if(Vector2.Dot(inputDir, previousInputDir) < 0.0f)
+            {
+                moveSpeed = turnAroundSpeed;
+            }
+
+            previousInputDir = inputDir;
         }
 
         // decide which speed to use based on bool parameter input
-        moveSpeed = (isSprinting ? runSpeed : walkSpeed) * inputDir.magnitude;
+        float targetSpeed = (isSprinting ? runSpeed : walkSpeed) * inputDir.magnitude;
+        moveSpeed = Mathf.SmoothDamp(moveSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
         Vector3 slopeNormal;
         Vector3 forwardAngle = transform.forward;
@@ -86,6 +107,9 @@ public class MoveController : NetworkBehaviour
         velocity += Vector3.up * velocityY;
 
         cc.Move(velocity * Time.deltaTime);
+
+        // match current moveSpeed to CharacterController velocity
+        moveSpeed = new Vector2(cc.velocity.x, cc.velocity.z).magnitude;
 
         // reset velocityY when we are on ground
         if (cc.isGrounded)

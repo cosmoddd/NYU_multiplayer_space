@@ -43,6 +43,8 @@ public class NetworkManagerNYU : NetworkManager
     {
         base.OnClientConnect(conn);
 
+        
+
         SendPlayerMessage thisMessage = new SendPlayerMessage();
 
         thisMessage.userName = avatarInfo.userName;
