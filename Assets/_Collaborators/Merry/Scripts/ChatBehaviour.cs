@@ -62,6 +62,7 @@ public class ChatBehaviour : NetworkBehaviour
     // tab button determines whether or not chat mode is enbaled
     void Update()
     {
+        // tab toggles chat box
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Tab))
         {
             inChatMode.Value = !inChatMode.Value;
@@ -74,11 +75,31 @@ public class ChatBehaviour : NetworkBehaviour
             if (inChatMode.Value == true)
             {
                 inputField.gameObject.SetActive(true);
-                // sendButton.gameObject.SetActive(true);
                 inputField.Select();
                 inputField.ActivateInputField();
-                // inputField.MoveTextStart(true);
             }
+        }
+
+        // return always enables chat box
+        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
+        {
+            if (inChatMode.Value == false)
+            {
+                inChatMode.Value = true;
+                inputField.gameObject.SetActive(true);
+                inputField.Select();
+                inputField.ActivateInputField();
+            }            
+        }
+
+        // escape always closes chat box
+        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (inChatMode.Value == true)
+            {
+                inChatMode.Value = false;
+                inputField.gameObject.SetActive(false);
+            }            
         }
     }
 
