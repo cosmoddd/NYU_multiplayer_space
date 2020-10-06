@@ -69,38 +69,74 @@ public class ChatBehaviour : NetworkBehaviour
 
             if (inChatMode.Value == false)
             {
-                inputField.gameObject.SetActive(false);
-                // sendButton.gameObject.SetActive(false);
+                DisableChatMode();
+                return;
             }
+
             if (inChatMode.Value == true)
             {
                 inputField.gameObject.SetActive(true);
                 inputField.Select();
                 inputField.ActivateInputField();
+                return;
             }
         }
 
-        // return always enables chat box
+        // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
-            if (inChatMode.Value == false)
-            {
-                inChatMode.Value = true;
-                inputField.gameObject.SetActive(true);
-                inputField.Select();
-                inputField.ActivateInputField();
-            }            
+            StartCoroutine(EnterChatToggle());
         }
+
 
         // escape always closes chat box
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape))
         {
             if (inChatMode.Value == true)
             {
-                inChatMode.Value = false;
-                inputField.gameObject.SetActive(false);
+                DisableChatMode();
+                return;
             }            
         }
+    }
+
+    // need to do this in a coroutine to avoid simultaneous frame conflict with enabling/disabling
+    IEnumerator EnterChatToggle()
+    {
+        // yield return null;
+
+        // enable chat mode if disabled
+        if (!inputField.gameObject.activeInHierarchy && inChatMode.Value == false)
+        {
+            print("ENABLE You!");
+
+            inChatMode.Value = true;
+            inputField.gameObject.SetActive(true);
+            inputField.Select();
+            inputField.ActivateInputField();
+            yield break;
+        }
+        
+        if (inChatMode.Value == true && string.IsNullOrWhiteSpace(inputField.text))
+        {
+            print("I'm outta here");
+            DisableChatMode();
+            yield break;
+        }
+
+        if (inChatMode.Value == true && inputField.gameObject.activeInHierarchy)
+        {
+            print("Send the text");
+            Send(inputField.text);
+            yield break;
+        }
+
+    }
+
+    void DisableChatMode()
+    {
+        inputField.gameObject.SetActive(false);
+        inChatMode.Value = false;
     }
 
     public override void OnStartAuthority()
@@ -129,13 +165,21 @@ public class ChatBehaviour : NetworkBehaviour
     public void Send(string message)
     {
         if (!Input.GetKeyDown(KeyCode.Return)) { return; }
-        if (string.IsNullOrWhiteSpace(message)) { return; }
 
-        CmdSendMessage(message);
-        inputField.text = string.Empty; //clear text input field 
-        inputField.Select();
-        inputField.ActivateInputField();
-        // inputField.MoveTextStart(true);
+        // hide chat window if you've submitted blank space!
+        if (string.IsNullOrWhiteSpace(message)) 
+        { 
+            return;
+        }
+
+        // else
+        {      
+            CmdSendMessage(message);
+            inputField.text = string.Empty; //clear text input field 
+            inputField.Select();
+            inputField.ActivateInputField();
+            // inputField.MoveTextStart(true);
+        }
     }
 
     [Client]
