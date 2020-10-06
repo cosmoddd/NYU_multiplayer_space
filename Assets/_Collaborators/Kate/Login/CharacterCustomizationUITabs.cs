@@ -124,10 +124,11 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
 
     }
 
+    Sprite[] imageOptions;
 
     void SetImageOptions(int tabID)
     {
-        Sprite[] imageOptions;
+        // Sprite[] imageOptions;
         GetCurrentImages(out imageOptions, tabID);
         int c = 0;
         foreach(Image im in optionImages)
@@ -148,6 +149,7 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
 
     void GetCurrentImages(out Sprite[] imageOptions, int tabID)
     {
+        print("Get some images!");
         imageOptions = headSprites;
         switch(tabID)
         {

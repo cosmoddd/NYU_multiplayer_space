@@ -32,7 +32,7 @@ public class ColorPicker : MonoBehaviour
         {
             if(!hit.transform.CompareTag("ColorPicker")) return;
 
-            print("click");
+            // print("click");
 
             Renderer thisRenderer = hit.transform.GetComponent<MeshRenderer>();
 

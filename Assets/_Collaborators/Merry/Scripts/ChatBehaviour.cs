@@ -86,6 +86,63 @@ public class ChatBehaviour : NetworkBehaviour
                 // inputField.MoveTextStart(true);
             }
         }
+
+        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (inChatMode.Value == true)
+            {
+                DisableChatMode();
+                return;
+            }            
+        }
+
+        // return enables chat box if it's disabled
+        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
+        {
+             StartCoroutine(EnterChatToggle());
+        }
+
+    }
+    
+
+   // need to do this in a coroutine to avoid simultaneous frame conflict with enabling/disabling
+    IEnumerator EnterChatToggle()
+    {
+        // yield return null;
+
+        // enable chat mode if disabled
+        if (!inputField.gameObject.activeInHierarchy && inChatMode.Value == false)
+        {
+            print("ENABLE You!");
+
+            inChatMode.Value = true;
+            inputField.gameObject.SetActive(true);
+            chatBackground.gameObject.SetActive(true);
+            inputField.Select();
+            inputField.ActivateInputField();
+            yield break;
+        }
+
+        if (inChatMode.Value == true && string.IsNullOrWhiteSpace(inputField.text))
+        {
+            print("I'm outta here");
+            DisableChatMode();
+            yield break;
+        }
+
+        if (inChatMode.Value == true && inputField.gameObject.activeInHierarchy)
+        {
+            print("Send the text");
+            Send(inputField.text);
+            yield break;
+        }
+    }
+
+    void DisableChatMode()
+    {
+        inputField.gameObject.SetActive(false);
+        chatBackground.gameObject.SetActive(false);
+        inChatMode.Value = false;
     }
 
     public override void OnStartAuthority()
