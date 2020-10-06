@@ -3922,7 +3922,7 @@ MonoBehaviour:
   onlineScene: Assets/_Active Scenes/Main Space.unity
   transport: {fileID: 320053944}
   networkAddress: 67.245.1.31
-  maxConnections: 4
+  maxConnections: 20
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 10
   authenticator: {fileID: 0}
@@ -4427,7 +4427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &417779680
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6836,6 +6836,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3042265161b7bd4694d525437ef75b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   loginPanel: {fileID: 546598113}
   customizePanel: {fileID: 1025529198}
   usernameField: {fileID: 6778343}
@@ -6865,6 +6867,7 @@ MonoBehaviour:
   colorPicker: {fileID: 417779679}
   currentTab: 0
   customizerScript: {fileID: 1163944096}
+  manager: {fileID: 320053945}
 --- !u!114 &662276914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8113,7 +8116,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Username
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cc30cba79396934b8e1955eb3734f3d, type: 2}
   m_sharedMaterial: {fileID: -4745996807725755821, guid: 6cc30cba79396934b8e1955eb3734f3d, type: 2}
@@ -9113,7 +9116,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1025529199
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9123,7 +9126,7 @@ RectTransform:
   m_GameObject: {fileID: 1025529198}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.42707998, y: 0.42707998, z: 0.42707998}
+  m_LocalScale: {x: 0.7238579, y: 0.7238579, z: 0.7238579}
   m_Children:
   - {fileID: 200267139}
   - {fileID: 884113681}
@@ -9794,7 +9797,7 @@ MonoBehaviour:
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
-  m_ClearDepth: 0
+  m_ClearDepth: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
@@ -9849,7 +9852,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1146715060}
   m_LocalRotation: {x: 0.01565978, y: -0.0053021796, z: -0.006967343, w: 0.99983907}
-  m_LocalPosition: {x: -6, y: 420.42, z: 2.12}
+  m_LocalPosition: {x: -6, y: 420.42, z: -275.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 417779680}
@@ -10907,7 +10910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 4519fc5ae01fca5489bf56fd387a6563, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.43137255}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -13523,7 +13526,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -325.2318, y: -1149.6676}
+  m_AnchoredPosition: {x: -325.2318, y: -596.9999}
   m_SizeDelta: {x: 236.29283, y: 49.674088}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1685067980
@@ -13569,9 +13572,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
-        m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
-        m_MethodName: Enter
+      - m_Target: {fileID: 662276913}
+        m_TargetAssemblyTypeName: CharacterCustomizationUITabs, Assembly-CSharp
+        m_MethodName: EnterHost
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14592,7 +14595,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 426.14972, y: -1149.6675}
+  m_AnchoredPosition: {x: 426.14972, y: -596.9999}
   m_SizeDelta: {x: 288.2624, y: 49.674088}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1814529245
@@ -14638,8 +14641,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
-        m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
+      - m_Target: {fileID: 662276913}
+        m_TargetAssemblyTypeName: CharacterCustomizationUITabs, Assembly-CSharp
         m_MethodName: EnterClient
         m_Mode: 1
         m_Arguments:

@@ -28,7 +28,7 @@ public class ColorPicker : MonoBehaviour
         RaycastHit hit;
         Debug.DrawRay(cam.transform.position,cam.ScreenPointToRay(Input.mousePosition).direction * rayDistance , Color.red);
 
-        if(Input.GetMouseButtonDown(0) && Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit, rayDistance))
+        if(Input.GetMouseButton(0) && Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit, rayDistance))
         {
             if(!hit.transform.CompareTag("ColorPicker")) return;
 

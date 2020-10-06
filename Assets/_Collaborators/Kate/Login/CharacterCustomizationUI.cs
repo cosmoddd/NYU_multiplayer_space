@@ -81,7 +81,7 @@ public class CharacterCustomizationUI : NetworkBehaviour
         usernameTxt.SetText(username);
     }
 
-    public void Enter()
+    public void EnterHost()
     {
         //SAVE PRESET
         customizerScript.SaveTraitsToScript();
