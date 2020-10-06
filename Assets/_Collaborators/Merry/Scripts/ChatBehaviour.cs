@@ -21,6 +21,9 @@ public class ChatBehaviour : NetworkBehaviour
     private TMP_InputField inputField = null; //input field
     public Button sendButton;
 
+    [SerializeField]
+    private Image chatBackground = null; //chat background + goes with slider
+
     private static event Action<string> OnMessage;
 
     public GameObject playerCamera;
@@ -40,8 +43,9 @@ public class ChatBehaviour : NetworkBehaviour
                 // print("DISABLE YOU!");
 
                 inputField.gameObject.SetActive(false);
-                // sendButton.gameObject.SetActive(false);
-            }
+            chatBackground.gameObject.SetActive(false);
+            // sendButton.gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -62,81 +66,26 @@ public class ChatBehaviour : NetworkBehaviour
     // tab button determines whether or not chat mode is enbaled
     void Update()
     {
-        // tab toggles chat box
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Tab))
         {
             inChatMode.Value = !inChatMode.Value;
 
             if (inChatMode.Value == false)
             {
-                DisableChatMode();
-                return;
+                inputField.gameObject.SetActive(false);
+                chatBackground.gameObject.SetActive(false);
+                // sendButton.gameObject.SetActive(false);
             }
-
             if (inChatMode.Value == true)
             {
                 inputField.gameObject.SetActive(true);
+                chatBackground.gameObject.SetActive(true);
+                // sendButton.gameObject.SetActive(true);
                 inputField.Select();
                 inputField.ActivateInputField();
-                return;
+                // inputField.MoveTextStart(true);
             }
         }
-
-        // return enables chat box if it's disabled
-        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
-        {
-            StartCoroutine(EnterChatToggle());
-        }
-
-
-        // escape always closes chat box
-        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (inChatMode.Value == true)
-            {
-                DisableChatMode();
-                return;
-            }            
-        }
-    }
-
-    // need to do this in a coroutine to avoid simultaneous frame conflict with enabling/disabling
-    IEnumerator EnterChatToggle()
-    {
-        // yield return null;
-
-        // enable chat mode if disabled
-        if (!inputField.gameObject.activeInHierarchy && inChatMode.Value == false)
-        {
-            print("ENABLE You!");
-
-            inChatMode.Value = true;
-            inputField.gameObject.SetActive(true);
-            inputField.Select();
-            inputField.ActivateInputField();
-            yield break;
-        }
-        
-        if (inChatMode.Value == true && string.IsNullOrWhiteSpace(inputField.text))
-        {
-            print("I'm outta here");
-            DisableChatMode();
-            yield break;
-        }
-
-        if (inChatMode.Value == true && inputField.gameObject.activeInHierarchy)
-        {
-            print("Send the text");
-            Send(inputField.text);
-            yield break;
-        }
-
-    }
-
-    void DisableChatMode()
-    {
-        inputField.gameObject.SetActive(false);
-        inChatMode.Value = false;
     }
 
     public override void OnStartAuthority()
@@ -165,21 +114,13 @@ public class ChatBehaviour : NetworkBehaviour
     public void Send(string message)
     {
         if (!Input.GetKeyDown(KeyCode.Return)) { return; }
+        if (string.IsNullOrWhiteSpace(message)) { return; }
 
-        // hide chat window if you've submitted blank space!
-        if (string.IsNullOrWhiteSpace(message)) 
-        { 
-            return;
-        }
-
-        // else
-        {      
-            CmdSendMessage(message);
-            inputField.text = string.Empty; //clear text input field 
-            inputField.Select();
-            inputField.ActivateInputField();
-            // inputField.MoveTextStart(true);
-        }
+        CmdSendMessage(message);
+        inputField.text = string.Empty; //clear text input field 
+        inputField.Select();
+        inputField.ActivateInputField();
+        // inputField.MoveTextStart(true);
     }
 
     [Client]
