@@ -33,10 +33,30 @@ public class ChatBehaviour : NetworkBehaviour
 
     [Header("Chat Mode Control")]
     public BoolVariable inChatMode;
-    
+
+    [Header("Participants Control")]
+    [SerializeField]
+    private GameObject participantsList = null; //participants list
+    public BoolVariable participantsListActive;
+    [SerializeField]
+    private TMP_Text participantsText = null;
+    private String participantID;
+
+    private bool hasMod = false; //intergrated with authenticator and tags player as a mod
+
     public override void OnStartClient()
     {
         base.OnStartClient();
+
+        //check if player is a mod and grant it
+
+
+
+        //add player name & mod status to participants list in UI_ParticipantsList.cs
+        //  GameObject player = GetComponent<SavedAvatarInfoScript>().GameObject;
+        
+        //retrieve the participants list
+
 
         if (inChatMode.Value == false)
             {
@@ -45,6 +65,11 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.gameObject.SetActive(false);
             chatBackground.gameObject.SetActive(false);
             // sendButton.gameObject.SetActive(false);
+        }
+
+        if (participantsListActive.Value == false)
+        {
+            participantsList.gameObject.SetActive(false);
         }
     }
 
@@ -64,6 +89,7 @@ public class ChatBehaviour : NetworkBehaviour
     }
 
     // tab button determines whether or not chat mode is enbaled
+    // esc brings up the participants list
     void Update()
     {
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Tab))
@@ -84,6 +110,22 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.Select();
                 inputField.ActivateInputField();
                 // inputField.MoveTextStart(true);
+            }
+        }
+
+        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape)) //activate participants list
+        {
+            participantsListActive.Value = !participantsListActive.Value;
+
+            if (participantsListActive.Value == false)
+            {
+                participantsList.gameObject.SetActive(false);
+ 
+            }
+            if (participantsListActive.Value == true)
+            {
+                participantsList.gameObject.SetActive(true);
+
             }
         }
     }
