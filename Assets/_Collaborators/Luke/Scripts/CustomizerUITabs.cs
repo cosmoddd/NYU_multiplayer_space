@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Mirror;
 
-/* author: Kate Howell
-*  This script controls the User Interface for the Character Customizer and Login Screen
-*  public UI elements must be set in inspector
-*/
-public class CharacterCustomizationUITabs : NetworkBehaviour
+public class CustomizerUITabs : MonoBehaviour
 {
     //public UI elements to be set in inspector
     //---Panels--
@@ -27,7 +22,7 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
 
     public Sprite[] hatSprites;
 
-    public Image[] optionImages;  
+    public Image[] optionImages;
 
     public GameObject colorPicker;
 
@@ -39,15 +34,13 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
     public int currentTab; //0 head, 1 torso, 2 is feet, 3 is hat, 4 is acces
 
 
-    public CharacterCustomizerScript customizerScript;
-     //--ColorValues--   these are used to make new colors when the sliders change
-    
+    public Customizer customizerScript;
+    //--ColorValues--   these are used to make new colors when the sliders change
+
     Vector3 hatColorValues;
     Vector3 headColorValues;
     Vector3 torsoColorValues;
     Vector3 feetColorValues;
-
-    public NetworkManager manager;
 
     void Start()
     {
@@ -66,12 +59,10 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
         colorPicker.gameObject.SetActive(false);
     }
 
-
-
-/// <summary>
-///  when "Go" is pressed, this function sets the character name to the user name
-///   TODO - add password functionality
-/// </summary>
+    /// <summary>
+    ///  when "Go" is pressed, this function sets the character name to the user name
+    ///   TODO - add password functionality
+    /// </summary>
     public void Login()
     {
         string username = usernameField.text;
@@ -88,31 +79,30 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
 
     // public void Enter()
     // {
-        //SAVE PRESET
-        //customizerScript.SaveTraitsToScript();
-        //TODO - loads into game
+    //SAVE PRESET
+    //customizerScript.SaveTraitsToScript();
+    //TODO - loads into game
     // }
 
     public void EnterHost()
     {
         //SAVE PRESET
-        customizerScript.SaveTraitsToScript();
-        manager.StartHost();
+        customizerScript.SaveData();
+        customizerScript.manager.StartHost();
     }
 
     public void EnterClient()
     {
         //SAVE PRESET
-        customizerScript.SaveTraitsToScript();
-        manager.StartClient();
-        
+        customizerScript.SaveData();
+        customizerScript.manager.StartClient();
+
     }
 
     public void SetCustomizationTab(int tabID)
     {
         currentTab = tabID;
         SetImageOptions(tabID);
-
     }
 
     Sprite[] imageOptions;
@@ -122,12 +112,12 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
         // Sprite[] imageOptions;
         GetCurrentImages(out imageOptions, tabID);
         int c = 0;
-        foreach(Image im in optionImages)
+        foreach (Image im in optionImages)
         {
-            if(c >= imageOptions.Length)
+            if (c >= imageOptions.Length)
             {
                 im.gameObject.SetActive(false);
-            } 
+            }
             else
             {
                 im.gameObject.SetActive(true);
@@ -142,36 +132,37 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
     {
         print("Get some images!");
         imageOptions = headSprites;
-        switch(tabID)
+        switch (tabID)
         {
             case 1:
-            imageOptions = torsoSprites;
-            break;
+                imageOptions = torsoSprites;
+                break;
             case 2:
-            imageOptions = feetSprites;
-            break;
+                imageOptions = feetSprites;
+                break;
             case 3:
-            imageOptions = hatSprites;
-            break;
+                imageOptions = hatSprites;
+                break;
         }
     }
 
     public void PickOption(int optionID)
     {
-        switch(currentTab)
+        switch (currentTab)
         {
             case 0:
-            customizerScript.activeHeadID = optionID;
-            break;
+                customizerScript.bodyIDs[1] = optionID;
+                break;
             case 1:
-            customizerScript.activeTorsoID = optionID;
-            break;
+                customizerScript.bodyIDs[4] = optionID;
+                break;
             case 2:
-            customizerScript.activeFootID = optionID;
-            break;
+                customizerScript.bodyIDs[2] = optionID;
+                customizerScript.bodyIDs[3] = optionID;
+                break;
             case 3:
-            customizerScript.activeHatID = optionID;
-            break;
+                customizerScript.bodyIDs[0] = optionID;
+                break;
         }
     }
 
@@ -191,7 +182,7 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
         SetCustomizationTab(2);
     }
 
-     public void SelectHatTab()
+    public void SelectHatTab()
     {
         SetCustomizationTab(3);
     }
@@ -199,20 +190,21 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
     //COLOR
     public void SetColor(Color selectedColor)
     {
-        switch(currentTab)
+        switch (currentTab)
         {
             case 0:
-            customizerScript.headColor = selectedColor;
-            break;
+                customizerScript.bodyColors[1] = selectedColor;
+                break;
             case 1:
-            customizerScript.bodyColor = selectedColor;
-            break;
+                customizerScript.bodyColors[4] = selectedColor;
+                break;
             case 2:
-            customizerScript.footColor = selectedColor;
-            break;
+                customizerScript.bodyColors[2] = selectedColor;
+                customizerScript.bodyColors[3] = selectedColor;
+                break;
             case 3:
-            customizerScript.hatColor = selectedColor;
-            break;
+                customizerScript.bodyColors[0] = selectedColor;
+                break;
         }
     }
 }

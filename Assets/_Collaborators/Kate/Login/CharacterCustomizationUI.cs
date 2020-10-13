@@ -35,12 +35,7 @@ public class CharacterCustomizationUI : NetworkBehaviour
     Vector3 torsoColorValues;
     Vector3 feetColorValues;
 
-
-
-
     public NetworkManager manager;
-
-
 
     void Start()
     {
@@ -245,7 +240,4 @@ public class CharacterCustomizationUI : NetworkBehaviour
         torsoColorValues.z = value;
         TorsoColorChange(torsoColorValues);
     }
-
-
-
 }

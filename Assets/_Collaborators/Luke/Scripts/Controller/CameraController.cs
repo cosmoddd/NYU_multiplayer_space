@@ -39,6 +39,8 @@ public class CameraController : MonoBehaviour
     // The distance from the target we are currently lerping towards
     private float targetCamDist;
 
+    bool bFreeCam = true;
+
     public Vector3 cameraOffset;
     Vector3 startingEuler;
 
@@ -70,6 +72,11 @@ public class CameraController : MonoBehaviour
             // toggle clickToMove
             clickToMove = clickToMove ? false : true;
         }
+
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            bFreeCam = bFreeCam ? false : true;
+        }
     }
 
     // Update is called once per frame
@@ -85,14 +92,19 @@ public class CameraController : MonoBehaviour
             pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
             transform.eulerAngles = new Vector3(pitch, yaw) + startingEuler; // starting offset
+
+            if(!bFreeCam)
+            {
+                target.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivity);
+            }
         }
+
         // added immediate feedback for pressing Y to re-enable mouse  - Cosmo D
         if (clickToMove && !Input.GetKey(KeyCode.Mouse1))
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = cursorVisible;            
         }
-
         else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             Cursor.lockState = CursorLockMode.None;

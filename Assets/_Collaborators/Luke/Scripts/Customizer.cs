@@ -20,26 +20,17 @@ public class Customizer : MonoBehaviour
     // 0 Hat, 1 Head, 2 right foot, 3 left foot
     public Mesh[][] bodyMeshes;
 
-    public Mesh[] hatMeshes;
-    public Mesh[] headMeshes;
-    public Mesh[] rightFootMeshes;
-    public Mesh[] leftFootMeshes;    
+    // body meshes stored in a scriptable object
+    public CharacterMeshData meshData;  
 
     public GameObject[] bodyTransforms;
     public Transform[] TorsoNodes;
     public Renderer[] bodyRenderers;
 
-    public List<float[]> presets;
-
-    public float[] torsoPreset_0;
-    public float[] torsoPreset_1;
-    public float[] torsoPreset_2;
-    public float[] torsoPreset_3;
-
     public GameObject activeAvatar; //current avatar that you are working on
     public Material defaultHatMaterial; //this is only temporary, eventually this will be coupled with the meshes so that each hat has its own texture
-    public SavedAvatarInfoScript savedInfo;
 
+    [HideInInspector]
     public NetworkManagerGC manager;
     
     // Start is called before the first frame update
@@ -48,18 +39,10 @@ public class Customizer : MonoBehaviour
         fov = 42;
         mainCam = Camera.main;
         mainCam.fieldOfView = fov;
-        bodyMeshes = new Mesh[][] { hatMeshes, headMeshes, leftFootMeshes, rightFootMeshes};
-        LoadTorsoPresets();
+        bodyMeshes = new Mesh[][] { meshData.hatMeshes, meshData.headMeshes, meshData.leftFootMeshes, meshData.rightFootMeshes };
+        Debug.Log(bodyMeshes.Length);
 
         manager = FindObjectOfType<NetworkManagerGC>();
-        if(manager)
-        {
-            Debug.Log(manager);
-        }
-        else
-        {
-            Debug.Log("Could not find manager");
-        }
     }
 
     public void SaveData()
@@ -71,17 +54,6 @@ public class Customizer : MonoBehaviour
         {
             manager.dataMessage.bodyColors[i] = new Vector3(bodyColors[i].r, bodyColors[i].g, bodyColors[i].b);
         }
-
-        manager.DisplayData();
-    }
-
-    void LoadTorsoPresets()
-    {
-        presets = new List<float[]>();
-        presets.Add(torsoPreset_0);
-        presets.Add(torsoPreset_1);
-        presets.Add(torsoPreset_2);
-        presets.Add(torsoPreset_3);
     }
 
     // Update is called once per frame
@@ -118,7 +90,7 @@ public class Customizer : MonoBehaviour
         // torso is index 4
         if(ID == 4)
         {
-            bodyIDs[ID] = Mathf.Clamp(bodyIDs[ID] + changeInt, 0, presets.Count - 1);
+            bodyIDs[ID] = Mathf.Clamp(bodyIDs[ID] + changeInt, 0, meshData.bodyPresets.Length - 1);
         }
         else
         {
@@ -142,7 +114,7 @@ public class Customizer : MonoBehaviour
 
         for (int i = 0; i < TorsoNodes.Length; i++)
         {
-            TorsoNodes[i].localScale = Vector3.Lerp(TorsoNodes[i].localScale, Vector3.one * presets[bodyIDs[4]][i],
+            TorsoNodes[i].localScale = Vector3.Lerp(TorsoNodes[i].localScale, Vector3.one * meshData.bodyPresets[bodyIDs[4]].presetValues[i],
                 Time.deltaTime * 10);
         }
     }
