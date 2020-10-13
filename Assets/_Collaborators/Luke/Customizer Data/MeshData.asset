@@ -12,24 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59dc24bf4911de439450c3e6fb62993, type: 3}
   m_Name: MeshData
   m_EditorClassIdentifier: 
-  hatMeshes:
-  - {fileID: 0}
-  - {fileID: 2534964839176971238, guid: fb2241170af3dff49ad95034dbbf9a86, type: 3}
-  - {fileID: 4493585093827132993, guid: 84bbfa572e478a949b68b2555b3fdca9, type: 3}
-  - {fileID: 3613567641014311022, guid: 276c7b7e91edc094e92974b1c8c95c75, type: 3}
-  - {fileID: -5495902117074765545, guid: fd70dc3e80c14204c8942400fcb3b618, type: 3}
-  headMeshes:
-  - {fileID: 0}
-  - {fileID: -8839368762345780380, guid: a3a785ab34fadba49bafcde35497ee43, type: 3}
-  - {fileID: -8839368762345780380, guid: 7137f6599febf4d43a875e5691f23a8f, type: 3}
-  - {fileID: -8839368762345780380, guid: 50472f318e393d446a3e0af85009b3a7, type: 3}
-  - {fileID: -8839368762345780380, guid: 50160a1b92e7ba942bb3c16c47a1c063, type: 3}
-  rightFootMeshes:
-  - {fileID: 0}
-  - {fileID: -6056006050371905083, guid: e00c1d1a70d85e146b7a4d19da1962c8, type: 3}
-  leftFootMeshes:
-  - {fileID: 0}
-  - {fileID: -6056006050371905083, guid: e00c1d1a70d85e146b7a4d19da1962c8, type: 3}
   bodyPresets:
   - presetValues:
     - 1
@@ -59,3 +41,26 @@ MonoBehaviour:
     - 1
     - 1.5
     - 0.68
+  bodyMeshes:
+  - name: Hat
+    meshes:
+    - {fileID: 0}
+    - {fileID: 2534964839176971238, guid: fb2241170af3dff49ad95034dbbf9a86, type: 3}
+    - {fileID: 4493585093827132993, guid: 84bbfa572e478a949b68b2555b3fdca9, type: 3}
+    - {fileID: 3613567641014311022, guid: 276c7b7e91edc094e92974b1c8c95c75, type: 3}
+    - {fileID: -5495902117074765545, guid: fd70dc3e80c14204c8942400fcb3b618, type: 3}
+  - name: Head
+    meshes:
+    - {fileID: 0}
+    - {fileID: -8839368762345780380, guid: a3a785ab34fadba49bafcde35497ee43, type: 3}
+    - {fileID: -8839368762345780380, guid: 7137f6599febf4d43a875e5691f23a8f, type: 3}
+    - {fileID: -8839368762345780380, guid: 50472f318e393d446a3e0af85009b3a7, type: 3}
+    - {fileID: -8839368762345780380, guid: 50160a1b92e7ba942bb3c16c47a1c063, type: 3}
+  - name: Right Foot
+    meshes:
+    - {fileID: 0}
+    - {fileID: -6056006050371905083, guid: e00c1d1a70d85e146b7a4d19da1962c8, type: 3}
+  - name: Left Foot
+    meshes:
+    - {fileID: 0}
+    - {fileID: -6056006050371905083, guid: e00c1d1a70d85e146b7a4d19da1962c8, type: 3}

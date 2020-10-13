@@ -6,15 +6,21 @@ using UnityEngine;
 [CreateAssetMenu]
 public class CharacterMeshData : ScriptableObject
 {
+    // must have Serializable attribute to allow array
+    // to appear in inspector
     [Serializable]
-    public class PresetArray
+    public struct PresetArray
     {
         public float[] presetValues;
     }
 
-    public Mesh[] hatMeshes;
-    public Mesh[] headMeshes;
-    public Mesh[] rightFootMeshes;
-    public Mesh[] leftFootMeshes;
-    public PresetArray[] bodyPresets;   
+    [Serializable]
+    public struct MeshesArray
+    {
+        public string name;
+        public Mesh[] meshes;
+    }
+
+    public PresetArray[] bodyPresets;
+    public MeshesArray[] bodyMeshes;
 }

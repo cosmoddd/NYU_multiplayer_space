@@ -5,29 +5,26 @@ using UnityEngine;
 
 public class MeshAssigner : NetworkBehaviour
 {
-    // custom struct and class to allow syncing of Vector list
-    public struct CustomColor
+    // custom struct and class to allow syncing of trait lists
+    public struct TraitData
     {
         public Vector3 color;
+        public int bodyID;
 
-        public CustomColor(Vector3 input)
+        public TraitData(Vector3 inColor, int ID)
         {
-            color = input;
+            color = inColor;
+            bodyID = ID;
         }
     };
 
-    public class SyncColor : SyncList<CustomColor> {}
+    public class SyncTrait : SyncList<TraitData> {}
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 body
-    public SyncColor bodyColors = new SyncColor();
+    // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 Torso
+    public SyncTrait bodyTraits = new SyncTrait();
 
     [SyncVar]
-    public string characterName;
-
-    // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 Torso
-    public SyncListInt bodyIDs = new SyncListInt();
-
-    // 0 Hat, 1 Head, 2 right foot, 3 left foot
-    public Mesh[][] bodyMeshes;
+    public string userName;
 
     // body meshes stored in a scriptable object
     public CharacterMeshData meshData;
@@ -49,29 +46,23 @@ public class MeshAssigner : NetworkBehaviour
 
     void Awake()
     {
-        bodyMeshes = new Mesh[][] { meshData.hatMeshes, meshData.headMeshes, meshData.leftFootMeshes, meshData.rightFootMeshes };
         manager = FindObjectOfType<NetworkManagerGC>();
     }
 
     public void LoadData(CustomizerData customData)
     {
-        characterName = customData.userName;
+        userName = customData.userName;
 
-        foreach (int ID in customData.bodyIDs)
+        for(int i = 0; i < customData.bodyIDs.Length; i++)
         {
-            bodyIDs.Add(ID);
-        }
-
-        foreach (Vector3 colorData in customData.bodyColors)
-        {
-            CustomColor colorStruct = new CustomColor(colorData);
-            bodyColors.Add(colorStruct);
+            TraitData traitStruct = new TraitData(customData.bodyColors[i], customData.bodyIDs[i]);
+            bodyTraits.Add(traitStruct);
         }
     }
 
     public void AssignAvatarTraits()
     {
-        Color bodyColor = new Color(bodyColors[4].color.x, bodyColors[4].color.y, bodyColors[4].color.z);
+        Color bodyColor = new Color(bodyTraits[4].color.x, bodyTraits[4].color.y, bodyTraits[4].color.z);
 
         foreach (Renderer bodyRenderer in bodyRenderers)//sets the body color
         {
@@ -79,17 +70,16 @@ public class MeshAssigner : NetworkBehaviour
             bodyRenderer.material.SetColor("_Color", bodyColor);
         }
 
-        // loop through body parts and assign meshes and colros accordingly
-        for (int i = 0; i < bodyMeshes.Length; i++)
+        // loop through body parts and assign meshes and colors accordingly
+        for (int i = 0; i < meshData.bodyMeshes.Length; i++)
         {
-            Color meshColor = new Color(bodyColors[i].color.x, bodyColors[i].color.y, bodyColors[i].color.z);
-
-            AssignFromArray(bodyIDs[i], bodyMeshes[i], bodyTransforms[i], meshColor);
+            Color meshColor = new Color(bodyTraits[i].color.x, bodyTraits[i].color.y, bodyTraits[i].color.z);
+            AssignFromArray(bodyTraits[i].bodyID, meshData.bodyMeshes[i].meshes, bodyTransforms[i], meshColor);
         }
 
         for (int i = 0; i < TorsoNodes.Length; i++)
         {
-            TorsoNodes[i].localScale = Vector3.one * meshData.bodyPresets[bodyIDs[4]].presetValues[i];
+            TorsoNodes[i].localScale = Vector3.one * meshData.bodyPresets[bodyTraits[4].bodyID].presetValues[i];
         }
     }
 

@@ -67,7 +67,7 @@ public class CustomizerUITabs : MonoBehaviour
     {
         string username = usernameField.text;
         //print("username: " + username);
-        customizerScript.characterName = username;
+        customizerScript.userName = username;
 
         customizePanel.SetActive(true);
         loginPanel.SetActive(false);

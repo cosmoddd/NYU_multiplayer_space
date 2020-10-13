@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class Customizer : MonoBehaviour
 {
+    //vars for rotating character in creator scene
     Camera mainCam;
     float fov;
-    public float rot;
+    float rot;
     float lerpRot;
 
-    public string characterName;
+    public string userName;
 
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 body
     public Color[] bodyColors = new Color[5];
 
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 Torso
     public int[] bodyIDs = new int[5];
-
-    // 0 Hat, 1 Head, 2 right foot, 3 left foot
-    public Mesh[][] bodyMeshes;
 
     // body meshes stored in a scriptable object
     public CharacterMeshData meshData;  
@@ -39,8 +37,6 @@ public class Customizer : MonoBehaviour
         fov = 42;
         mainCam = Camera.main;
         mainCam.fieldOfView = fov;
-        bodyMeshes = new Mesh[][] { meshData.hatMeshes, meshData.headMeshes, meshData.leftFootMeshes, meshData.rightFootMeshes };
-        Debug.Log(bodyMeshes.Length);
 
         manager = FindObjectOfType<NetworkManagerGC>();
     }
@@ -48,7 +44,7 @@ public class Customizer : MonoBehaviour
     public void SaveData()
     {
         manager.dataMessage.bodyIDs = bodyIDs;
-        manager.dataMessage.userName = characterName;
+        manager.dataMessage.userName = userName;
         
         for(int i = 0; i < bodyColors.Length; i++)
         {
@@ -60,7 +56,7 @@ public class Customizer : MonoBehaviour
     void Update()
     {
         ActiveAvatarTraitAssigner();
-        if (characterName != "")
+        if (userName != "")
         {
             Zoom();
         }
@@ -68,12 +64,6 @@ public class Customizer : MonoBehaviour
         if(Input.GetKey(KeyCode.Mouse1))
         {
             RotateCharacter();
-        }
-
-        //only Temp!!!
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            SaveData();
         }
     }
 
@@ -94,7 +84,7 @@ public class Customizer : MonoBehaviour
         }
         else
         {
-            bodyIDs[ID] = Mathf.Clamp(bodyIDs[ID] + changeInt, 0, bodyMeshes[ID].Length - 1);
+            bodyIDs[ID] = Mathf.Clamp(bodyIDs[ID] + changeInt, 0, meshData.bodyMeshes[ID].meshes.Length - 1);
         }    
     }
 
@@ -106,10 +96,10 @@ public class Customizer : MonoBehaviour
             bodyRenderer.material.SetColor("_Color", bodyColors[4]);
         }
 
-        // loop through body parts and assign meshes and colros accordingly
-        for(int i = 0; i < bodyMeshes.Length; i++)
+        // loop through body parts and assign meshes and colors accordingly
+        for(int i = 0; i < meshData.bodyMeshes.Length; i++)
         {
-            AssignFromArray(bodyIDs[i], bodyMeshes[i], bodyTransforms[i], bodyColors[i]);
+            AssignFromArray(bodyIDs[i], meshData.bodyMeshes[i].meshes, bodyTransforms[i], bodyColors[i]);
         }
 
         for (int i = 0; i < TorsoNodes.Length; i++)
