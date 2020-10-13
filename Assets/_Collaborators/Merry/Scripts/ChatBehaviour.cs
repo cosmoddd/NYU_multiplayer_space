@@ -7,6 +7,7 @@ using System;
 using UnityEngine.UI;
 using UnityAtoms.BaseAtoms;
 using System.Linq;
+using UnityEngine.Serialization;
 
 //based on code by Dapper Dino https://www.youtube.com/watch?v=p-2QFmCMBt8&ab_channel=DapperDino
 
@@ -39,7 +40,7 @@ public class ChatBehaviour : NetworkBehaviour
   public StringEvent[] SpecificChatCommands;
   public StringEvent GenericChatCommand;
   public bool SendCommandsToChat;
-  public char CommangPrefix = '/';
+  public char CommandPrefix = '/';
 
   public override void OnStartClient()
   {
