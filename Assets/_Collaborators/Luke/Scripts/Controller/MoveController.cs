@@ -32,7 +32,7 @@ public class MoveController : NetworkBehaviour
     float velocityY;
     public Vector2 inputDirection;
     Vector2 previousInputDir;
-    
+
     [Header("In Chat Mode")]
     public BoolVariable inChatMode;
     
@@ -67,7 +67,7 @@ public class MoveController : NetworkBehaviour
             {
                 Jump();
             }
-        }       
+        }
     }
 
     void Move(Vector2 inputDir, bool isSprinting)
@@ -99,7 +99,10 @@ public class MoveController : NetworkBehaviour
             forwardAngle = Vector3.Cross(slopeNormal, inputDir.magnitude * -transform.right);
         }
 
-        Vector3 velocity = forwardAngle * moveSpeed;
+        forwardAngle.Normalize();
+
+        Debug.DrawRay(transform.position + new Vector3(0.0f, 4.0f, 0.0f), forwardAngle * 3.0f, Color.red, 0.0167f);
+        Vector3 velocity = forwardAngle * moveSpeed; 
 
         velocityY -= Time.deltaTime * gravity;
 
@@ -138,7 +141,7 @@ public class MoveController : NetworkBehaviour
         }
 
         RaycastHit Hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out Hit, (cc.height / 2) + 2.0f))
+        if (Physics.Raycast(transform.position, Vector3.down, out Hit, (cc.height / 2) + 10.0f))
         {
             if (Hit.normal != Vector3.up)
             {

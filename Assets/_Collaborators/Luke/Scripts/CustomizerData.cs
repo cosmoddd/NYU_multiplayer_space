@@ -6,6 +6,7 @@ using Mirror;
 public class CustomizerData : MessageBase
 {
     public string userName;
+    public bool bIsModerator;
     public int[] bodyIDs = new int[5];
     public Vector3[] bodyColors = new Vector3[5];
 }

@@ -10,6 +10,8 @@ public class Customizer : MonoBehaviour
     float rot;
     float lerpRot;
 
+    public bool bIsModerator = false;
+
     public string userName;
 
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 body
@@ -45,6 +47,7 @@ public class Customizer : MonoBehaviour
     {
         manager.dataMessage.bodyIDs = bodyIDs;
         manager.dataMessage.userName = userName;
+        manager.dataMessage.bIsModerator = bIsModerator;
         
         for(int i = 0; i < bodyColors.Length; i++)
         {

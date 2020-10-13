@@ -26,6 +26,9 @@ public class MeshAssigner : NetworkBehaviour
     [SyncVar]
     public string userName;
 
+    [SyncVar]
+    public bool bIsModerator;
+
     // body meshes stored in a scriptable object
     public CharacterMeshData meshData;
 
@@ -52,6 +55,7 @@ public class MeshAssigner : NetworkBehaviour
     public void LoadData(CustomizerData customData)
     {
         userName = customData.userName;
+        bIsModerator = customData.bIsModerator;
 
         for(int i = 0; i < customData.bodyIDs.Length; i++)
         {
