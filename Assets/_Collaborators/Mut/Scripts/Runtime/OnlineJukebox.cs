@@ -12,15 +12,16 @@ public class OnlineJukebox : NetworkBehaviour
 {
     [SyncVar]
     [SerializeField] private string currentTrackName;
+
     [SyncVar]
     [SerializeField] private float serverPlaytime;
+
     [SerializeField] private float clientPlaytime;
 
     [SerializeField] private string TracksPath = "Jukebox";
     [SerializeField] private List<AudioClip> tracks;
 
     [SerializeField] private StringValueList trackNameList;
-    [FormerlySerializedAs("currentTrackName")]
     [SerializeField] private StringVariable currentTrackNameVariable;
     [SerializeField] private FloatVariable currentTrackElapsed;
 
@@ -37,7 +38,6 @@ public class OnlineJukebox : NetworkBehaviour
 
     private void Awake()
     {
-        print("awake!");
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = false;
         tracks = Resources.LoadAll<AudioClip>(TracksPath).ToList();
@@ -54,7 +54,9 @@ public class OnlineJukebox : NetworkBehaviour
 
     private void Update()
     {
+        currentTrackNameVariable.Value = currentTrackName;
         clientPlaytime = audioSource.time;
+
         if (isServer) serverPlaytime = clientPlaytime;
 
         if (audioSource.clip != null)
@@ -69,7 +71,17 @@ public class OnlineJukebox : NetworkBehaviour
         if (audioSource.clip == null || clientPlaytime >= audioSource.clip.length)
         {
             // Song is over call for next in queue;
-            DequeueSong();
+            if (isServer)
+            {
+                ServerDequeueSong();
+            }
+
+            if (audioSource.clip?.name != currentTrackName)
+            {
+                audioSource.clip = currentTrack;
+                audioSource.Play();
+                clientPlaytime = 0;
+            }
         }
     }
 
@@ -77,7 +89,6 @@ public class OnlineJukebox : NetworkBehaviour
 
     public void SyncWithServer()
     {
-        print("SYNC!");
         audioSource.clip = currentTrack;
         if (audioSource.clip != null)
         {
@@ -87,8 +98,8 @@ public class OnlineJukebox : NetworkBehaviour
         audioSource.time = serverPlaytime;
     }
 
-    // Runs the local queue
-    private void DequeueSong()
+    // Runs server queue
+    private void ServerDequeueSong()
     {
         // Remove current element of top of queue on the server
         if (queue == null || queue.Count() == 0)
@@ -101,14 +112,8 @@ public class OnlineJukebox : NetworkBehaviour
         // Server should always dequeue first, so no real reason to worry for some race condition going on here
         // Might be nice to call Sync every once in a while to be sure it's synced (can be called on a region outside of the listening radius)
 
-        if (isServer) currentTrackName = queue.First();
-        currentTrackNameVariable.Value = currentTrackName;
-
-        audioSource.clip = currentTrack;
-        audioSource.Play();
-        clientPlaytime = 0;
-
-        if (isServer) queue.RemoveAt(0);
+        currentTrackName = queue.First();
+        queue.RemoveAt(0);
     }
 
     private void Skip()
@@ -127,7 +132,7 @@ public class OnlineJukebox : NetworkBehaviour
     private void CmdSkipSong() => RpcSkipSong();
 
     [ClientRpc]
-    private void RpcSkipSong() => DequeueSong();
+    private void RpcSkipSong() => ServerDequeueSong();
 
     public void EnqueueRandomSong() => EnqueueRandomSongFromList(trackNameList.List);
     public void EnqueueRandomUniqueSong() => EnqueueRandomSongFromList(trackNameList.Except(queue).ToList());
