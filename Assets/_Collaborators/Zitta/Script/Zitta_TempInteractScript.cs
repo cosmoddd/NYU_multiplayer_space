@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Mirror;
 
-public class Zitta_TempInteractScript : MonoBehaviour {
+public class Zitta_TempInteractScript : NetworkBehaviour {
 
     public UnityEvent onPressed;
 

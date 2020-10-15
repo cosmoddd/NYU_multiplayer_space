@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class LiteScript : MonoBehaviour
+public class LiteScript : NetworkBehaviour
 {
     public Material[] materials;
     int whichMat;
@@ -12,13 +12,19 @@ public class LiteScript : MonoBehaviour
 
     void Interact()
     {
-        LightToggle();
+        CmdLightServer();
     }
 
-    public void LightToggle()
+    [Command(ignoreAuthority = true)]
+    public void CmdLightServer()
     {
-        // if (GetComponent<ToyIdentityScript>().active)
-        // {
+        RpcLightToggle();
+    }
+
+    [ClientRpc]
+    public void RpcLightToggle()
+    {
+
             whichMat++;
             if (whichMat>=materials.Length)
             {
@@ -27,6 +33,5 @@ public class LiteScript : MonoBehaviour
 
             GetComponent<Renderer>().material = materials[whichMat];
             GetComponent<ToyIdentityScript>().active = false;
-        // }
     }
 }
