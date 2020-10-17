@@ -10,12 +10,13 @@ public class Zitta_TempInteractScript : NetworkBehaviour {
 
     public void Process()
     {
-        SendMessage("Interact");
+        // SendMessage("Interact");
         print("Interact");
 
         onPressed.Invoke();
     }
 
+    
 
 
 }

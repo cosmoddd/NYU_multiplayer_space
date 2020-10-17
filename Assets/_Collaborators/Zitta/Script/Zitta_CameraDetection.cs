@@ -17,9 +17,4 @@ public class Zitta_CameraDetection : MonoBehaviour {
         C = GetComponentInParent<Camera>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
