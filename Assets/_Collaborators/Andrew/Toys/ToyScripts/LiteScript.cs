@@ -6,9 +6,16 @@ using Mirror;
 public class LiteScript : NetworkBehaviour
 {
     public Material[] materials;
-    int whichMat;
 
-    // Update is called once per frame
+    [SyncVar]
+    public int whichMat;
+
+  public override void OnStartClient()
+  {
+    base.OnStartClient();
+
+    GetComponent<Renderer>().material = materials[whichMat];  
+  }
 
     void Interact()
     {
