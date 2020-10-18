@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 757885505932397334}
   - component: {fileID: 757885505932397321}
   - component: {fileID: 757885505932397320}
+  - component: {fileID: 2749064839445138335}
   m_Layer: 9
   m_Name: LITE
   m_TagString: Interactable
@@ -132,3 +133,32 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!114 &2749064839445138335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757885505932397335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c12c9daf7b69884ab201391b8aa3c15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  onPressed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 757885505932397321}
+        m_TargetAssemblyTypeName: LiteScript, Assembly-CSharp
+        m_MethodName: CmdLightServer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

@@ -29,7 +29,7 @@ public class LiteScript : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcLightToggle()
+    void RpcLightToggle()
     {
 
             whichMat++;
@@ -39,6 +39,6 @@ public class LiteScript : NetworkBehaviour
             }
 
             GetComponent<Renderer>().material = materials[whichMat];
-            GetComponent<ToyIdentityScript>().active = false;
+            // GetComponent<ToyIdentityScript>().active = false;
     }
 }
