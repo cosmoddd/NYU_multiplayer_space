@@ -24,6 +24,8 @@ public class MoveController : NetworkBehaviour
     public float speedSmoothTime = 0.1f;
     float speedSmoothVelocity;
 
+    public float rayCastHeightOffset = 4.0f;
+
     public GameObject cameraPrefab;
 
     CharacterController cc;
@@ -101,8 +103,7 @@ public class MoveController : NetworkBehaviour
 
         forwardAngle.Normalize();
 
-        Debug.DrawRay(transform.position + new Vector3(0.0f, 4.0f, 0.0f), forwardAngle * 3.0f, Color.red, 0.0167f);
-        Vector3 velocity = forwardAngle * moveSpeed; 
+        Vector3 velocity = forwardAngle * moveSpeed;
 
         velocityY -= Time.deltaTime * gravity;
 
@@ -112,7 +113,8 @@ public class MoveController : NetworkBehaviour
         cc.Move(velocity * Time.deltaTime);
 
         // match current moveSpeed to CharacterController velocity
-        moveSpeed = new Vector2(cc.velocity.x, cc.velocity.z).magnitude;
+        //TODO fix speed smoothing to work slopes
+        //moveSpeed = new Vector2(cc.velocity.x, cc.velocity.z).magnitude;
 
         // reset velocityY when we are on ground
         if (cc.isGrounded)
@@ -140,8 +142,10 @@ public class MoveController : NetworkBehaviour
             return false;
         }
 
+        Debug.DrawRay(transform.position + new Vector3(0.0f, rayCastHeightOffset, 0.0f), Vector3.down * ((cc.height / 2)), Color.green, 0.0167f);
+
         RaycastHit Hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out Hit, (cc.height / 2) + 10.0f))
+        if (Physics.Raycast(transform.position + new Vector3(0.0f, rayCastHeightOffset, 0.0f), Vector3.down, out Hit, (cc.height / 2)))
         {
             if (Hit.normal != Vector3.up)
             {
