@@ -47,6 +47,8 @@ public class CameraController : MonoBehaviour
     [Header("Atoms")]
     public BoolVariable inChatMode;
 
+    public BoolVariable bInvertY;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,13 +71,12 @@ public class CameraController : MonoBehaviour
  
         if(Input.GetKeyDown(KeyCode.Y))
         {
-            // toggle clickToMove
-            clickToMove = clickToMove ? false : true;
+            clickToMove = !clickToMove;
         }
 
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
-            bFreeCam = bFreeCam ? false : true;
+            bFreeCam = !bFreeCam;
         }
     }
 
@@ -88,7 +89,16 @@ public class CameraController : MonoBehaviour
             Cursor.visible = false;
             // yaw for looking side to side, pitch for looking up and down
             yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-            pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+            if(bInvertY.Value)
+            {
+                pitch += Input.GetAxis("Mouse Y") * mouseSensitivity;
+            }
+            else
+            {
+                pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+            }
+            
             pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
             transform.eulerAngles = new Vector3(pitch, yaw) + startingEuler; // starting offset

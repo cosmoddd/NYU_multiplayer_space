@@ -27,6 +27,7 @@ public class MoveController : NetworkBehaviour
     public float rayCastHeightOffset = 4.0f;
 
     public GameObject cameraPrefab;
+    public GameObject optionsUI;
 
     CharacterController cc;
     Transform cameraTransform;
@@ -54,7 +55,7 @@ public class MoveController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isLocalPlayer && inChatMode.Value == false)
+        if(isLocalPlayer)
         {
             // using GetAxis so that Gamepads will also be compatible
             inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -62,12 +63,29 @@ public class MoveController : NetworkBehaviour
 
             bool isSprinting = Input.GetAxisRaw("Sprint") > 0;
 
+            if(inChatMode.Value)
+            {
+                inputDirection = Vector2.zero;
+            }
+
             // function to handle actual movement
             Move(inputDirection, isSprinting);
 
-            if (Input.GetAxisRaw("Jump") > 0)
+            if (!inChatMode.Value && Input.GetAxisRaw("Jump") > 0)
             {
                 Jump();
+            }
+
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                if(!optionsUI.activeSelf)
+                {
+                    optionsUI.SetActive(true);
+                }
+                else
+                {
+                    optionsUI.SetActive(false);
+                }
             }
         }
     }
