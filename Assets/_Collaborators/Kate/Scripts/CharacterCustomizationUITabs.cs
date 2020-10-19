@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Mirror;
+
 
 /* author: Kate Howell
 *  This script controls the User Interface for the Character Customizer and Login Screen
 *  public UI elements must be set in inspector
 */
-public class CharacterCustomizationUITabs : NetworkBehaviour
+public class CharacterCustomizationUITabs : MonoBehaviour
 {
     //public UI elements to be set in inspector
     //---Panels--
@@ -28,6 +28,9 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
     public Sprite[] hatSprites;
 
     public Image[] optionImages;
+
+    public AuthenticationManager authentication;
+
     
     
 
@@ -50,8 +53,6 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
     Vector3 feetColorValues;
 
 
-
-    public NetworkManager manager;
 
 
 
@@ -87,6 +88,14 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
         //print("username: " + username);
         customizerScript.characterName = username;
 
+        bool login = authentication.Login(username, passwordField.text);
+        if(!login)
+        {
+            //what to do if a login fails, let them try again
+            print("login failed");
+            return;
+        }
+
         customizePanel.SetActive(true);
         loginPanel.SetActive(false);
 
@@ -102,20 +111,7 @@ public class CharacterCustomizationUITabs : NetworkBehaviour
         //TODO - loads into game
     // }
 
-    public void EnterHost()
-    {
-        //SAVE PRESET
-        customizerScript.SaveTraitsToScript();
-        manager.StartHost();
-    }
-
-    public void EnterClient()
-    {
-        //SAVE PRESET
-        customizerScript.SaveTraitsToScript();
-        manager.StartClient();
-        
-    }
+   
 
     public void SetCustomizationTab(int tabID)
     {

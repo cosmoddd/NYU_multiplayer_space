@@ -204,7 +204,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: HatMeshDown
         m_Mode: 1
@@ -754,7 +754,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: HatMeshUp
         m_Mode: 1
@@ -1103,7 +1103,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: HeadColorChangeGreen
         m_Mode: 0
@@ -2350,7 +2350,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: HeadMeshDown
         m_Mode: 1
@@ -2490,7 +2490,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: HatColorChangeBlue
         m_Mode: 0
@@ -3480,7 +3480,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: FeetColorChangeBlue
         m_Mode: 0
@@ -3719,6 +3719,7 @@ GameObject:
   - component: {fileID: 320053945}
   - component: {fileID: 320053944}
   - component: {fileID: 320053947}
+  - component: {fileID: 320053949}
   m_Layer: 0
   m_Name: __NetworkManager
   m_TagString: Untagged
@@ -3827,6 +3828,41 @@ MonoBehaviour:
   showGUI: 1
   offsetX: 0
   offsetY: 0
+--- !u!114 &320053949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320053943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458faf88112ad5c41bf4b3833e35e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loginInfoList:
+  - username: Kate
+    password: BlueGorilla14
+  - username: Ron
+    password: GreenMonkey16
+  - username: Andrew
+    password: YellowFish18
+  - username: Zitta
+    password: GreenFish16
+  - username: Merry
+    password: PurpleDog02
+  - username: Greg
+    password: PinkGiraffe23
+  - username: Moochi
+    password: BlueCat30
+  - username: Alina
+    password: YellowCat15
+  - username: Zaiyun
+    password: PinkHippo12
+  - username: Jay
+    password: BlueMonkey34
+  customizerScript: {fileID: 1163944096}
+  manager: {fileID: 320053945}
 --- !u!1 &336700587
 GameObject:
   m_ObjectHideFlags: 0
@@ -4054,7 +4090,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: HeadColorChangeBlue
         m_Mode: 0
@@ -5316,7 +5352,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: TorsoMeshUp
         m_Mode: 1
@@ -5575,7 +5611,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &546598114
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6613,7 +6649,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: TorsoMeshDown
         m_Mode: 1
@@ -6672,7 +6708,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 662276912}
-  - component: {fileID: 662276914}
   - component: {fileID: 662276913}
   m_Layer: 0
   m_Name: CharacterManager
@@ -6707,8 +6742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3042265161b7bd4694d525437ef75b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   loginPanel: {fileID: 546598113}
   customizePanel: {fileID: 1025529198}
   usernameField: {fileID: 6778343}
@@ -6743,48 +6776,10 @@ MonoBehaviour:
   - {fileID: 745759285}
   - {fileID: 1860720696}
   - {fileID: 995818781}
+  authentication: {fileID: 320053949}
   colorPicker: {fileID: 417779679}
   currentTab: 0
   customizerScript: {fileID: 1163944096}
-  manager: {fileID: 320053945}
---- !u!114 &662276914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 662276911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c57c8381bcbadf4892376fe990c2314, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  loginPanel: {fileID: 546598113}
-  customizePanel: {fileID: 525851658}
-  usernameField: {fileID: 6778343}
-  passwordField: {fileID: 231458408}
-  usernameTxt: {fileID: 1440532635}
-  hatIdTxt: {fileID: 1071341736}
-  headIdTxt: {fileID: 557211170}
-  torsoIdTxt: {fileID: 253453425}
-  feetIdTxt: {fileID: 144787434}
-  sliders:
-  - {fileID: 1415808680}
-  - {fileID: 774763006}
-  - {fileID: 175622079}
-  - {fileID: 793711663}
-  - {fileID: 62908621}
-  - {fileID: 384024700}
-  - {fileID: 1892400942}
-  - {fileID: 2142856445}
-  - {fileID: 1755373184}
-  - {fileID: 692176648}
-  - {fileID: 1161526650}
-  - {fileID: 270018007}
-  customizerScript: {fileID: 1163944096}
-  manager: {fileID: 320053945}
 --- !u!1 &682717637
 GameObject:
   m_ObjectHideFlags: 0
@@ -7009,7 +7004,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: FeetColorChangeRed
         m_Mode: 0
@@ -7510,7 +7505,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: HatColorChangeGreen
         m_Mode: 0
@@ -7748,7 +7743,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: HeadColorChangeRed
         m_Mode: 0
@@ -8994,7 +8989,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1025529199
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9828,7 +9823,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: FeetColorChangeGreen
         m_Mode: 0
@@ -10558,7 +10553,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: HeadMeshUp
         m_Mode: 1
@@ -10689,7 +10684,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: FeetMeshUp
         m_Mode: 1
@@ -11427,7 +11422,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: HatColorChangeRed
         m_Mode: 0
@@ -12182,7 +12177,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: FeetMeshDown
         m_Mode: 1
@@ -13584,8 +13579,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276913}
-        m_TargetAssemblyTypeName: CharacterCustomizationUITabs, Assembly-CSharp
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: AuthenticationManager, Assembly-CSharp
         m_MethodName: EnterHost
         m_Mode: 1
         m_Arguments:
@@ -14096,7 +14091,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: TorsoColorChangeBlue
         m_Mode: 0
@@ -14651,8 +14646,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276913}
-        m_TargetAssemblyTypeName: CharacterCustomizationUITabs, Assembly-CSharp
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: AuthenticationManager, Assembly-CSharp
         m_MethodName: EnterClient
         m_Mode: 1
         m_Arguments:
@@ -15185,7 +15180,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: TorsoColorChangeRed
         m_Mode: 0
@@ -17104,7 +17099,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 662276914}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterCustomizationUI, Assembly-CSharp
         m_MethodName: TorsoColorChangeGreen
         m_Mode: 0
