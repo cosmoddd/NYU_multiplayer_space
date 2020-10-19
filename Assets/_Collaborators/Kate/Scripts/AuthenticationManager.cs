@@ -34,10 +34,6 @@ public class AuthenticationManager : MonoBehaviour
 
     public bool Login(string username, string password)
     {
-        //authenticator.username = username;
-        //authenticator.password = password;
-        //print($"username: Greg password: PinkGiraffe23");
-        //print($"username: {username} password: {password}");
         if(loginInfoDictionary.ContainsKey(username))
         {
             //print("dictionary contains : "+ username);
