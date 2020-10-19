@@ -22,7 +22,7 @@ public class Zitta_Die : NetworkBehaviour {
 
     public void Interact()
     {
-        CmdRoll(Zitta_TempInteraction.Main.transform.position);
+        CmdRoll(Z_Interactor.Main.transform.position);
     }
 
     [Command(ignoreAuthority = true)]
