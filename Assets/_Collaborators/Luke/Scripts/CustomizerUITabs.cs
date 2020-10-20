@@ -11,10 +11,9 @@ public class CustomizerUITabs : MonoBehaviour
     public GameObject loginPanel;
     public GameObject customizePanel;
     //--InputFields--
-    public TMP_InputField usernameField;
+
+    public TMP_InputField emailField;
     public TMP_InputField passwordField;
-    //--Text--
-    public TextMeshProUGUI usernameTxt;
 
     public Sprite[] headSprites;
     public Sprite[] torsoSprites;
@@ -26,12 +25,9 @@ public class CustomizerUITabs : MonoBehaviour
 
     public GameObject colorPicker;
 
-    //public GameObject hatTab;
-    //public GameObject headTab;
-    //public GameObject torsoTab;
-    //public GameObject feetTab;
-
     public int currentTab; //0 head, 1 torso, 2 is feet, 3 is hat, 4 is acces
+
+    public AuthenticationManager authentication;
 
 
     public Customizer customizerScript;
@@ -65,14 +61,13 @@ public class CustomizerUITabs : MonoBehaviour
     /// </summary>
     public void Login()
     {
-        string username = usernameField.text;
+        string email = emailField.text;
         //print("username: " + username);
-        customizerScript.userName = username;
+        customizerScript.userName = email;
 
         customizePanel.SetActive(true);
         loginPanel.SetActive(false);
 
-        usernameTxt.SetText(username);
         SetCustomizationTab(currentTab);
         colorPicker.gameObject.SetActive(true);
     }
@@ -206,5 +201,14 @@ public class CustomizerUITabs : MonoBehaviour
                 customizerScript.bodyColors[0] = selectedColor;
                 break;
         }
+    }
+
+    
+    public void SetDisplayName(string input)
+    {
+        string username = input;
+        customizerScript.userName = username;
+
+
     }
 }
