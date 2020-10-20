@@ -39,11 +39,15 @@ public class CameraController : MonoBehaviour
     // The distance from the target we are currently lerping towards
     private float targetCamDist;
 
+    bool bFreeCam = true;
+
     public Vector3 cameraOffset;
     Vector3 startingEuler;
 
     [Header("Atoms")]
     public BoolVariable inChatMode;
+
+    public BoolVariable bInvertY;
 
     // Start is called before the first frame update
     void Start()
@@ -67,8 +71,12 @@ public class CameraController : MonoBehaviour
  
         if(Input.GetKeyDown(KeyCode.Y))
         {
-            // toggle clickToMove
-            clickToMove = clickToMove ? false : true;
+            clickToMove = !clickToMove;
+        }
+
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            bFreeCam = !bFreeCam;
         }
     }
 
@@ -81,18 +89,32 @@ public class CameraController : MonoBehaviour
             Cursor.visible = false;
             // yaw for looking side to side, pitch for looking up and down
             yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-            pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+            if(bInvertY.Value)
+            {
+                pitch += Input.GetAxis("Mouse Y") * mouseSensitivity;
+            }
+            else
+            {
+                pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+            }
+            
             pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
 
             transform.eulerAngles = new Vector3(pitch, yaw) + startingEuler; // starting offset
+
+            if(!bFreeCam)
+            {
+                target.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivity);
+            }
         }
+
         // added immediate feedback for pressing Y to re-enable mouse  - Cosmo D
         if (clickToMove && !Input.GetKey(KeyCode.Mouse1))
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = cursorVisible;            
         }
-
         else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             Cursor.lockState = CursorLockMode.None;

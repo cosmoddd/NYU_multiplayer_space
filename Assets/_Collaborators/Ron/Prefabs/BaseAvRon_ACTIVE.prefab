@@ -5618,7 +5618,7 @@ GameObject:
   - component: {fileID: 7635283257328493970}
   - component: {fileID: 9137480361844035897}
   m_Layer: 0
-  m_Name: BaseAvRon_Bak
+  m_Name: BaseAvRon
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5835,7 +5835,9 @@ MonoBehaviour:
   jumpHeight: 3.5
   turnSmoothTime: 0.12
   speedSmoothTime: 0.18
+  rayCastHeightOffset: 4
   cameraPrefab: {fileID: 5915573456097954982, guid: 536a57c0fc35bc3408e88fcc5f3415ab, type: 3}
+  optionsUI: {fileID: 4268363766811535616}
   inputDirection: {x: 0, y: 0}
   inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
 --- !u!143 &5479427390246189363
@@ -6138,9 +6140,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
---- !u!1 &4038157503172513569 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1170132631858921213, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
+--- !u!224 &3309351845540940447 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
   m_PrefabInstance: {fileID: 2897872534607639004}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &4911477093567262556 stripped
@@ -6154,9 +6156,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &3309351845540940447 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
+--- !u!1 &4038157503172513569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1170132631858921213, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
   m_PrefabInstance: {fileID: 2897872534607639004}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7646837084164081102
@@ -6260,6 +6262,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dad6940052b24444ad32760286bdbd8, type: 3}
+--- !u!1 &4268363766811535616 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5846591418190097614, guid: 5dad6940052b24444ad32760286bdbd8, type: 3}
+  m_PrefabInstance: {fileID: 7646837084164081102}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4268363766811535628 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5846591418190097602, guid: 5dad6940052b24444ad32760286bdbd8, type: 3}
