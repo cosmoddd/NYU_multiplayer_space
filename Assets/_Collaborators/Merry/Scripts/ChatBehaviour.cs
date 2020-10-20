@@ -33,10 +33,30 @@ public class ChatBehaviour : NetworkBehaviour
 
     [Header("Chat Mode Control")]
     public BoolVariable inChatMode;
-    
+
+    [Header("Participants Control")]
+    [SerializeField]
+    private GameObject participantsList = null; //participants list
+    public BoolVariable participantsListActive;
+    [SerializeField]
+    private TMP_Text participantsText = null;
+    private String participantID;
+
+    private bool hasMod = false; //intergrated with authenticator and tags player as a mod
+
     public override void OnStartClient()
     {
         base.OnStartClient();
+
+        //check if player is a mod and grant it
+
+
+
+        //add player name & mod status to participants list in UI_ParticipantsList.cs
+        //  GameObject player = GetComponent<SavedAvatarInfoScript>().GameObject;
+        
+        //retrieve the participants list
+
 
         if (inChatMode.Value == false)
             {
@@ -45,6 +65,11 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.gameObject.SetActive(false);
             chatBackground.gameObject.SetActive(false);
             // sendButton.gameObject.SetActive(false);
+        }
+
+        if (participantsListActive.Value == false)
+        {
+            participantsList.gameObject.SetActive(false);
         }
     }
 
@@ -64,6 +89,7 @@ public class ChatBehaviour : NetworkBehaviour
     }
 
     // tab button determines whether or not chat mode is enbaled
+    // esc brings up the participants list
     void Update()
     {
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Tab))
@@ -87,25 +113,31 @@ public class ChatBehaviour : NetworkBehaviour
             }
         }
 
-        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape))
+        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape)) //activate participants list
         {
-            if (inChatMode.Value == true)
+            participantsListActive.Value = !participantsListActive.Value;
+
+            if (participantsListActive.Value == false)
             {
-                DisableChatMode();
-                return;
-            }            
+                participantsList.gameObject.SetActive(false);
+ 
+            }
+            if (participantsListActive.Value == true)
+            {
+                participantsList.gameObject.SetActive(true);
+
+            }
         }
 
         // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
-             StartCoroutine(EnterChatToggle());
+        StartCoroutine(EnterChatToggle());
         }
 
     }
-    
 
-   // need to do this in a coroutine to avoid simultaneous frame conflict with enabling/disabling
+    // need to do this in a coroutine to avoid simultaneous frame conflict with enabling/disabling
     IEnumerator EnterChatToggle()
     {
         // yield return null;
@@ -113,28 +145,28 @@ public class ChatBehaviour : NetworkBehaviour
         // enable chat mode if disabled
         if (!inputField.gameObject.activeInHierarchy && inChatMode.Value == false)
         {
-            print("ENABLE You!");
+        print("ENABLE You!");
 
-            inChatMode.Value = true;
-            inputField.gameObject.SetActive(true);
-            chatBackground.gameObject.SetActive(true);
-            inputField.Select();
-            inputField.ActivateInputField();
-            yield break;
+        inChatMode.Value = true;
+        inputField.gameObject.SetActive(true);
+        chatBackground.gameObject.SetActive(true);
+        inputField.Select();
+        inputField.ActivateInputField();
+        yield break;
         }
 
         if (inChatMode.Value == true && string.IsNullOrWhiteSpace(inputField.text))
         {
-            print("I'm outta here");
-            DisableChatMode();
-            yield break;
+        print("I'm outta here");
+        DisableChatMode();
+        yield break;
         }
 
         if (inChatMode.Value == true && inputField.gameObject.activeInHierarchy)
         {
-            print("Send the text");
-            Send(inputField.text);
-            yield break;
+        print("Send the text");
+        Send(inputField.text);
+        yield break;
         }
     }
 
