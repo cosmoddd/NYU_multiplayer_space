@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: bfce9cef65c48c448ac1ebacc5c7c33d, type: 2}
+  m_LightingDataAsset: {fileID: 112000002, guid: a287dd0f2da87974f9a28973d61d168b, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 04013db6dec4adf46abf9903db3e2ac9, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -1432,6 +1432,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4e21aaf1e8915342980dc9142588447, type: 3}
+--- !u!114 &51646503 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6003595357366931503, guid: b4e21aaf1e8915342980dc9142588447, type: 3}
+  m_PrefabInstance: {fileID: 51646502}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912750222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf1ba55473e243c40b6c05850ce089b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &51851262
 GameObject:
   m_ObjectHideFlags: 0
@@ -5754,25 +5765,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3637d3fdffdf54c39814c50a5e7803fe, type: 3}
   m_PrefabInstance: {fileID: 201536435}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &204866222 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
-  m_PrefabInstance: {fileID: 1903933775}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &204866223
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 204866222}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &214065022
 GameObject:
   m_ObjectHideFlags: 0
@@ -8582,6 +8574,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &325486839 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
+  m_PrefabInstance: {fileID: 1903933775}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &325486843
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325486839}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
 --- !u!1 &326522347
 GameObject:
   m_ObjectHideFlags: 0
@@ -22725,7 +22736,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 7.1601e-41, z: 0, w: 7.9182527e+34}
+  m_BoundingSphereOverride: {x: 0, y: 5.9538e-41, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -24193,7 +24204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114179375918869224, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
       propertyPath: youtubeUrl
-      value: https://www.youtube.com/watch?v=8aZyR6tbCaM
+      value: https://www.youtube.com/watch?v=ad99gLMQFDQ
       objectReference: {fileID: 0}
     - target: {fileID: 224011303988647518, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
       propertyPath: m_LocalPosition.z
@@ -31770,7 +31781,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7853491912232191511, guid: 5440296fd6bf5a244930bfde2af2bc52, type: 3}
       propertyPath: twitchChannelID
-      value: shutupandsitdown
+      value: dotatv247
+      objectReference: {fileID: 0}
+    - target: {fileID: 7853491912232191511, guid: 5440296fd6bf5a244930bfde2af2bc52, type: 3}
+      propertyPath: playOnStart
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7853491912673430793, guid: 5440296fd6bf5a244930bfde2af2bc52, type: 3}
       propertyPath: m_LocalScale.x
@@ -33013,7 +33028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7853491911809706688, guid: 5440296fd6bf5a244930bfde2af2bc52, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7853491911809706689, guid: 5440296fd6bf5a244930bfde2af2bc52, type: 3}
       propertyPath: m_LocalPosition.x
@@ -33089,7 +33104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7853491912232191508, guid: 5440296fd6bf5a244930bfde2af2bc52, type: 3}
       propertyPath: m_VideoPath
-      value: https://manifest.googlevideo.com/api/manifest/hls_playlist/expire/1603058226/ei/0WWMX8T7NZKmhgah2rToBw/ip/168.235.70.232/id/5qap5aO4i9A.0/itag/93/source/yt_live_broadcast/requiressl/yes/ratebypass/yes/live/1/goi/160/sgoap/gir%3Dyes%3Bitag%3D140/sgovp/gir%3Dyes%3Bitag%3D134/hls_chunk_host/r2---sn-ab5sznly.googlevideo.com/playlist_duration/30/manifest_duration/30/vprv/1/playlist_type/DVR/mh/30/mm/44/mn/sn-ab5sznly/ms/lva/mv/u/mvi/2/pl/23/dover/11/keepalive/yes/fexp/23915654/mt/1603036418/disable_polymer/true/sparams/expire,ei,ip,id,itag,source,requiressl,ratebypass,live,goi,sgoap,sgovp,playlist_duration,manifest_duration,vprv,playlist_type/sig/AOq0QJ8wRgIhALnu7urRS-xNIW47NZuUtsS9RIAYqdtgVtSfSvL1YK3jAiEAwnaSJbfmHUlAvdgLYjGz1Hft_jY5iGEBHj86hKiw8PI%3D/lsparams/hls_chunk_host,mh,mm,mn,ms,mv,mvi,pl/lsig/AG3C_xAwRgIhAL1mS3rsR_CofZ5ZwopcSnqXPXvIXUK7rjFcoDdhv9JXAiEA_ZS7PniC_97kpygzSf9yCgMu6PSO1X7X2VK9RygMvr0%3D/playlist/index.m3u8
+      value: https://manifest.googlevideo.com/api/manifest/hls_playlist/expire/1603234511/ei/bxaPX5GvJ4nQ1wLJt5OoDQ/ip/212.40.116.46/id/5qap5aO4i9A.0/itag/93/source/yt_live_broadcast/requiressl/yes/ratebypass/yes/live/1/goi/160/sgoap/gir%3Dyes%3Bitag%3D140/sgovp/gir%3Dyes%3Bitag%3D134/hls_chunk_host/r2---sn-c0q7lnse.googlevideo.com/playlist_duration/30/manifest_duration/30/vprv/1/playlist_type/DVR/mh/30/mm/44/mn/sn-c0q7lnse/ms/lva/mv/u/mvi/2/pl/19/dover/11/keepalive/yes/fexp/23915654/beids/23886204/mt/1603212463/disable_polymer/true/sparams/expire,ei,ip,id,itag,source,requiressl,ratebypass,live,goi,sgoap,sgovp,playlist_duration,manifest_duration,vprv,playlist_type/sig/AOq0QJ8wRQIgU6_1ILdEZ83bHBwIn1hwFgpyPQYhVzOdUIp_ug7FFaQCIQDieW_tZ4kD36BL_hclAv5HOCs0dS92Taihfxq4j8NEAw%3D%3D/lsparams/hls_chunk_host,mh,mm,mn,ms,mv,mvi,pl/lsig/AG3C_xAwRAIgKlxkvMpZb1Am9nKNdcJ-T4EkE00WPuB6J4wS8RW4CVECIBVW3dKf-8ESnxv1Nq-CWkylvBLvQF429UZbMFjndZBd/playlist/index.m3u8
       objectReference: {fileID: 0}
     - target: {fileID: 7853491912232191508, guid: 5440296fd6bf5a244930bfde2af2bc52, type: 3}
       propertyPath: m_AutoOpen
@@ -33097,7 +33112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7853491912232191511, guid: 5440296fd6bf5a244930bfde2af2bc52, type: 3}
       propertyPath: twitchChannelID
-      value: shutupandsitdown
+      value: dotatv247
       objectReference: {fileID: 0}
     - target: {fileID: 7853491912232191511, guid: 5440296fd6bf5a244930bfde2af2bc52, type: 3}
       propertyPath: m_Enabled
@@ -35847,7 +35862,7 @@ MonoBehaviour:
   rmsValue: 0
   dbValue: 0
   soundLevelCumulative: 0
-  volume: 2
+  volume: 5
   skinnedMeshRenderers:
   - {fileID: 1820590443}
   - {fileID: 1453447852}
@@ -38900,7 +38915,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dd0cd3fdfa399fe458875da54e83d884, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dd0cd3fdfa399fe458875da54e83d884, type: 3}
       propertyPath: m_LocalPosition.z
@@ -43311,11 +43326,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 90.26
+      value: 89.85
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 156.04
+      value: 156.11
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
       propertyPath: m_LocalRotation.x
@@ -43351,15 +43366,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
       propertyPath: m_LocalScale.x
-      value: 14.692046
+      value: 7.7940345
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 14.692044
+      value: 7.7940335
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
       propertyPath: m_LocalScale.z
-      value: 14.692049
+      value: 7.794036
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
       propertyPath: m_Name
@@ -43372,6 +43387,30 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.218
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3769
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3769
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3769
       objectReference: {fileID: 0}
     - target: {fileID: 8164078558771037576, guid: aea5677b4e7e14c22958e6fbd48b49a6, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -43612,85 +43651,18 @@ MonoBehaviour:
   onPressed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1912750227}
+      - m_Target: {fileID: 51646503}
         m_TargetAssemblyTypeName: SingerScript, Assembly-CSharp
-        m_MethodName: CMDSingerCry
+        m_MethodName: CmdSingerCry
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 1
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1912750224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1912750222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad225009ad414e1428332cab226f38fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  interpolationBackTime: 0.1
-  extrapolationMode: 1
-  useExtrapolationTimeLimit: 1
-  extrapolationTimeLimit: 5
-  useExtrapolationDistanceLimit: 0
-  extrapolationDistanceLimit: 20
-  sendPositionThreshold: 0
-  sendRotationThreshold: 0
-  sendScaleThreshold: 0
-  sendVelocityThreshold: 0
-  sendAngularVelocityThreshold: 0
-  receivedPositionThreshold: 0
-  receivedRotationThreshold: 0
-  snapPositionThreshold: 0
-  snapRotationThreshold: 0
-  snapScaleThreshold: 0
-  positionLerpSpeed: 0.85
-  rotationLerpSpeed: 0.85
-  scaleLerpSpeed: 0.85
-  timeCorrectionSpeed: 0.1
-  snapTimeThreshold: 3
-  syncPosition: 0
-  syncRotation: 0
-  syncScale: 0
-  syncVelocity: 0
-  syncAngularVelocity: 0
-  isPositionCompressed: 0
-  isRotationCompressed: 0
-  isScaleCompressed: 0
-  isVelocityCompressed: 0
-  isAngularVelocityCompressed: 0
-  isSmoothingAuthorityChanges: 0
-  transformSource: 0
-  whenToUpdateTransform: 0
-  sendRate: 30
-  networkChannel: 1
-  childObjectToSync: {fileID: 0}
-  setVelocityInsteadOfPositionOnNonOwners: 0
-  maxPositionDifferenceForVelocitySyncing: 10
-  useLocalTransformOnly: 0
-  ownerChangeIndicator: 1
-  receivedStatesCounter: 0
---- !u!114 &1912750227 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6003595357366931503, guid: b4e21aaf1e8915342980dc9142588447, type: 3}
-  m_PrefabInstance: {fileID: 51646502}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1912750222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf1ba55473e243c40b6c05850ce089b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1913764282
 PrefabInstance:
   m_ObjectHideFlags: 0

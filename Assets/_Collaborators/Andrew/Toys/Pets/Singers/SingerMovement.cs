@@ -26,10 +26,8 @@ public class SingerMovement : MonoBehaviour
 
         if (Physics.Raycast(transform.position + rayOriginOffset, transform.forward, out RaycastHit hit, 10f, mask))
         {
-
             if (hit.distance < rayInteractionDistance && !hit.collider.isTrigger)
             {
-                // print($"{this.gameObject.name} hit a {hit.transform.name}");
                 Vector3 fDist = -(hit.normal) - transform.forward;
                 Vector3 nDist = hit.normal - fDist;
                 transform.forward = nDist;
