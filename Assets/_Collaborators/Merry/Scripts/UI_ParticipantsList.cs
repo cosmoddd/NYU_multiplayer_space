@@ -5,55 +5,104 @@ using Mirror;
 using System;
 using TMPro;
 
-public class UI_ParticipantsList //: MonoBehaviour
+public class UI_ParticipantsList : NetworkBehaviour //: MonoBehaviour
 {
 
     //player list
-    public static List<GameObject> playerList = new List<GameObject>(); //player list individual player instances can access
-    private static bool isMod = false;
-    private static string playerListString;
-
-    private static int playerCount = 0;
+    // public SyncList<NameAndModStatus> playerListMod;// = new List<String>(); //player list individual player instances can access
 
 
+    private SyncListString playerList = new SyncListString();
 
-    void Update()
+
+    [SyncVar]
+    public string playerListString;
+
+    [SyncVar]
+    int playerCount = 0;
+  
+    public static event Action<string> RecieveList;
+
+    [TextArea(2,10)]
+    public string listTextArea;
+
+    public void OnEnable()
     {
-
+        CharacterCustomizerScript.NameReady += AddPlayer;   
+        CharacterCustomizerScript.NameUnready += RemovePlayer;
+        ChatBehaviour.RetrievePlayerList += ReturnList;
     }
 
-    public static void AddPlayer(GameObject player, bool m) //called from player object
+    public override void OnStartClient()
     {
-        playerList.Add(player);
-        isMod = m;
-
-        playerCount++;
-
-        UpdatePlayerList();
-    }
-
-    public static void RemovePlayer(GameObject player, bool m) //called from player object
-    {
-        //find player in list
-        //delete in list
-        //find in string
+        base.OnStartClient();
         
-        playerCount--;
-
-        UpdatePlayerList();
     }
 
-    public static void UpdatePlayerList()
+    public override void OnStopClient()
     {
-        string tempString = "Online: ";
+        base.OnStopClient();
+        CharacterCustomizerScript.NameReady -= AddPlayer;
+        CharacterCustomizerScript.NameUnready -= RemovePlayer;
+        ChatBehaviour.RetrievePlayerList -= ReturnList;
+    }
 
+    public void AddPlayer(String player, bool m) //called from player object
+    {
+        // if (!playerList.Contains(player))
+        // {
+        //     print($"{player} added.");
+        //     playerList.Add(player);
+        //     playerCount++;
+        //     CmdUpdatePlayerList();
+        // }
+    }
+
+    public void RemovePlayer(String player, bool m) //called from player object
+    {
+        // if (playerList.Contains(player))
+        // {
+        //     playerList.Remove(player);
+        // }
+
+        print($"{player} is outta here.");
+        playerCount--;
+        CmdUpdatePlayerList();
+    }
+
+    [Command(ignoreAuthority = true)]
+    public void CmdUpdatePlayerList()
+    {
+        listTextArea = "Online: ";
         for (int i = 0; i < playerCount; i++)
         {
-            tempString += "\n [ " + i + " ] " + playerList[0].name;
+            listTextArea += "\n [ " + i + " ] " + playerList[i];
         }
-
-        playerListString = tempString;
+        RpcSetList(listTextArea);
     }
 
-    //send it client side
+    [ClientRpc]
+    void RpcSetList(string _list)
+    {
+        RecieveList?.Invoke(_list);
+    }
+
+
+    string ReturnList()
+    {
+        return listTextArea;
+    }
+
+}
+
+public struct SuperString
+{
+    public string name;
+}
+
+[System.Serializable] 
+public class NameAndModerator
+{
+    public string name;
+    public bool isModerator;
 }

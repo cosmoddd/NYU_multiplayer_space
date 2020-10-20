@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 6003595357366931503}
   - component: {fileID: 6003595357366931496}
   - component: {fileID: 6003595357366931505}
-  - component: {fileID: 6003595357366931506}
+  - component: {fileID: 9104692715327357396}
   m_Layer: 0
   m_Name: SINGER
   m_TagString: Untagged
@@ -272,6 +272,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10e8089f09e7a74eb8fb0413ceacc13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 0
+  movementSpeed: 4.5
+  rayOriginOffset: {x: 0, y: 0, z: 0}
+  rayInteractionDistance: 1
+  movementPaused: 0
 --- !u!114 &6003595357366931502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf1ba55473e243c40b6c05850ce089b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   cry: {fileID: 8300000, guid: dbeed8ee8c1c94223aaf751fa43ee8ca, type: 3}
   jaw: {fileID: 6003595357882084453}
   eyes: {fileID: 6003595357191673058}
@@ -413,7 +422,7 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &6003595357366931506
+--- !u!114 &9104692715327357396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -422,15 +431,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 6003595357366931497}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: ad225009ad414e1428332cab226f38fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 0
-  localPositionSensitivity: 0.01
-  localRotationSensitivity: 0.01
-  localScaleSensitivity: 0.01
+  interpolationBackTime: 0.1
+  extrapolationMode: 1
+  useExtrapolationTimeLimit: 1
+  extrapolationTimeLimit: 5
+  useExtrapolationDistanceLimit: 0
+  extrapolationDistanceLimit: 20
+  sendPositionThreshold: 0
+  sendRotationThreshold: 0
+  sendScaleThreshold: 0
+  sendVelocityThreshold: 0
+  sendAngularVelocityThreshold: 0
+  receivedPositionThreshold: 0
+  receivedRotationThreshold: 0
+  snapPositionThreshold: 0
+  snapRotationThreshold: 0
+  snapScaleThreshold: 0
+  positionLerpSpeed: 0.85
+  rotationLerpSpeed: 0.85
+  scaleLerpSpeed: 0.85
+  timeCorrectionSpeed: 0.1
+  snapTimeThreshold: 3
+  syncPosition: 0
+  syncRotation: 0
+  syncScale: 0
+  syncVelocity: 0
+  syncAngularVelocity: 0
+  isPositionCompressed: 0
+  isRotationCompressed: 0
+  isScaleCompressed: 0
+  isVelocityCompressed: 0
+  isAngularVelocityCompressed: 0
+  isSmoothingAuthorityChanges: 0
+  transformSource: 0
+  whenToUpdateTransform: 0
+  sendRate: 30
+  networkChannel: 1
+  childObjectToSync: {fileID: 0}
+  setVelocityInsteadOfPositionOnNonOwners: 0
+  maxPositionDifferenceForVelocitySyncing: 10
+  useLocalTransformOnly: 0
+  ownerChangeIndicator: 1
+  receivedStatesCounter: 0
 --- !u!1 &6003595357602378269
 GameObject:
   m_ObjectHideFlags: 0

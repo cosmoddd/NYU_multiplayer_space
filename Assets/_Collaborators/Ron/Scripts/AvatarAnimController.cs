@@ -53,11 +53,39 @@ public class AvatarAnimController : NetworkBehaviour
         animController.SetBool("wave", false);
       }
 
+/*     if (animController.GetBool("sitting") == false && Input.GetKeyDown(KeyCode.G))
+    {
+        Debug.Log("Gup");
+        animController.SetBool("sitting", true);
+    }
+    if (animController.GetBool("sitting") == true && Input.GetKeyDown(KeyCode.H))
+    {
+            Debug.Log("Gdown");
+            animController.SetBool("sitting",false);
+    } */
+
     }
   }
 
+    public BoolVariable sitting;
+
+    public void ToggleSitting()
+    {
+        sitting.Value = !sitting.Value;
+    }
+
+    public void OnSittingChanged()
+    {
+        if (isLocalPlayer)
+        {
+            animController.SetBool("sitting", sitting.Value);
+        }
+    }
+
+
   public void Emote(string emote)
   {
+    print("Emoting "+ emote);
     if (isLocalPlayer)
     {
       animController.Play(emote);
