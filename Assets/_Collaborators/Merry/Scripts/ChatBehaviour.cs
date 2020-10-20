@@ -245,7 +245,7 @@ public class ChatBehaviour : NetworkBehaviour
 
         RpcShowAvatarMessage(message);
 
-        string userName = GetComponent<SavedAvatarInfoScript>().userName;
+        string userName = GetComponent<MeshAssigner>().userName;
         RpcHandleMessage($"<color=white>[{userName}]</color>: {message}");
     }
 

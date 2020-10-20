@@ -14,7 +14,7 @@ public class AuthenticationManager : MonoBehaviour
 
     Dictionary<string,string> loginInfoDictionary;
 
-    public CharacterCustomizerScript customizerScript;
+    public Customizer customizerScript;
 
     public NetworkManager manager;
 
@@ -58,14 +58,14 @@ public class AuthenticationManager : MonoBehaviour
      public void EnterHost()
     {
         //SAVE PRESET
-        customizerScript.SaveTraitsToScript();
+        customizerScript.SaveData();
         manager.StartHost();
     }
 
     public void EnterClient()
     {
         //SAVE PRESET
-        customizerScript.SaveTraitsToScript();
+        customizerScript.SaveData();
         manager.StartClient();
         
     }

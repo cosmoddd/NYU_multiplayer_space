@@ -5,13 +5,13 @@ using Mirror;
 
 public class NetworkManagerGC : NetworkManager
 {
-    public CharacterData dataMessage = new CharacterData();
+    public CustomizerData dataMessage = new CustomizerData();
 
     public override void OnStartServer()
     {
         base.OnStartServer();
 
-        NetworkServer.RegisterHandler<CharacterData>(OnCreateCharacter);
+        NetworkServer.RegisterHandler<CustomizerData>(OnCreateCharacter);
     }
 
     public override void OnClientConnect(NetworkConnection conn)
@@ -21,28 +21,18 @@ public class NetworkManagerGC : NetworkManager
         conn.Send(dataMessage);
     }
 
-    void OnCreateCharacter(NetworkConnection conn, CharacterData dataMessage)
+    void OnCreateCharacter(NetworkConnection conn, CustomizerData dataMessage)
     {
         // TODO check for selected character type to determine whether
         // to use CustomCharacter prefab or use other Character prefab
-        GameObject character = Instantiate(playerPrefab);
-        
+        GameObject character = Instantiate(playerPrefab, GetStartPosition().position, GetStartPosition().rotation);
+
+        MeshAssigner assigner = character.GetComponent<MeshAssigner>();
+        if (assigner)
+            assigner.LoadData(dataMessage);
+        else
+            Debug.Log("Could not find assigner");
 
         NetworkServer.AddPlayerForConnection(conn, character);
-    }
-
-    public void DisplayData()
-    {
-        foreach(int ID in dataMessage.bodyIDs)
-        {
-            Debug.Log(ID);
-        }
-
-        foreach (Vector3 color in dataMessage.bodyColors)
-        {
-            Debug.Log(color);
-        }
-
-        Debug.Log(dataMessage.userName);
     }
 }
