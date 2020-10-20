@@ -4505,7 +4505,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.16
+  m_Radius: 1.54
   m_Height: 8.75
   m_Direction: 1
   m_Center: {x: 0, y: -0.29, z: 0}
@@ -5620,6 +5620,7 @@ GameObject:
   - component: {fileID: 8939155081508311429}
   - component: {fileID: 1081187013983852825}
   - component: {fileID: 5124068560212146371}
+  - component: {fileID: 7202849672736660093}
   m_Layer: 8
   m_Name: BaseAvRon_ACTIVE
   m_TagString: Player
@@ -6126,6 +6127,52 @@ MonoBehaviour:
     _eventInstancer: {fileID: 0}
     _variable: {fileID: 0}
     _variableInstancer: {fileID: 0}
+--- !u!114 &7202849672736660093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976586562111085665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c281885fd12b24ab1427234069b73a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  userName: 
+  bIsModerator: 0
+  meshData: {fileID: 11400000, guid: 3c2b44a63fd267a4eab2c7558a4c0eef, type: 2}
+  bodyTransforms:
+  - {fileID: 2676851182566801081, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 1915972621540451756, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 5446358254332499730, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 1345224786963696513, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  TorsoNodes:
+  - {fileID: 2867987050207020300, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 4426681693246389873, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 1593323542649053953, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 6139345385953337677, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 7910584677580277931, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 5829559079973500091, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  bodyRenderers:
+  - {fileID: 4160653201564558532}
+  - {fileID: 5869261281811240}
+  - {fileID: 5112965750989788341}
+  - {fileID: 659714368073877778}
+  - {fileID: 7375949404461401683, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 8157043800919187639, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 792689711188016303, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 4554784617741973711, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 4251248457094585523, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 2997351072569947738, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 8483490706289778132, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 4497056234745894746, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  - {fileID: 7947553936335438034, guid: dd8ad690f963f464c8bb115ca1a28e1f, type: 3}
+  activeAvatar: {fileID: 8976586562111085665}
+  defaultHatMaterial: {fileID: 2100000, guid: 7cb90547d00ea8348839a10041d211e0, type: 2}
+  manager: {fileID: 0}
 --- !u!1001 &2897872534607639004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6308,11 +6355,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
   m_PrefabInstance: {fileID: 2897872534607639004}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4038157503172513569 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1170132631858921213, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
-  m_PrefabInstance: {fileID: 2897872534607639004}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4911477093567262556 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7790767568518471296, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
@@ -6324,6 +6366,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4038157503172513569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1170132631858921213, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
+  m_PrefabInstance: {fileID: 2897872534607639004}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7646837084164081102
 PrefabInstance:
   m_ObjectHideFlags: 0

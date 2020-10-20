@@ -55,20 +55,6 @@ public class AuthenticationManager : MonoBehaviour
         return false;
 
     }
-     public void EnterHost()
-    {
-        //SAVE PRESET
-        customizerScript.SaveData();
-        manager.StartHost();
-    }
-
-    public void EnterClient()
-    {
-        //SAVE PRESET
-        customizerScript.SaveData();
-        manager.StartClient();
-        
-    }
 }
 
 [System.Serializable]
