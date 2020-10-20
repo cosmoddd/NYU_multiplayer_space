@@ -5613,10 +5613,12 @@ GameObject:
   - component: {fileID: 5479427390246189363}
   - component: {fileID: 1457913919047859443}
   - component: {fileID: 3032604060024752481}
-  - component: {fileID: 6310906250255267318}
   - component: {fileID: 7635283257328493970}
   - component: {fileID: 9137480361844035897}
   - component: {fileID: 6462742694685462520}
+  - component: {fileID: 6310906250255267318}
+  - component: {fileID: 8939155081508311429}
+  - component: {fileID: 1081187013983852825}
   m_Layer: 8
   m_Name: BaseAvRon_ACTIVE
   m_TagString: Player
@@ -5822,6 +5824,12 @@ MonoBehaviour:
   optionsUI: {fileID: 4268363766811535616}
   inputDirection: {x: 0, y: 0}
   inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
+  sittingBool:
+    _usage: 2
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 11400000, guid: 41573fe0c7fd4af4daf7a2fdc4d56998, type: 2}
+    _variableInstancer: {fileID: 0}
 --- !u!143 &5479427390246189363
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5863,6 +5871,10 @@ MonoBehaviour:
   avatarTransform: {fileID: 2471437610692028880}
   avatarChat: {fileID: 4636986776484052845}
   inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
+  SpecificChatCommands: []
+  GenericChatCommand: {fileID: 11400000, guid: aae22bdb030f7354aa377ca1465bb23d, type: 2}
+  SendCommandsToChat: 0
+  CommandPrefix: 47
   participantsList: {fileID: 4038157503172513569}
   participantsListActive: {fileID: 11400000, guid: d36929ae923ca734d85a59a5c1ae0394, type: 2}
   participantsText: {fileID: 4911477093567262556}
@@ -5882,22 +5894,6 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 1
   animator: {fileID: 7635283257328493970}
---- !u!114 &6310906250255267318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8976586562111085665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9012a07659ffa0744b15bce99c27394f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
-  animController: {fileID: 7635283257328493970}
 --- !u!95 &7635283257328493970
 Animator:
   serializedVersion: 3
@@ -6009,6 +6005,88 @@ MonoBehaviour:
   useLocalTransformOnly: 0
   ownerChangeIndicator: 1
   receivedStatesCounter: 0
+--- !u!114 &6310906250255267318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976586562111085665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9012a07659ffa0744b15bce99c27394f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
+  animController: {fileID: 7635283257328493970}
+  sitting: {fileID: 11400000, guid: 41573fe0c7fd4af4daf7a2fdc4d56998, type: 2}
+--- !u!114 &8939155081508311429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976586562111085665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057832dc962f80b4fbd1ad9d559ad521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: 103
+  Type: 0
+  Event:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6310906250255267318}
+        m_TargetAssemblyTypeName: AvatarAnimController, Assembly-CSharp
+        m_MethodName: ToggleSitting
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1081187013983852825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976586562111085665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6ab7cbc45164d19b20476265c251c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _developerDescription: 
+  _unityEventResponse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6310906250255267318}
+        m_TargetAssemblyTypeName: AvatarAnimController, Assembly-CSharp
+        m_MethodName: OnSittingChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _actionResponses: []
+  _replayEventBufferOnRegister: 1
+  _eventReference:
+    _usage: 2
+    _event: {fileID: 0}
+    _eventInstancer: {fileID: 0}
+    _variable: {fileID: 11400000, guid: 41573fe0c7fd4af4daf7a2fdc4d56998, type: 2}
+    _variableInstancer: {fileID: 0}
 --- !u!1001 &2897872534607639004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6186,11 +6264,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
---- !u!224 &3309351845540940447 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
-  m_PrefabInstance: {fileID: 2897872534607639004}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4911477093567262556 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7790767568518471296, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
@@ -6202,6 +6275,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &3309351845540940447 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
+  m_PrefabInstance: {fileID: 2897872534607639004}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4038157503172513569 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1170132631858921213, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}

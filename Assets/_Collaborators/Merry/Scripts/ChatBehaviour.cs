@@ -6,6 +6,7 @@ using Mirror;
 using System;
 using UnityEngine.UI;
 using UnityAtoms.BaseAtoms;
+using System.Linq;
 
 //based on code by Dapper Dino https://www.youtube.com/watch?v=p-2QFmCMBt8&ab_channel=DapperDino
 
@@ -35,6 +36,13 @@ public class ChatBehaviour : NetworkBehaviour
 
     [Header("Chat Mode Control")]
     public BoolVariable inChatMode;
+
+    [Header("Chat Commands")]
+    public StringEvent[] SpecificChatCommands;
+    public StringEvent GenericChatCommand;
+    public bool SendCommandsToChat;
+    public char CommandPrefix = '/';
+
 
     [Header("Participants Control")]
     [SerializeField]
@@ -209,7 +217,12 @@ public class ChatBehaviour : NetworkBehaviour
         if (!Input.GetKeyDown(KeyCode.Return)) { return; }
         if (string.IsNullOrWhiteSpace(message)) { return; }
 
-        CmdSendMessage(message);
+        // Check if the message is a command
+        if (!(ParseCommandAndInvoke(message) && !SendCommandsToChat))
+        {
+            CmdSendMessage(message);  // if the message is not consumed, send it to chat
+        }
+
         inputField.text = string.Empty; //clear text input field 
         inputField.Select();
         inputField.ActivateInputField();
@@ -257,5 +270,29 @@ public class ChatBehaviour : NetworkBehaviour
         yield return new WaitForSeconds(5f);
         avatarChat.text = String.Empty;
     }
+
+
+  public bool ParseCommandAndInvoke(string message)
+  {
+
+    var cleanMessage = message.Trim();
+    if (cleanMessage[0] != '/')
+    {
+      return false;
+    }
+
+    var splitCommand = cleanMessage.Substring(1).Split(new char[] { ' ' }, 2);
+    var commandEvent = SpecificChatCommands.FirstOrDefault(c => c.name == splitCommand[0]);
+    if (commandEvent == null)
+    {
+      GenericChatCommand.Raise(splitCommand[0]);
+    }
+    else
+    {
+      commandEvent.Raise(splitCommand.Length > 1 ? splitCommand[1] : "");
+    }
+
+    return true;
+  }
 
 }

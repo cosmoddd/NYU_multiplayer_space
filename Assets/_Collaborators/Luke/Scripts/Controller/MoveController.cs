@@ -38,7 +38,9 @@ public class MoveController : NetworkBehaviour
 
     [Header("In Chat Mode")]
     public BoolVariable inChatMode;
-    
+    [Header("Sitting")]
+    public BoolReference sittingBool;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -94,6 +96,8 @@ public class MoveController : NetworkBehaviour
     {
         if(inputDir != Vector2.zero)
         {
+            sittingBool.Value = false;
+
             // rotate the character based on the user input direction plus the camera rotation
             float targetRotation = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
@@ -144,6 +148,8 @@ public class MoveController : NetworkBehaviour
 
     void Jump()
     {
+        sittingBool.Value = false;
+        
         if(cc.isGrounded)
         {
             // kinematic equation to get jumpVelocity for desired height
