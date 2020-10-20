@@ -89,6 +89,15 @@ public class MoveController : NetworkBehaviour
                     optionsUI.SetActive(false);
                 }
             }
+
+             if(Input.GetKey(KeyCode.Q))
+             {
+                 ManualRotate(-1);
+             }
+             if(Input.GetKey(KeyCode.E))
+             {
+                 ManualRotate(1);
+             }
         }
     }
 
@@ -134,9 +143,6 @@ public class MoveController : NetworkBehaviour
 
         cc.Move(velocity * Time.deltaTime);
 
-        // match current moveSpeed to CharacterController velocity
-        //TODO fix speed smoothing to work slopes
-        //moveSpeed = new Vector2(cc.velocity.x, cc.velocity.z).magnitude;
 
         // reset velocityY when we are on ground
         if (cc.isGrounded)
@@ -146,10 +152,17 @@ public class MoveController : NetworkBehaviour
         }
     }
 
+    public float rotationRate = 10f;
+
+    void ManualRotate(float leftOrRight)
+    {
+        transform.Rotate(new Vector3 (0, rotationRate * leftOrRight * Time.deltaTime, 0)); 
+    }
+
     void Jump()
     {
         sittingBool.Value = false;
-        
+
         if(cc.isGrounded)
         {
             // kinematic equation to get jumpVelocity for desired height
