@@ -4,13 +4,13 @@ using UnityEngine;
 using Mirror;
 using Mirror.Authenticators;
 
-
-public class AuthenticationManager : MonoBehaviour
+public class KateTestScript : MonoBehaviour
 {
     // Start is called before the first frame update
     //public NewNetworkAuthenticator authenticator;
+    /*
 
-    public LoginInfo[] loginInfoList;
+    public List<LoginInfo> loginInfoList = new List<LoginInfo>();
 
     Dictionary<string,string> loginInfoDictionary;
 
@@ -18,38 +18,37 @@ public class AuthenticationManager : MonoBehaviour
 
     public NetworkManager manager;
 
-    public LoginInfoReader loginReader;
-
     private void Awake() 
     {
-        loginInfoList = loginReader.ReadFile();
-        
         loginInfoDictionary = new Dictionary<string, string>();
         foreach(LoginInfo info in loginInfoList)
         {
-            loginInfoDictionary.Add(info.email, info.password);
+            loginInfoDictionary.Add(info.username, info.password);
         }
-        
     }
 
     private void Start()
      {
-        //print(loginInfoDictionary["Greg"]);
+        print(loginInfoDictionary["Greg"]);
         
     }
 
-    public bool Login(string email, string password)
+    public bool Login(string username, string password)
     {
-        if(loginInfoDictionary.ContainsKey(email))
+        //authenticator.username = username;
+        //authenticator.password = password;
+        //print($"username: Greg password: PinkGiraffe23");
+        //print($"username: {username} password: {password}");
+        if(loginInfoDictionary.ContainsKey(username))
         {
-            //print("dictionary contains : "+ email);
-            if(loginInfoDictionary[email] == password)
+            //print("dictionary contains : "+ username);
+            if(loginInfoDictionary[username] == password)
             {
                 //print("correct password");
                 return true;
             }else
             {
-                //print("wrong password: "+ loginInfoDictionary[email]);
+                //print("wrong password: "+ loginInfoDictionary[username]);
             }
         }
         return false;
@@ -69,35 +68,29 @@ public class AuthenticationManager : MonoBehaviour
         manager.StartClient();
         
     }
-}
 
+    /*
 [System.Serializable]
 public class LoginInfo
 {
+    public string displayName;
+
     public string email;
     public string password;
 
     public string[] tags;
 
-    public bool isType(string _tag)
+    LoginInfo(string _u, string _e, string _p)
     {
-        foreach(string tag in tags)
-        {
-            if(tag == _tag) return true;
-        }
-        return false;
-
-    }
-
-    public LoginInfo(string _u, string _p, string[] _tagString)
-    {
-        email = _u;
+        displayName = _u;
+        email = _e;
         password = _p;
 
-
-
-        //string[] Ttags = _tagString.Split(' ');
-        tags = _tagString;
     }
+    
 
+
+    }
+    */
 }
+
