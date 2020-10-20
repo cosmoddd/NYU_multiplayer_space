@@ -19,10 +19,12 @@ public class BallScript : NetworkBehaviour
   
     void OnCollisionEnter(Collision other)
     {
+
+        //  print("KICK?");
         if (other.gameObject.CompareTag("Player"))
         {
+            //  print("KICK!!");
          Vector3 direction = (other.transform.position - transform.position).normalized;
-        //  print("KICK");
          thisRigidbody.AddForce((-direction + new Vector3(0,.8f,0)) * kickForce, ForceMode.Impulse);
         }
 
