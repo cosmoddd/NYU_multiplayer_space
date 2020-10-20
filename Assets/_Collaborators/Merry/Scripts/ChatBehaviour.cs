@@ -114,6 +114,8 @@ public class ChatBehaviour : NetworkBehaviour
             }
         }
 
+        // not functional yet!
+        /*
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape)) //activate participants list
         {
             participantsListActive.Value = !participantsListActive.Value;
@@ -129,7 +131,8 @@ public class ChatBehaviour : NetworkBehaviour
 
             }
         }
-
+        */
+        
         // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
