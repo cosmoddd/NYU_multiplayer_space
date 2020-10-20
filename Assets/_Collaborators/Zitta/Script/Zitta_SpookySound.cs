@@ -6,6 +6,7 @@ public class Zitta_SpookySound : MonoBehaviour {
     public static Zitta_SpookySound Main;
     public AudioSource Source;
     public float VolumeSpeed;
+    public float MaxVolume;
     public bool Active;
 
     public void Awake()
