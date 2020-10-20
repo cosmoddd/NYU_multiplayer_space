@@ -26,6 +26,8 @@ public class ChatBehaviour : NetworkBehaviour
 
     private static event Action<string> OnMessage;
 
+    public static event Func<string> RetrievePlayerList;
+
     public GameObject playerCamera;
     [Header("Chat UI")]
     public Transform avatarTransform;
@@ -50,12 +52,11 @@ public class ChatBehaviour : NetworkBehaviour
 
         //check if player is a mod and grant it
 
-
-
         //add player name & mod status to participants list in UI_ParticipantsList.cs
         //  GameObject player = GetComponent<SavedAvatarInfoScript>().GameObject;
         
         //retrieve the participants list
+        participantsText.text = RetrievePlayerList?.Invoke();
 
 
         if (inChatMode.Value == false)
