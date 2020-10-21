@@ -38,7 +38,14 @@ public class Z_Interactor : MonoBehaviour {
                 {
                     // print(Hit.transform.gameObject.name);
 
-                    if (Hit.transform.GetComponent<Z_Interactee>())
+                    Z_Interactee interactee = null;
+
+                    if (Hit.collider.transform.GetComponent<Z_Interactee>())
+                        interactee = Hit.collider.transform.GetComponent<Z_Interactee>();
+                    else if (Hit.transform.GetComponent<Z_Interactee>())
+                        interactee = Hit.transform.GetComponent<Z_Interactee>();
+
+                    if (interactee)
                     {
                         if (hovering == false)
                         {
@@ -49,7 +56,7 @@ public class Z_Interactor : MonoBehaviour {
 
                         if (Input.GetKeyDown(InteractKey) || Input.GetMouseButtonDown(0))      
                         {
-                            Hit.transform.GetComponent<Z_Interactee>().Process();
+                            interactee.Process();
                         } 
 
                         return;
