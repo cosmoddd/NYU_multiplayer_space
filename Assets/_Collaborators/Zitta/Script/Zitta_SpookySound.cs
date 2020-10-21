@@ -6,6 +6,7 @@ public class Zitta_SpookySound : MonoBehaviour {
     public static Zitta_SpookySound Main;
     public AudioSource Source;
     public float VolumeSpeed;
+    public float MaxVolume;
     public bool Active;
 
     public void Awake()
@@ -22,12 +23,12 @@ public class Zitta_SpookySound : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Active && Source.volume < 1)
+        if (Active && Source.volume < 1 * MaxVolume)
             Source.volume += VolumeSpeed * Time.deltaTime;
         else if (!Active && Source.volume > 0)
             Source.volume -= VolumeSpeed * Time.deltaTime;
-        if (Source.volume > 1)
-            Source.volume = 1;
+        if (Source.volume > 1 * MaxVolume)
+            Source.volume = 1 * MaxVolume;
         else if (Source.volume < 0)
             Source.volume = 0;
     }
