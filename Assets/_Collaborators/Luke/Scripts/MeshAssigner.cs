@@ -36,7 +36,6 @@ public class MeshAssigner : NetworkBehaviour
     public Transform[] TorsoNodes;
     public Renderer[] bodyRenderers;
 
-    public GameObject activeAvatar; //current avatar that you are working on
     public Material defaultHatMaterial; //this is only temporary, eventually this will be coupled with the meshes so that each hat has its own texture
 
     [HideInInspector]
