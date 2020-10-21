@@ -7,7 +7,8 @@ public class BallBounce : NetworkBehaviour
 
     public SphereCollider sc;
     public PhysicMaterial bouncy;
-    
+    public float minmulti;
+    public float maxmulti;
 
 
     private void Start()
@@ -15,7 +16,7 @@ public class BallBounce : NetworkBehaviour
         sc = GetComponent<SphereCollider>();
         bouncy = new PhysicMaterial();
         bouncy = sc.material;
-        bouncy.bounciness = Random.Range(3, 7);
+        bouncy.bounciness = 1 * Random.Range(minmulti, maxmulti);
     }
 
 

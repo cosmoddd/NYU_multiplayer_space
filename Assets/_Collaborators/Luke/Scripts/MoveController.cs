@@ -35,6 +35,9 @@ public class MoveController : NetworkBehaviour
     
     [Header("In Chat Mode")]
     public BoolVariable inChatMode;
+    //public GameObject Player;
+    //public GameObject startPos;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -46,6 +49,10 @@ public class MoveController : NetworkBehaviour
             GameObject cameraObject = Instantiate(cameraPrefab, transform.position, transform.rotation);
             cameraObject.GetComponent<CameraController>().target = transform;
             cameraTransform = cameraObject.transform;
+
+
+           // GameObject startPos = GameObject.Find("Startposition");
+
         }     
     }
 
@@ -150,4 +157,15 @@ public class MoveController : NetworkBehaviour
         slopeNormal = Vector3.zero;
         return false;
     }
+
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Playerkillzone"))
+    //    {
+    //        Destroy(gameObject);
+    //        //NetworkManager.RegisterStartPosition(transform);
+    //       // Instantiate(Player, startPos.transform.position, transform.rotation);
+    //    }
+    //}
 }
