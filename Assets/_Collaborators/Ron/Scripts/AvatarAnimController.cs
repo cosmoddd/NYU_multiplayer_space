@@ -53,17 +53,10 @@ public class AvatarAnimController : NetworkBehaviour
         animController.SetBool("wave", false);
       }
 
-/*     if (animController.GetBool("sitting") == false && Input.GetKeyDown(KeyCode.G))
-    {
-        Debug.Log("Gup");
-        animController.SetBool("sitting", true);
-    }
-    if (animController.GetBool("sitting") == true && Input.GetKeyDown(KeyCode.H))
-    {
-            Debug.Log("Gdown");
-            animController.SetBool("sitting",false);
-    } */
-
+      if (Input.GetKeyDown(KeyCode.G))
+      {
+          ToggleSitting();
+      }
     }
   }
 

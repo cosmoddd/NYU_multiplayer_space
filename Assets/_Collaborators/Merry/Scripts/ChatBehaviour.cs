@@ -26,6 +26,7 @@ public class ChatBehaviour : NetworkBehaviour
     private Image chatBackground = null; //chat background + goes with slider
 
     private static event Action<string> OnMessage;
+    public static event Action LoggedIn;
 
     public static event Func<string> RetrievePlayerList;
 
@@ -197,6 +198,8 @@ public class ChatBehaviour : NetworkBehaviour
         chatUI.SetActive(true);
 
         OnMessage += HandleNewMessage;
+        
+        LoggedIn?.Invoke();
 
         // print(GetComponent<CharacterCustomizerScript>().characterName);
     }

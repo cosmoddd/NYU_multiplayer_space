@@ -78,6 +78,7 @@ public class MoveController : NetworkBehaviour
                 Jump();
             }
 
+            // you can enter the options screen any time
             if(Input.GetKeyDown(KeyCode.Escape))
             {
                 if(!optionsUI.activeSelf)
@@ -90,14 +91,18 @@ public class MoveController : NetworkBehaviour
                 }
             }
 
-             if(Input.GetKey(KeyCode.Q))
-             {
-                 ManualRotate(-1);
-             }
-             if(Input.GetKey(KeyCode.E))
-             {
-                 ManualRotate(1);
-             }
+            // you can only rotate if you're in chat mode
+            if (inChatMode.Value == false)
+            {
+                if(Input.GetKey(KeyCode.Q))
+                {
+                    ManualRotate(-1);
+                }
+                if(Input.GetKey(KeyCode.E))
+                {
+                    ManualRotate(1);
+                }
+            }
         }
     }
 
