@@ -33,6 +33,7 @@ public class ChatBehaviour : NetworkBehaviour
     [Header("Chat UI")]
     public Transform avatarTransform;
     public TextMeshPro avatarChat;
+    public TextMeshPro avatarName;
 
     [Header("Chat Mode Control")]
     public BoolVariable inChatMode;
@@ -80,6 +81,8 @@ public class ChatBehaviour : NetworkBehaviour
         {
             participantsList.gameObject.SetActive(false);
         }
+
+        avatarName.text = GetComponent<MeshAssigner>().userName;
     }
 
     // Update is called once per frame
