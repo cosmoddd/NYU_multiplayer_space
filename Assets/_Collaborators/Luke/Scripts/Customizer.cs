@@ -16,6 +16,7 @@ public class Customizer : MonoBehaviour
 
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 body
     public Color[] bodyColors = new Color[5];
+    public Color initialColor = Color.white;
 
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 Torso
     public int[] bodyIDs = new int[5];
@@ -41,6 +42,11 @@ public class Customizer : MonoBehaviour
         mainCam.fieldOfView = fov;
 
         manager = FindObjectOfType<NetworkManagerGC>();
+
+        for(int i = 0; i < bodyColors.Length; i++)
+        {
+            bodyColors[i]=initialColor;
+        }
     }
 
     public void SaveData()
