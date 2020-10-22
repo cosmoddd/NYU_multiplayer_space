@@ -404,13 +404,9 @@ namespace Mirror
             if (string.IsNullOrEmpty(networkAddress))
             {
                 logger.LogError("Must set the Network Address field in the manager");
-                // print("Must set the Network Address field in the manager");
-
                 return;
             }
             if (logger.LogEnabled()) logger.Log("NetworkManager StartClient address:" + networkAddress);
-
-            // print("NetworkManager StartClient address:" + networkAddress);
 
             NetworkClient.Connect(networkAddress);
 
@@ -444,7 +440,6 @@ namespace Mirror
             RegisterClientMessages();
 
             if (logger.LogEnabled()) logger.Log("NetworkManager StartClient address:" + uri);
-            print("NetworkManager StartClient address:" + uri);
             networkAddress = uri.Host;
 
             NetworkClient.Connect(uri);
@@ -560,15 +555,13 @@ namespace Mirror
         {
             logger.Log("NetworkManager ConnectLocalClient");
 
-            print("Start that NetworkManager ConnectLocalClient!!!");
-
             if (authenticator != null)
             {
                 authenticator.OnStartClient();
                 authenticator.OnClientAuthenticated.AddListener(OnClientAuthenticated);
             }
 
-            networkAddress = "localhost"; // do we even need this?
+            networkAddress = "localhost";
             NetworkServer.ActivateHostScene();
             RegisterClientMessages();
 

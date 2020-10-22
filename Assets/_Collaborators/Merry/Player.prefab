@@ -182,6 +182,17 @@ MonoBehaviour:
   chatUI: {fileID: 2579396924521819064}
   chatText: {fileID: 2579396925607900722}
   inputField: {fileID: 2579396925762798141}
+  sendButton: {fileID: 0}
+  chatBackground: {fileID: 0}
+  playerCamera: {fileID: 0}
+  avatarTransform: {fileID: 0}
+  avatarChat: {fileID: 0}
+  inChatMode: {fileID: 0}
+  SpecificChatCommands:
+  - {fileID: 11400000, guid: b426ff7eaef6bcc4791c2113635f10a0, type: 2}
+  GenericChatCommand: {fileID: 11400000, guid: aae22bdb030f7354aa377ca1465bb23d, type: 2}
+  SendCommandsToChat: 0
+  CommangPrefix: 47
 --- !u!1001 &2489866974829927525
 PrefabInstance:
   m_ObjectHideFlags: 0
