@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class LoadingPriorit : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // set the thread to slam through loading the level.  Don't hold back!
+    void Awake()
     {
-        
+        Application.backgroundLoadingPriority = ThreadPriority.High;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
