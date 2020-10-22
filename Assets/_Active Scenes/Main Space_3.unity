@@ -1976,6 +1976,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BALL (ad) Alt
       objectReference: {fileID: 0}
+    - target: {fileID: 2185896381231103774, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2208024576925801621, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
       propertyPath: thisRigidbody
       value: 
@@ -2000,6 +2004,28 @@ Rigidbody:
   m_CorrespondingSourceObject: {fileID: 2185896381231103765, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
   m_PrefabInstance: {fileID: 67451994}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &67451996 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2185896381231103774, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
+  m_PrefabInstance: {fileID: 67451994}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &67451997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67451996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c12c9daf7b69884ab201391b8aa3c15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  onPressed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &68939332
 GameObject:
   m_ObjectHideFlags: 0
@@ -4972,19 +4998,22 @@ MonoBehaviour:
     <#F1E536>[Y]</color>
     - Toggle Free Look
 
-    <#F1E536>[Q/E]</color> - Turn
+    <#F1E536>[Mousewheel]</color> - Zoom
 
-    <#F1E536>[Spacebar]</color>
-    - Jump
+    <#F1E536>[Q/E]</color>
+    - Turn
 
-    <#F1E536>[Click]</color> - Interact
+    <#F1E536>[Spacebar]</color> - Jump
 
-    <#F1E536>[Tab]</color> -
-    Chat
+    <#F1E536>[Click]</color>
+    - Interact
+
+    <#F1E536>[Tab]</color> - Chat
 
     <#F1E536>[G]</color> - Sit
 
-    <#F1E536>[Esc]</color> - Options'
+    <#F1E536>[Esc]</color>
+    - Options'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
   m_sharedMaterial: {fileID: 7295421662424735576, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
@@ -6519,19 +6548,22 @@ MonoBehaviour:
     <#F1E536>[Y]</color>
     - Toggle Free Look
 
-    <#F1E536>[Q/E]</color> - Turn
+    <#F1E536>[Mousewheel]</color> - Zoom
 
-    <#F1E536>[Spacebar]</color>
-    - Jump
+    <#F1E536>[Q/E]</color>
+    - Turn
 
-    <#F1E536>[Click]</color> - Interact
+    <#F1E536>[Spacebar]</color> - Jump
 
-    <#F1E536>[Tab]</color> -
-    Chat
+    <#F1E536>[Click]</color>
+    - Interact
+
+    <#F1E536>[Tab]</color> - Chat
 
     <#F1E536>[G]</color> - Sit
 
-    <#F1E536>[Esc]</color> - Options'
+    <#F1E536>[Esc]</color>
+    - Options'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
   m_sharedMaterial: {fileID: 7295421662424735576, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
@@ -9170,7 +9202,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 292335251}
   m_LocalRotation: {x: 0.03027452, y: -0.09043306, z: -0.009528892, w: 0.99539673}
-  m_LocalPosition: {x: 0, y: 0, z: 7.09}
+  m_LocalPosition: {x: 0, y: 0, z: 7.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 146669880}
@@ -9178,7 +9210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.73, y: -4.97}
+  m_AnchoredPosition: {x: 4, y: -5}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &292335253
@@ -9228,8 +9260,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.9
-  m_fontSizeBase: 20.9
+  m_fontSize: 16.21
+  m_fontSizeBase: 16.21
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -18441,7 +18473,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -7720505244512675373, guid: 33757b55a68572e47af7c766506f006f, type: 2}
   m_audioClip: {fileID: 8300000, guid: 7b17fc4c118d38f4eaf1ab4559d081a9, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.747
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -18462,12 +18494,21 @@ AudioSource:
     - serializedVersion: 3
       time: 0.029930625
       value: 1
-      inSlope: -1.5560228
-      outSlope: -1.5560228
+      inSlope: -0.23285478
+      outSlope: -0.23285478
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.123930216
+      outWeight: 0.149691
+    - serializedVersion: 3
+      time: 0.6689343
+      value: 0.5698436
+      inSlope: -1.2489127
+      outSlope: -1.2489127
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.18766953
     - serializedVersion: 3
       time: 0.9960327
       value: 0
@@ -18484,8 +18525,17 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 1
+      time: 0.002916336
+      value: 0.41153234
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9781368
+      value: 1.0012159
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -18499,8 +18549,8 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0.48272705
+      time: 0.002916336
+      value: 0.33047485
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -28574,6 +28624,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114179375918869224, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: autoPlayOnEnable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 223187064890728812, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
@@ -29659,19 +29713,22 @@ MonoBehaviour:
     <#F1E536>[Y]</color>
     - Toggle Free Look
 
-    <#F1E536>[Q/E]</color> - Turn
+    <#F1E536>[Mousewheel]</color> - Zoom
 
-    <#F1E536>[Spacebar]</color>
-    - Jump
+    <#F1E536>[Q/E]</color>
+    - Turn
 
-    <#F1E536>[Click]</color> - Interact
+    <#F1E536>[Spacebar]</color> - Jump
 
-    <#F1E536>[Tab]</color> -
-    Chat
+    <#F1E536>[Click]</color>
+    - Interact
+
+    <#F1E536>[Tab]</color> - Chat
 
     <#F1E536>[G]</color> - Sit
 
-    <#F1E536>[Esc]</color> - Options'
+    <#F1E536>[Esc]</color>
+    - Options'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
   m_sharedMaterial: {fileID: 7295421662424735576, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
@@ -29698,8 +29755,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 6.95
-  m_fontSizeBase: 6.95
+  m_fontSize: 6.35
+  m_fontSizeBase: 6.35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -38841,7 +38898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7853491912232191508, guid: 5440296fd6bf5a244930bfde2af2bc52, type: 3}
       propertyPath: m_VideoPath
-      value: https://manifest.googlevideo.com/api/manifest/hls_playlist/expire/1603353874/ei/suiQX9SZD6WBx_APs6CxyA8/ip/212.40.116.38/id/MCqnRrMFZF4.1/itag/92/source/yt_live_broadcast/requiressl/yes/ratebypass/yes/live/1/goi/160/sgoap/gir%3Dyes%3Bitag%3D139/sgovp/gir%3Dyes%3Bitag%3D133/hls_chunk_host/r2---sn-c0q7lnly.googlevideo.com/playlist_duration/30/manifest_duration/30/vprv/1/playlist_type/DVR/mh/fy/mm/44/mn/sn-c0q7lnly/ms/lva/mv/u/mvi/2/pl/19/dover/11/keepalive/yes/fexp/23915654/mt/1603331788/disable_polymer/true/sparams/expire,ei,ip,id,itag,source,requiressl,ratebypass,live,goi,sgoap,sgovp,playlist_duration,manifest_duration,vprv,playlist_type/sig/AOq0QJ8wRQIhAI9Z5au9wu1EGDYxZdDUYBf8qFVegLhJheKEN0fbDZQOAiADsbYhXIEV_LcmUj0hzesoE2DV2N_ItiU4ND59eA7qLQ%3D%3D/lsparams/hls_chunk_host,mh,mm,mn,ms,mv,mvi,pl/lsig/AG3C_xAwRAIgWoAjb7cNrF2mcjdiJn3KhmSKnAReYCAmxNGx9C3U5X8CIEsHMQFLjHVyItahn2HjG2pPz2SXstJgVGlH1H8E0pri/playlist/index.m3u8
+      value: https://manifest.googlevideo.com/api/manifest/hls_playlist/expire/1603418490/ei/GuWRX-CHD-yA6dsPm7-BoA4/ip/212.40.116.28/id/MCqnRrMFZF4.1/itag/92/source/yt_live_broadcast/requiressl/yes/ratebypass/yes/live/1/goi/160/sgoap/gir%3Dyes%3Bitag%3D139/sgovp/gir%3Dyes%3Bitag%3D133/hls_chunk_host/r2---sn-c0q7lnly.googlevideo.com/playlist_duration/30/manifest_duration/30/vprv/1/playlist_type/DVR/mh/fy/mm/44/mn/sn-c0q7lnly/ms/lva/mv/u/mvi/2/pl/19/dover/11/keepalive/yes/fexp/23915654/mt/1603396593/disable_polymer/true/sparams/expire,ei,ip,id,itag,source,requiressl,ratebypass,live,goi,sgoap,sgovp,playlist_duration,manifest_duration,vprv,playlist_type/sig/AOq0QJ8wRgIhAJsjfU92jYt36zfS5o_CbkJmK8KDb8iHr6-KST9pm6EzAiEAu4ZlXmVYi6bKIVzJSFwZa7eP_Ngd7N5exEfc3NI0BL0%3D/lsparams/hls_chunk_host,mh,mm,mn,ms,mv,mvi,pl/lsig/AG3C_xAwRQIhALhK00xyAXzX-UVX7IMb9kdhlhQTzlf2kfn6mZ37btLPAiBJSY-a2W4LoKNzCVfnA_hE3tXbyJTql5drrkWh9_L9Ug%3D%3D/playlist/index.m3u8
       objectReference: {fileID: 0}
     - target: {fileID: 7853491912232191508, guid: 5440296fd6bf5a244930bfde2af2bc52, type: 3}
       propertyPath: m_AutoOpen
@@ -45748,7 +45805,7 @@ PrefabInstance:
     - target: {fileID: -6397268516719104469, guid: dd0cd3fdfa399fe458875da54e83d884, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
-      objectReference: {fileID: 2100000, guid: db33f5851665a2f45b64d27e0673e0e5, type: 2}
+      objectReference: {fileID: 2100000, guid: c695c19483901c346bbc18534ee004f3, type: 2}
     - target: {fileID: -6397268516719104469, guid: dd0cd3fdfa399fe458875da54e83d884, type: 3}
       propertyPath: m_ScaleInLightmap
       value: 0.1
@@ -53285,9 +53342,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: BALL (ad)
       objectReference: {fileID: 0}
+    - target: {fileID: 2185896381231103774, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2208024576925801621, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
       propertyPath: upAngle
       value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208024576925801621, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
+      propertyPath: isClickable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5546164255834770838, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
       propertyPath: whenToUpdateTransform
@@ -53296,6 +53361,28 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1997673191801630018, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
+--- !u!1 &2021079077 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2185896381231103774, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
+  m_PrefabInstance: {fileID: 2021079076}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2021079078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021079077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c12c9daf7b69884ab201391b8aa3c15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  onPressed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2024381383
 GameObject:
   m_ObjectHideFlags: 0

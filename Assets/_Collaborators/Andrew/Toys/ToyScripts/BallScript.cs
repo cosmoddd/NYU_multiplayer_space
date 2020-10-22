@@ -92,6 +92,11 @@ public class BallScript : NetworkBehaviour
                     if (hitInfo.transform.gameObject == this.gameObject)
                     {
                         thisRigidbody.AddForce((thisRay.direction+new Vector3(0,upAngle,0)) * punchForce, ForceMode.Impulse);
+                        if(!contactSound.isPlaying)
+                        {
+                            contactSound.pitch = UnityEngine.Random.Range(.7f,1.3f);
+                            contactSound.Play();
+                        }
                     }
                 }
             }

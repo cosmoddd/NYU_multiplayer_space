@@ -71,6 +71,7 @@ public class MeshAssigner : NetworkBehaviour
         {
             bodyRenderer.material.SetColor("_BaseColor", bodyColor);
             bodyRenderer.material.SetColor("_Color", bodyColor);
+            bodyRenderer.material.SetColor("_EmissionColor", bodyColor * Color.grey);
         }
 
         // loop through body parts and assign meshes and colors accordingly
@@ -99,5 +100,6 @@ public class MeshAssigner : NetworkBehaviour
 
         point.GetComponent<Renderer>().material.SetColor("_Color", color);
         point.GetComponent<Renderer>().material.SetColor("_BaseColor", color);
+        point.GetComponent<Renderer>().material.SetColor("_EmissionColor", color * Color.grey); // add a touch of emission
     }
 }
