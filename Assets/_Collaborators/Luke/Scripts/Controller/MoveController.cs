@@ -52,6 +52,11 @@ public class MoveController : NetworkBehaviour
             cameraObject.GetComponent<CameraController>().target = transform;
             cameraTransform = cameraObject.transform;
         }     
+
+        if (!isLocalPlayer)
+        {
+            this.enabled = false;
+        }
     }
 
     // Update is called once per frame

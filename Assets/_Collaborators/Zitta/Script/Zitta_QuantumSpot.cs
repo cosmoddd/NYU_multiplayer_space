@@ -38,7 +38,15 @@ public class Zitta_QuantumSpot : NetworkBehaviour {
             yield return new WaitForSeconds(0.15f);
             Visible = IsVisible();
             if (Visible)
+            {
+                C2D.enabled = true;
                 CmdVisibleCommand();
+            }
+            if (!Visible)
+            {
+                C2D.enabled = false;
+
+            }
         }
     }
 

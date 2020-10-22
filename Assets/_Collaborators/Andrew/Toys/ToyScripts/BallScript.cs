@@ -8,6 +8,7 @@ public class BallScript : NetworkBehaviour
     Vector3 startPos;
     public Rigidbody thisRigidbody;
     public float kickForce = 10f;
+    public AudioSource contactSound;
 
   public override void OnStartClient()
    {
@@ -26,6 +27,12 @@ public class BallScript : NetworkBehaviour
             //  print("KICK!!");
          Vector3 direction = (other.transform.position - transform.position).normalized;
          thisRigidbody.AddForce((-direction + new Vector3(0,.8f,0)) * kickForce, ForceMode.Impulse);
+        }
+
+        if(!contactSound.isPlaying)
+        {
+            contactSound.pitch = UnityEngine.Random.Range(.7f,1.3f);
+            contactSound.Play();
         }
 
         if (other.gameObject.CompareTag("Fall Zone"))

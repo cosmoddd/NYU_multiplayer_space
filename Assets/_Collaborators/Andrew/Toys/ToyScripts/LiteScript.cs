@@ -10,6 +10,8 @@ public class LiteScript : NetworkBehaviour
     [SyncVar]
     public int whichMat;
 
+    public AudioSource lightSwitchAudio;
+
   public override void OnStartClient()
   {
     base.OnStartClient();
@@ -28,6 +30,8 @@ public class LiteScript : NetworkBehaviour
         RpcLightToggle();
     }
 
+    public AudioClip[] lightSFXclips;
+
     [ClientRpc]
     void RpcLightToggle()
     {
@@ -37,8 +41,9 @@ public class LiteScript : NetworkBehaviour
             {
                 whichMat = 0;
             }
-
             GetComponent<Renderer>().material = materials[whichMat];
-            // GetComponent<ToyIdentityScript>().active = false;
+            lightSwitchAudio.clip = lightSFXclips[UnityEngine.Random.Range(0,lightSFXclips.Length)];
+            lightSwitchAudio.pitch = UnityEngine.Random.Range(.7f,1.3f);
+            lightSwitchAudio.Play();
     }
 }

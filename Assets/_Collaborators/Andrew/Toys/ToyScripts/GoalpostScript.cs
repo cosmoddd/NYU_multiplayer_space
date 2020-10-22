@@ -14,6 +14,7 @@ public class GoalpostScript : NetworkBehaviour
     public MeshRenderer[] points;
 
     public GoalpostScript otherGoal;
+    public AudioSource scoreGoal;
 
     int Score;
 
@@ -32,6 +33,8 @@ public class GoalpostScript : NetworkBehaviour
     [ClientRpc]
     void RpcScoredGoal()
     {
+        // scoreGoal.pitch = UnityEngine.Random.Range(.75f, 1.25f);
+        scoreGoal.Play();
         StartCoroutine(GoalLights());
         Score++;
         if (Score>3)

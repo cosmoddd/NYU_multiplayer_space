@@ -34,6 +34,7 @@ public class ChatBehaviour : NetworkBehaviour
     [Header("Chat UI")]
     public Transform avatarTransform;
     public TextMeshPro avatarChat;
+    public AudioSource avatarChatAudio;
     public TextMeshPro avatarName;
 
     [Header("Chat Mode Control")]
@@ -259,6 +260,9 @@ public class ChatBehaviour : NetworkBehaviour
     private void RpcShowAvatarMessage(string message)
     {
         avatarChat.text = message;
+        float randomPitch = UnityEngine.Random.Range(.8f,1.2f);
+        avatarChatAudio.pitch = randomPitch;
+        avatarChatAudio.Play();
         StopAllCoroutines();
         StartCoroutine(ShowTextTimer());
     }

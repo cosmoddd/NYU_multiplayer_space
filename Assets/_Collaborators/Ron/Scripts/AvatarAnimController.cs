@@ -17,6 +17,10 @@ public class AvatarAnimController : NetworkBehaviour
     {
       animController = GetComponent<Animator>();
     }
+    if (!isLocalPlayer)
+    {
+        this.enabled = false;
+    }
   }
 
   // Update is called once per frame
@@ -64,7 +68,10 @@ public class AvatarAnimController : NetworkBehaviour
 
     public void ToggleSitting()
     {
-        sitting.Value = !sitting.Value;
+        if (isLocalPlayer)
+        {
+            sitting.Value = !sitting.Value;
+        }
     }
 
     public void OnSittingChanged()
@@ -78,10 +85,13 @@ public class AvatarAnimController : NetworkBehaviour
 
   public void Emote(string emote)
   {
-    print("Emoting "+ emote);
     if (isLocalPlayer)
     {
-      animController.Play(emote);
+        print("Emoting "+ emote);
+        if (isLocalPlayer)
+        {
+        animController.Play(emote);
+        }
     }
   }
 
