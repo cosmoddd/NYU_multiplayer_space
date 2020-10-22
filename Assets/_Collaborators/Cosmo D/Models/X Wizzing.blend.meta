@@ -1,9 +1,24 @@
 fileFormatVersion: 2
-guid: 2e5ed3729c5e2f6478e70b8a4c86e112
+guid: 14d4292d952213f4288339eae6de28ff
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: X-wing-engines
+    second: {fileID: 2100000, guid: 1e68ddba5a52ab94d8907771747edc90, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: XWING_coque
+    second: {fileID: 2100000, guid: 1e68ddba5a52ab94d8907771747edc90, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: XWING_coque_NONE
+    second: {fileID: 2100000, guid: 1e68ddba5a52ab94d8907771747edc90, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -45,7 +60,7 @@ ModelImporter:
     importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
