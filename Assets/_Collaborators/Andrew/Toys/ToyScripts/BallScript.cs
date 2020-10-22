@@ -8,16 +8,34 @@ public class BallScript : NetworkBehaviour
     Vector3 startPos;
     public Rigidbody thisRigidbody;
     public float kickForce = 10f;
+    public float punchForce = 5f;
     public AudioSource contactSound;
+    public bool isClickable;
+
+    public GameObject localPlayer;
+    public Camera localCamera;
+    public float distanceToBall;
+    public float upAngle = 1.5f;
 
   public override void OnStartClient()
    {
         base.OnStartClient();
-
         startPos = transform.position;
-
+        MoveController.controllerAndCameraInit += GetControllerAndCamera;
+        
     }
   
+    public override void OnStopClient()
+    {
+        MoveController.controllerAndCameraInit -= GetControllerAndCamera;
+    }   
+
+    void GetControllerAndCamera(GameObject _localPlayer, GameObject _localCamera)
+    {
+        localPlayer = _localPlayer;
+        localCamera = _localCamera.GetComponentInChildren<Camera>();
+    }
+
     void OnCollisionEnter(Collision other)
     {
 
@@ -51,5 +69,33 @@ public class BallScript : NetworkBehaviour
             thisRigidbody.velocity = Vector3.zero;
             transform.position = startPos;
         }
+    }
+
+    public void Update()
+    {
+        if (!localCamera) return;
+
+        if (localPlayer)
+        {
+            distanceToBall = (this.transform.position - localPlayer.transform.position).magnitude;
+        }
+
+        if (isClickable)
+        {
+            if (Input.GetMouseButtonDown(0) && distanceToBall <15f)
+            {
+                print("CLICKING!!");
+                Ray thisRay = localCamera.ScreenPointToRay(Input.mousePosition);
+                
+                if (Physics.Raycast(thisRay.origin, thisRay.direction, out RaycastHit hitInfo, 100f))
+                {
+                    if (hitInfo.transform.gameObject == this.gameObject)
+                    {
+                        thisRigidbody.AddForce((thisRay.direction+new Vector3(0,upAngle,0)) * punchForce, ForceMode.Impulse);
+                    }
+                }
+            }
+         }
+        // Debug.DrawRay(thisRay.origin, thisRay.direction *100, Color.red);
     }
 }

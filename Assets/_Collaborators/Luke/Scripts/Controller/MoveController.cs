@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityAtoms.BaseAtoms;
+using System;
 
 public class MoveController : NetworkBehaviour
 {
@@ -41,6 +42,8 @@ public class MoveController : NetworkBehaviour
     [Header("Sitting")]
     public BoolReference sittingBool;
 
+    public static event Action <GameObject, GameObject> controllerAndCameraInit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +54,7 @@ public class MoveController : NetworkBehaviour
             GameObject cameraObject = Instantiate(cameraPrefab, transform.position, transform.rotation);
             cameraObject.GetComponent<CameraController>().target = transform;
             cameraTransform = cameraObject.transform;
+            controllerAndCameraInit?.Invoke(this.gameObject, cameraObject);
         }     
 
         if (!isLocalPlayer)
