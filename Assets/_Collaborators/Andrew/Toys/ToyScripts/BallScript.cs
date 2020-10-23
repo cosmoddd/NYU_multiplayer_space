@@ -51,7 +51,7 @@ public class BallScript : NetworkBehaviour
 
         if (other.gameObject.CompareTag("Fall Zone"))
         {
-            print("landed in the fall zone!");
+            // print("landed in the fall zone!");
             thisRigidbody.velocity = Vector3.zero;
             transform.position = startPos;
         }

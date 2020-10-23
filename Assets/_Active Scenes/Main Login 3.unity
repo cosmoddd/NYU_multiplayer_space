@@ -1215,8 +1215,8 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -2224,7 +2224,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "67.245.1.31\u200B"
+  m_text: "Server IP Override\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
   m_sharedMaterial: {fileID: 7295421662424735576, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
@@ -2251,8 +2251,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16.82
-  m_fontSizeBase: 16.82
+  m_fontSize: 16.1
+  m_fontSizeBase: 16.1
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2774,7 +2774,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &546598114
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3396,7 +3396,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter (Host)
+  m_text: Host Server
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
   m_sharedMaterial: {fileID: 7295421662424735576, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
@@ -3423,8 +3423,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.8
-  m_fontSizeBase: 34.8
+  m_fontSize: 44.4
+  m_fontSizeBase: 44.4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3530,7 +3530,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: NOW LOADING
+  m_text: Now  Loading
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
   m_sharedMaterial: {fileID: 7295421662424735576, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
@@ -3573,7 +3573,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -4478,7 +4478,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 340}
+  m_AnchoredPosition: {x: 0, y: 360}
   m_SizeDelta: {x: 772.80396, y: 125.33676}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &884113682
@@ -4544,7 +4544,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -5199,7 +5199,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1025529199
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5709,7 +5709,7 @@ MonoBehaviour:
   m_HideSoftKeyboard: 0
   m_CharacterValidation: 0
   m_RegexValue: 
-  m_GlobalPointSize: 14
+  m_GlobalPointSize: 16.1
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -5750,7 +5750,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 67.245.1.31
+  m_Text: Server IP Override
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -6989,7 +6989,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.89411765}
     m_HighlightedColor: {r: 1, g: 0.8156863, b: 0.33333334, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 1, g: 0.8156863, b: 0.33333334, a: 1}
@@ -7007,14 +7007,14 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1685067981}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 662276915}
         m_TargetAssemblyTypeName: CustomizerUITabs, Assembly-CSharp
-        m_MethodName: EnterHost
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7035,6 +7035,30 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1861415572}
+        m_TargetAssemblyTypeName: UnityEngine.CanvasGroup, UnityEngine
+        m_MethodName: set_interactable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 662276915}
+        m_TargetAssemblyTypeName: CustomizerUITabs, Assembly-CSharp
+        m_MethodName: EnterHost
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1685067981
 MonoBehaviour:
@@ -8449,8 +8473,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 16.1
+  m_fontSizeBase: 16.1
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8556,7 +8580,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter (Client)
+  m_text: Join Client
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
   m_sharedMaterial: {fileID: 7295421662424735576, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
@@ -8583,8 +8607,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.8
-  m_fontSizeBase: 34.8
+  m_fontSize: 46.7
+  m_fontSizeBase: 46.7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
