@@ -194,7 +194,7 @@ public class Zitta_Block : NetworkBehaviour {
 
     public void Launch()
     {
-        print("Launch");
+        // print("Launch");
         if (CurrentLaunchTime > 0)
             return;
         CurrentLaunchTime = MaxLaunchTime;

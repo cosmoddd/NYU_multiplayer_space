@@ -40,18 +40,14 @@ public class BallScript : NetworkBehaviour
     {
 
         //  print("KICK?");
-        if (other.gameObject.CompareTag("Player"))
+        /* if (other.gameObject.CompareTag("Player"))
         {
-            //  print("KICK!!");
-         Vector3 direction = (other.transform.position - transform.position).normalized;
-         thisRigidbody.AddForce((-direction + new Vector3(0,.8f,0)) * kickForce, ForceMode.Impulse);
-        }
+            print("KICK!!");
+            Vector3 kickDirection = (other.transform.position - transform.position).normalized;
 
-        if(!contactSound.isPlaying)
-        {
-            contactSound.pitch = UnityEngine.Random.Range(.7f,1.3f);
-            contactSound.Play();
-        }
+            CmdContactBall(kickDirection);
+        } */
+
 
         if (other.gameObject.CompareTag("Fall Zone"))
         {
@@ -84,23 +80,62 @@ public class BallScript : NetworkBehaviour
         {
             if (Input.GetMouseButtonDown(0) && distanceToBall <15f)
             {
-                print("CLICKING!!");
                 Ray thisRay = localCamera.ScreenPointToRay(Input.mousePosition);
                 
                 if (Physics.Raycast(thisRay.origin, thisRay.direction, out RaycastHit hitInfo, 100f))
                 {
                     if (hitInfo.transform.gameObject == this.gameObject)
                     {
-                        thisRigidbody.AddForce((thisRay.direction+new Vector3(0,upAngle,0)) * punchForce, ForceMode.Impulse);
-                        if(!contactSound.isPlaying)
-                        {
-                            contactSound.pitch = UnityEngine.Random.Range(.7f,1.3f);
-                            contactSound.Play();
-                        }
+                        CmdContactBall(thisRay.direction);
                     }
                 }
             }
          }
-        // Debug.DrawRay(thisRay.origin, thisRay.direction *100, Color.red);
+    }
+
+    [Command(ignoreAuthority = true)]
+    void CmdKickBall(Vector3 kickDirection) => RpcKickBall(kickDirection);
+
+
+    [ClientRpc]
+    void RpcKickBall(Vector3 _kickDirection)
+    {
+        thisRigidbody.AddForce((-_kickDirection + new Vector3(0,.8f,0)) * kickForce, ForceMode.Impulse);
+        if(!contactSound.isPlaying || contactSound.time > .4f)
+        {
+            contactSound.pitch = UnityEngine.Random.Range(.8f,1.3f);
+            contactSound.Play();
+        }
+
+    }
+
+    [Command(ignoreAuthority = true)]
+    public void CmdAudioHit() => RpcAudioHit();
+
+
+    [ClientRpc]
+    void RpcAudioHit()
+    {
+        if(!contactSound.isPlaying || contactSound.time > .4f)
+        {
+            contactSound.pitch = UnityEngine.Random.Range(.8f,1.3f);
+            contactSound.Play();
+        }
+    }
+
+    [Command(ignoreAuthority = true)]
+    void CmdContactBall(Vector3 contactDirection) => RpcContactBall(contactDirection);
+
+    [ClientRpc]
+    void RpcContactBall(Vector3 contactDirection)
+    {
+        print("CLICKING!!");
+        thisRigidbody.AddForce((contactDirection+new Vector3(0,upAngle,0)) * punchForce, ForceMode.Impulse);
+        if(!contactSound.isPlaying || contactSound.time > .4f)
+        {
+            contactSound.pitch = UnityEngine.Random.Range(.8f,1.3f);
+            contactSound.Play();
+        }
+
     }
 }
