@@ -14,6 +14,11 @@ public class NetworkManagerGC : NetworkManager
         NetworkServer.RegisterHandler<CustomizerData>(OnCreateCharacter);
     }
 
+    public void SetServerAddress(string s)
+    {
+        networkAddress = s;
+    }
+
     public override void OnClientConnect(NetworkConnection conn)
     {
         base.OnClientConnect(conn);
