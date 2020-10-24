@@ -11,6 +11,8 @@ public class NetworkManagerGC : NetworkManager
     {
         base.OnStartServer();
 
+        // Subscribes messages for adding players to this handler.  
+        // Any time a player joins, the handler, OnCreateCharacter, will be called.
         NetworkServer.RegisterHandler<CustomizerData>(OnCreateCharacter);
     }
 
@@ -22,7 +24,6 @@ public class NetworkManagerGC : NetworkManager
     public override void OnClientConnect(NetworkConnection conn)
     {
         base.OnClientConnect(conn);
-
         conn.Send(dataMessage);
     }
 
@@ -39,5 +40,10 @@ public class NetworkManagerGC : NetworkManager
             Debug.Log("Could not find assigner");
 
         NetworkServer.AddPlayerForConnection(conn, character);
+    }
+
+    public override void OnServerAddPlayer(NetworkConnection conn)
+    {
+        print("did someone show up to the party?");
     }
 }
