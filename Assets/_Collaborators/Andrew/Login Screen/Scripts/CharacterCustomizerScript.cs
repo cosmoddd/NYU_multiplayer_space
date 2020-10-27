@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TMPro;
+using System; 
 
 public class CharacterCustomizerScript : NetworkBehaviour
 {
+    [SyncVar]
     public string characterName; 
 
     public Color bodyColor;
@@ -28,6 +31,8 @@ public class CharacterCustomizerScript : NetworkBehaviour
 
     public SavedAvatarInfoScript savedInfo;
 
+    public float scrollSpeed = 4f;
+
     Camera mainCam;
     float fov;
 
@@ -39,6 +44,10 @@ public class CharacterCustomizerScript : NetworkBehaviour
     public float[] torsoPreset_3;
 
     public List<float[]> presets;
+
+    public static event Action<string, bool> NameReady, NameUnready;
+
+    public TextMeshPro playerNameAvatar;
     // Start is called before the first frame update
     void Start()
     {
@@ -75,16 +84,12 @@ public class CharacterCustomizerScript : NetworkBehaviour
             Zoom();
         }
 
-        //only Temp!!!
-        //if (Input.GetKeyDown(KeyCode.Return))
-        //{
-        //    SaveTraitsToScript();
-        //}
     }
 
     public void assignFromSavedInfo()
     {
-        print("assignFromSavedInfo");
+        playerNameAvatar.text = savedInfo.userName;
+        
         activeHatID = savedInfo.HatMeshID;
         activeHeadID = savedInfo.HeadMeshID;
         activeFootID = savedInfo.FeetMeshID;
@@ -94,11 +99,14 @@ public class CharacterCustomizerScript : NetworkBehaviour
         hatColor = new Color(savedInfo.HatColor.x, savedInfo.HatColor.y, savedInfo.HatColor.z, 1);
         bodyColor = new Color(savedInfo.BodyColor.x, savedInfo.BodyColor.y, savedInfo.BodyColor.z, 1);
         headColor = new Color(savedInfo.HeadColor.x, savedInfo.HeadColor.y, savedInfo.HeadColor.z, 1);
+
+        print($"{savedInfo.userName} is here.");
+        NameReady?.Invoke(savedInfo.userName, false);
     }
 
     public void Zoom()
     {
-        fov -= Input.GetAxisRaw("Mouse ScrollWheel") * Time.deltaTime * 3000;
+        fov -= Input.GetAxisRaw("Mouse ScrollWheel") * Time.deltaTime * scrollSpeed * 1000;
         fov = Mathf.Clamp(fov,21,42);
 
 
@@ -182,10 +190,17 @@ public class CharacterCustomizerScript : NetworkBehaviour
         savedInfo.HatColor = new Vector3(hatColor.r, hatColor.g, hatColor.b);
     }
 
+
     public override void OnStartClient()
     {
         base.OnStartClient();
         assignFromSavedInfo();
     }
 
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+        NameUnready?.Invoke(savedInfo.userName, true);
+        print($"{savedInfo.userName} has left.");
+    }
 }

@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - PlayerCamera
+  - NetworkManager
+  - ColorPicker
+  - Stud
+  - Goal
+  - Button
+  - Interactable
+  - Fall Zone
+  - Ball
   layers:
   - Default
   - TransparentFX
@@ -16,9 +25,9 @@ TagManager:
   - Player
   - CursorRaycastTarget
   - MovieScreen
-  - 
-  - 
-  - 
+  - CharacterUI
+  - ChatText
+  - Collider
   - 
   - 
   - 
@@ -38,6 +47,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 1490834251
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
