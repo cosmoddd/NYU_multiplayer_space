@@ -16,10 +16,10 @@ public class CharacterCustomizationUITabs : MonoBehaviour
     public GameObject loginPanel;
     public GameObject customizePanel;
     //--InputFields--
-    public TMP_InputField usernameField;
+    public TMP_InputField emailField;
+
+    public TMP_InputField displayNameField;
     public TMP_InputField passwordField;
-    //--Text--
-    public TextMeshProUGUI usernameTxt;
 
     public Sprite[] headSprites;
     public Sprite[] torsoSprites;
@@ -84,11 +84,12 @@ public class CharacterCustomizationUITabs : MonoBehaviour
 /// </summary>
     public void Login()
     {
-        string username = usernameField.text;
+        //string username = usernameField.text;
         //print("username: " + username);
-        customizerScript.characterName = username;
+        //customizerScript.characterName = username;
+        string email = emailField.text;
 
-        bool login = authentication.Login(username, passwordField.text);
+        bool login = authentication.Login(email, passwordField.text);
         if(!login)
         {
             //what to do if a login fails, let them try again
@@ -99,7 +100,7 @@ public class CharacterCustomizationUITabs : MonoBehaviour
         customizePanel.SetActive(true);
         loginPanel.SetActive(false);
 
-        usernameTxt.SetText(username);
+        //usernameTxt.SetText(username);
         SetCustomizationTab(currentTab);
         colorPicker.gameObject.SetActive(true);
     }
@@ -220,6 +221,14 @@ public class CharacterCustomizationUITabs : MonoBehaviour
             customizerScript.hatColor = selectedColor;
             break;
         }
+    }
+
+    public void SetDisplayName(string input)
+    {
+        string username = input;
+        customizerScript.characterName = username;
+
+
     }
 
 

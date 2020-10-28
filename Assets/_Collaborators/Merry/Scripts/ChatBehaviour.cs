@@ -6,6 +6,7 @@ using Mirror;
 using System;
 using UnityEngine.UI;
 using UnityAtoms.BaseAtoms;
+using System.Linq;
 
 //based on code by Dapper Dino https://www.youtube.com/watch?v=p-2QFmCMBt8&ab_channel=DapperDino
 
@@ -25,14 +26,26 @@ public class ChatBehaviour : NetworkBehaviour
     private Image chatBackground = null; //chat background + goes with slider
 
     private static event Action<string> OnMessage;
+    public static event Action LoggedIn;
+
+    public static event Func<string> RetrievePlayerList;
 
     public GameObject playerCamera;
     [Header("Chat UI")]
     public Transform avatarTransform;
     public TextMeshPro avatarChat;
+    public AudioSource avatarChatAudio;
+    public TextMeshPro avatarName;
 
     [Header("Chat Mode Control")]
     public BoolVariable inChatMode;
+
+    [Header("Chat Commands")]
+    public StringEvent[] SpecificChatCommands;
+    public StringEvent GenericChatCommand;
+    public bool SendCommandsToChat;
+    public char CommandPrefix = '/';
+
 
     [Header("Participants Control")]
     [SerializeField]
@@ -50,12 +63,11 @@ public class ChatBehaviour : NetworkBehaviour
 
         //check if player is a mod and grant it
 
-
-
         //add player name & mod status to participants list in UI_ParticipantsList.cs
         //  GameObject player = GetComponent<SavedAvatarInfoScript>().GameObject;
         
         //retrieve the participants list
+        participantsText.text = RetrievePlayerList?.Invoke();
 
 
         if (inChatMode.Value == false)
@@ -71,6 +83,8 @@ public class ChatBehaviour : NetworkBehaviour
         {
             participantsList.gameObject.SetActive(false);
         }
+
+        avatarName.text = GetComponent<MeshAssigner>().userName;
     }
 
     // Update is called once per frame
@@ -113,6 +127,8 @@ public class ChatBehaviour : NetworkBehaviour
             }
         }
 
+        // not functional yet!
+        /*
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape)) //activate participants list
         {
             participantsListActive.Value = !participantsListActive.Value;
@@ -128,7 +144,8 @@ public class ChatBehaviour : NetworkBehaviour
 
             }
         }
-
+        */
+        
         // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
@@ -182,6 +199,8 @@ public class ChatBehaviour : NetworkBehaviour
         chatUI.SetActive(true);
 
         OnMessage += HandleNewMessage;
+        
+        LoggedIn?.Invoke();
 
         // print(GetComponent<CharacterCustomizerScript>().characterName);
     }
@@ -205,7 +224,12 @@ public class ChatBehaviour : NetworkBehaviour
         if (!Input.GetKeyDown(KeyCode.Return)) { return; }
         if (string.IsNullOrWhiteSpace(message)) { return; }
 
-        CmdSendMessage(message);
+        // Check if the message is a command
+        if (!(ParseCommandAndInvoke(message) && !SendCommandsToChat))
+        {
+            CmdSendMessage(message);  // if the message is not consumed, send it to chat
+        }
+
         inputField.text = string.Empty; //clear text input field 
         inputField.Select();
         inputField.ActivateInputField();
@@ -228,7 +252,7 @@ public class ChatBehaviour : NetworkBehaviour
 
         RpcShowAvatarMessage(message);
 
-        string userName = GetComponent<SavedAvatarInfoScript>().userName;
+        string userName = GetComponent<MeshAssigner>().userName;
         RpcHandleMessage($"<color=white>[{userName}]</color>: {message}");
     }
 
@@ -236,6 +260,9 @@ public class ChatBehaviour : NetworkBehaviour
     private void RpcShowAvatarMessage(string message)
     {
         avatarChat.text = message;
+        float randomPitch = UnityEngine.Random.Range(.8f,1.2f);
+        avatarChatAudio.pitch = randomPitch;
+        avatarChatAudio.Play();
         StopAllCoroutines();
         StartCoroutine(ShowTextTimer());
     }
@@ -253,5 +280,29 @@ public class ChatBehaviour : NetworkBehaviour
         yield return new WaitForSeconds(5f);
         avatarChat.text = String.Empty;
     }
+
+
+  public bool ParseCommandAndInvoke(string message)
+  {
+
+    var cleanMessage = message.Trim();
+    if (cleanMessage[0] != '/')
+    {
+      return false;
+    }
+
+    var splitCommand = cleanMessage.Substring(1).Split(new char[] { ' ' }, 2);
+    var commandEvent = SpecificChatCommands.FirstOrDefault(c => c.name == splitCommand[0]);
+    if (commandEvent == null)
+    {
+      GenericChatCommand.Raise(splitCommand[0]);
+    }
+    else
+    {
+      commandEvent.Raise(splitCommand.Length > 1 ? splitCommand[1] : "");
+    }
+
+    return true;
+  }
 
 }

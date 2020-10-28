@@ -23,6 +23,7 @@ public class Twitch_AvPro : MonoBehaviour {
 
     public void Start()
     {
+        print("attempting to play...");
         if (playOnStart)
         {
             PlayYoutubeVideo(twitchChannelID);
@@ -37,9 +38,16 @@ public class Twitch_AvPro : MonoBehaviour {
 
     IEnumerator LiveRequest(string videoID)
     {
+        // yield return new WaitForSeconds(delayRequest);
         WWW request = new WWW(serverURI + "" + videoID + "" + formatURI);
         yield return request;
 
+        if (request == null)
+        {
+            print("there's nothing here...");
+            yield break;
+        }
+                            // JsonUtility.FromJson
         var requestData = JSON.Parse(request.text);
         liveResult = requestData["videos"][0]["url"];
         StartCoroutine(LivePlay());

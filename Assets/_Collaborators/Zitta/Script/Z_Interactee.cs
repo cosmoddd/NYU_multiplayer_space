@@ -12,7 +12,7 @@ public class Z_Interactee : NetworkBehaviour {
     public void Process()
     {
         // SendMessage("Interact");
-        print("Interact");
+        // print("Interact");
 
         onPressed.Invoke();
     }

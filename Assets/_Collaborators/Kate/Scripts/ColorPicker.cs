@@ -14,12 +14,7 @@ public class ColorPicker : MonoBehaviour
    // public Image image;
 
     //public CharacterCustomizationUI customizerUI;
-    public CharacterCustomizationUITabs customizerUI;
-
-
-
-    
-
+    public CustomizerUITabs customizerUI;
 
     // Update is called once per frame
     void Update()
@@ -43,10 +38,6 @@ public class ColorPicker : MonoBehaviour
             selectedColor = text.GetPixelBilinear(pixelUV.x, pixelUV.y);
 
             customizerUI.SetColor(selectedColor);
-
-
         }
     }
-
-
 }

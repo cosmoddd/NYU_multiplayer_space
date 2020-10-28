@@ -17,6 +17,10 @@ public class AvatarAnimController : NetworkBehaviour
     {
       animController = GetComponent<Animator>();
     }
+    if (!isLocalPlayer)
+    {
+        this.enabled = false;
+    }
   }
 
   // Update is called once per frame
@@ -53,25 +57,41 @@ public class AvatarAnimController : NetworkBehaviour
         animController.SetBool("wave", false);
       }
 
-            if (animController.GetBool("sitting") == false && Input.GetKeyDown(KeyCode.G))
-            {
-                Debug.Log("Gup");
-                animController.SetBool("sitting", true);
-            }
-            if (animController.GetBool("sitting") == true && Input.GetKeyDown(KeyCode.H))
+      if (Input.GetKeyDown(KeyCode.G))
       {
-                Debug.Log("Gdown");
-                animController.SetBool("sitting",false);
+          ToggleSitting();
       }
-
     }
   }
+
+    public BoolVariable sitting;
+
+    public void ToggleSitting()
+    {
+        if (isLocalPlayer)
+        {
+            sitting.Value = !sitting.Value;
+        }
+    }
+
+    public void OnSittingChanged()
+    {
+        if (isLocalPlayer)
+        {
+            animController.SetBool("sitting", sitting.Value);
+        }
+    }
+
 
   public void Emote(string emote)
   {
     if (isLocalPlayer)
     {
-      animController.Play(emote);
+        print("Emoting "+ emote);
+        if (isLocalPlayer)
+        {
+        animController.Play(emote);
+        }
     }
   }
 
