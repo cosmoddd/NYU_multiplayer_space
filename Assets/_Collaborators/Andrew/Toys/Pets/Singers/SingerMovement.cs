@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class SingerMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public LayerMask mask;
+    
+    public float movementSpeed = 4.5f;
+    public Vector3 rayOriginOffset;
+    public float rayInteractionDistance =1;
+
+    public bool movementPaused = false;
+
     void Start()
     {
         transform.rotation = Quaternion.Euler(0, Random.Range(0, 360f), 0);
@@ -13,11 +20,13 @@ public class SingerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawRay(transform.position + rayOriginOffset, transform.forward*10f, Color.red);
 
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit))
+        if (movementPaused) return;
+
+        if (Physics.Raycast(transform.position + rayOriginOffset, transform.forward, out RaycastHit hit, 10f, mask))
         {
-
-            if (hit.distance < 1 && !hit.collider.isTrigger)
+            if (hit.distance < rayInteractionDistance && !hit.collider.isTrigger)
             {
                 Vector3 fDist = -(hit.normal) - transform.forward;
                 Vector3 nDist = hit.normal - fDist;
@@ -26,6 +35,18 @@ public class SingerMovement : MonoBehaviour
             }
         }
 
-        transform.position += transform.forward * Time.deltaTime * 4.5f;
+        transform.position += transform.forward * Time.deltaTime * movementSpeed;
+    }
+
+    public void StopMoving(float s)
+    {
+        StartCoroutine(FreezeMovement(s));
+    }
+
+    IEnumerator FreezeMovement(float _seconds)
+    {
+        movementPaused = true;
+        yield return new WaitForSeconds(_seconds);
+        movementPaused = false;
     }
 }
