@@ -190,11 +190,12 @@ public class CustomizerUITabs : MonoBehaviour
     {
         SetCustomizationTab(0);
     }
-
+    
     public void SelectTorsoTab()
     {
         SetCustomizationTab(1);
     }
+
 
     public void SelectFeetTab()
     {
