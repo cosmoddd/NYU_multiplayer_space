@@ -10,6 +10,8 @@ public class CustomizerUITabs : MonoBehaviour
     //---Panels--
     public GameObject loginPanel;
     public GameObject customizePanel;
+    public GameObject clientLoginPanel;
+
     //--InputFields--
 
     public TMP_InputField emailField;
@@ -55,21 +57,43 @@ public class CustomizerUITabs : MonoBehaviour
         colorPicker.gameObject.SetActive(false);
     }
 
+
+
     /// <summary>
     ///  when "Go" is pressed, this function sets the character name to the user name
-    ///   TODO - add password functionality
     /// </summary>
     public void Login()
     {
-        string email = emailField.text;
+        if(emailField == null) Debug.Log("no emial feild");
+        if(passwordField == null) Debug.Log("no password feild");
         //print("username: " + username);
-        customizerScript.userName = email;
+        //customizerScript.userName = email;
+         bool login = authentication.Login(emailField.text, passwordField.text);
+        if(!login)
+        {
+            //what to do if a login fails, let them try again
+            print("login failed");
+            return;
+        }
 
         customizePanel.SetActive(true);
         loginPanel.SetActive(false);
 
         SetCustomizationTab(currentTab);
         colorPicker.gameObject.SetActive(true);
+    }
+
+    
+        public void SaveCharacter()
+    {
+        //call save character script
+
+        //change tabs
+        customizePanel.SetActive(false);
+        colorPicker.gameObject.SetActive(false);
+
+        clientLoginPanel.SetActive(true);
+
     }
 
     // public void Enter()
@@ -208,7 +232,6 @@ public class CustomizerUITabs : MonoBehaviour
     {
         string username = input;
         customizerScript.userName = username;
-
-
     }
+
 }
