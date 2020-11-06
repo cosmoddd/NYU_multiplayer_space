@@ -15,7 +15,7 @@ public class BallBounce : NetworkBehaviour
         sc = GetComponent<SphereCollider>();
         bouncy = new PhysicMaterial();
         bouncy = sc.material;
-        bouncy.bounciness = Random.Range(3, 7);
+        bouncy.bounciness = Random.Range(3f, 7f)/7f;
     }
 
 

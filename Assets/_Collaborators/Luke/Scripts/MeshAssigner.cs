@@ -18,6 +18,7 @@ public class MeshAssigner : NetworkBehaviour
         }
     };
 
+    // custom class
     public class SyncTrait : SyncList<TraitData> {}
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 body
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 Torso
