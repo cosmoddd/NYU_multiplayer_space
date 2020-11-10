@@ -8,6 +8,7 @@ public class OptionsMenu : MonoBehaviour
 {
     public Dropdown resolutionDropdown;
     public NetworkManagerGC manager;
+    public GameObject confirmQuitPanel;
 
     Resolution[] resolutions;
 
@@ -50,5 +51,15 @@ public class OptionsMenu : MonoBehaviour
     {
         manager.StopClient();
         Application.Quit();
+    }
+
+    public void ConfirmQuit()
+    {
+        confirmQuitPanel.SetActive(true);
+    }
+
+    public void CancelQuit()
+    {
+        confirmQuitPanel.SetActive(false);
     }
 }

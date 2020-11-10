@@ -27,6 +27,8 @@ public class LevelLoading : NetworkBehaviour
         }
     }
 
+    
+
     void OnTriggerExit()
     {
         // if (isClient)
