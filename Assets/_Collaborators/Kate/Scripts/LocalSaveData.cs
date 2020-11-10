@@ -46,6 +46,7 @@ public class LocalSaveData : MonoBehaviour
         local_HatColor = ES3.Load("hatColor", "saveInfo.es3", Vector4.zero ); //key, filepath, default value
 
         local_FootColor = ES3.Load("footColor", "saveInfo.es3", Vector4.zero ); //key, filepath, default value
+        //headID footID hatID torsoID bodyColor headColor hatColor footColor
 
     }
 
@@ -68,6 +69,25 @@ public class LocalSaveData : MonoBehaviour
         localCustomizer.bodyColors[4] = local_BodyColor;
 
 
+    }
+
+    void SetUsername()
+    {
+        //unsure how i will do this
+    }
+
+    public void SaveData()
+    {
+        //headID footID hatID torsoID bodyColor headColor hatColor footColor
+        ES3.Save("username", localCustomizer.userName);
+        ES3.Save("headID", localCustomizer.bodyIDs[1]);
+        ES3.Save("footID", localCustomizer.bodyIDs[2]);
+        ES3.Save("hatID", localCustomizer.bodyIDs[0]);
+        ES3.Save("torsoID", localCustomizer.bodyIDs[4]);
+        ES3.Save("bodyColor", localCustomizer.bodyColors[4]);
+        ES3.Save("headColor", localCustomizer.bodyColors[1]);
+        ES3.Save("hatColor", localCustomizer.bodyColors[0]);
+        ES3.Save("footColor", localCustomizer.bodyColors[2]);
     }
 
     // Update is called once per frame
