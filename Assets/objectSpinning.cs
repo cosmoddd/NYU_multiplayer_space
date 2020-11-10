@@ -11,7 +11,8 @@ public class objectSpinning : NetworkBehaviour
     public GameObject obstacleSpin;
     
     public float RZ;
-    public float z;
+    
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -25,11 +26,11 @@ public class objectSpinning : NetworkBehaviour
         obstacleSpin.transform.Rotate(0f, 0f, RZ + speed * Time.deltaTime * multiplier, Space.Self);
     }
 
-    private void OnCollisionEnter(Collision col)
+    private void OnTriggernEnter(Collision col)
     {
-        if (col.gameObject.CompareTag ("Player"))
+        if (col.gameObject.tag == "Player")
         {
-            
+
         }
     }
 }

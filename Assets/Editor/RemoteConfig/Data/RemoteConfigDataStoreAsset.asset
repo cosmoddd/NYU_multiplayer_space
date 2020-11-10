@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
+  m_Name: RemoteConfigDataStoreAsset
+  m_EditorClassIdentifier: 
+  rsKeyList:
+  - metadata:
+      entityId: 9810f250-b28f-4a47-a127-d484f1381c53
+    rs:
+      key: scrambledEggs
+      type: string
+      value: This is interesting.
+  - metadata:
+      entityId: 5b43f61c-3460-4da7-a6f4-1a76fb8acf97
+    rs:
+      key: Wild Situation
+      type: bool
+      value: True
+  - metadata:
+      entityId: 53d9973a-de13-435a-b371-ac695407ab8b
+    rs:
+      key: 'cubeIsBlue '
+      type: bool
+      value: False
+  rsLastCachedKeyList:
+  - metadata:
+      entityId: 9810f250-b28f-4a47-a127-d484f1381c53
+    rs:
+      key: scrambledEggs
+      type: string
+      value: This is interesting.
+  - metadata:
+      entityId: 5b43f61c-3460-4da7-a6f4-1a76fb8acf97
+    rs:
+      key: Wild Situation
+      type: bool
+      value: True
+  - metadata:
+      entityId: 53d9973a-de13-435a-b371-ac695407ab8b
+    rs:
+      key: 'cubeIsBlue '
+      type: bool
+      value: False
+  configId: 92efb753-648a-431a-87d1-ded0cfd54efa
+  currentEnvironmentId: 5b9312d3-a211-4f5a-8285-2c2d72232618
+  environments:
+  - id: 5b9312d3-a211-4f5a-8285-2c2d72232618
+    appId: 
+    name: Production (Default)
+    description: 
+    createdAt: 2020-11-10T15:20:00Z
+    updatedAt: 2020-11-10T15:20:00Z
+  - id: 39a56304-e42f-46e1-b5ff-996ff9654959
+    appId: 
+    name: Development
+    description: 
+    createdAt: 2020-11-10T15:21:59Z
+    updatedAt: 2020-11-10T15:21:59Z
+  - id: 68831b90-d2ce-4304-9a6c-e9f3bb04e5af
+    appId: 
+    name: Release
+    description: 
+    createdAt: 2020-11-10T15:21:59Z
+    updatedAt: 2020-11-10T15:21:59Z
+  rulesList: []
+  lastCachedRulesList: []
+  addedRulesIDs: []
+  updatedRulesIDs: []
+  deletedRulesIDs: []
