@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class GridDetectionScript : MonoBehaviour
+public class GridDetectionScript : NetworkBehaviour
 {
 
     RaycastHit hit;
@@ -15,6 +16,7 @@ public class GridDetectionScript : MonoBehaviour
 
     MeshFilter MF;
     MeshRenderer MR;
+    MeshHolderScript MH;
 
     public Vector3[] currentMeshVerts;
     public int[] currentMeshTris;
@@ -23,13 +25,18 @@ public class GridDetectionScript : MonoBehaviour
     void Start()
     {
         
-        MF = GetComponent<MeshFilter>();
-        MR = GetComponent<MeshRenderer>();
+        MF = GameObject.Find("MeshHolder").GetComponent<MeshFilter>();
+        MR = GameObject.Find("MeshHolder").GetComponent<MeshRenderer>();
+        MH = GameObject.Find("MeshHolder").GetComponent<MeshHolderScript>();
 
         bigChunk = new Mesh();
         bigChunk.name = "chunk";
         MF.mesh = bigChunk;
+
+        MH.UpdateMesh();
     }
+
+
 
     void Update()
     {
@@ -44,20 +51,42 @@ public class GridDetectionScript : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             addCubeToMesh(placePosition);
+            CmdUpdateMesh();
         }
         else if (Input.GetKeyUp(KeyCode.Mouse1) && hit.collider.tag == "cubes")
         {
             removeCubeFromMesh(digPosition);
+            CmdUpdateMesh();
+        }
+    }
+
+    [Command]
+    void CmdUpdateMesh()
+    {
+        MH.syncedTris.Clear();
+        for (int t = 0; t < bigChunk.triangles.Length; t++)
+        {
+            MH.syncedTris.Add(bigChunk.triangles[t]);
         }
 
-        currentMeshVerts = MF.mesh.vertices;
-        currentMeshTris = MF.mesh.triangles;
-        currentMeshNormals = MF.mesh.normals;
+        MH.syncedVerts.Clear();
+        for (int v = 0; v < bigChunk.vertices.Length; v++)
+        {
+            MH.syncedVerts.Add(bigChunk.vertices[v]);
+        }
+
+        RpcUpdateMesh();
+    }
+
+    [ClientRpc]
+    void RpcUpdateMesh()
+    {
+        MH.UpdateMesh();
     }
 
     void addCubeToMesh(Vector3 pos)
     {
-        Destroy(GetComponent<MeshCollider>());
+        //Destroy(GameObject.Find("MeshHolder").GetComponent<MeshCollider>());
         //
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
@@ -100,24 +129,12 @@ public class GridDetectionScript : MonoBehaviour
         bigChunk.triangles = triangles.ToArray();
         bigChunk.RecalculateNormals();
 
-
-        //for (int i = 0; i < cubeMesh.vertices.Length; i++)
-        //{
-        //    Debug.Log(cubeMesh.vertices[i]);
-        //}
-        //Debug.Log(pos);
-        //for (int i = 0; i < bigChunk.vertices.Length; i++)
-        //{
-        //    Debug.Log(bigChunk.vertices[i]);
-        //}
-
-        //
-        this.gameObject.AddComponent<MeshCollider>();
+        //GameObject.Find("MeshHolder").AddComponent<MeshCollider>();
     }
 
     void removeCubeFromMesh(Vector3 pos)
     {
-        Destroy(GetComponent<MeshCollider>());
+        //Destroy(GameObject.Find("MeshHolder").GetComponent<MeshCollider>());
 
         List<Vector3> vertices = new List<Vector3>();
         for (int i = 0; i < bigChunk.vertices.Length; i++)
@@ -140,8 +157,8 @@ public class GridDetectionScript : MonoBehaviour
 
         Debug.Log(bigChunk.vertices.Length);
         Debug.Log(bigChunk.triangles.Length);
-
-        this.gameObject.AddComponent<MeshCollider>();
+        
+        //GameObject.Find("MeshHolder").AddComponent<MeshCollider>();
     }
 
     private void OnDrawGizmos()
