@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class SingerScript : MonoBehaviour
+public class SingerScript : NetworkBehaviour
 {
     AudioSource AS;
     public AudioClip cry;
@@ -17,15 +18,23 @@ public class SingerScript : MonoBehaviour
         AS = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    [Command(ignoreAuthority = true)]
+    public void CmdSingerCry() => RpcSingerCry();
+
+    [ClientRpc]
+    void RpcSingerCry()
     {
-        if (GetComponent<ToyIdentityScript>().active)
+        // if (GetComponent<ToyIdentityScript>().active)
         {
             AS.PlayOneShot(cry,.1f);
-            //jaw.localRotation = Quaternion.Euler(42, 0, 0);
-            GetComponent<ToyIdentityScript>().active = false;
+            jaw.localRotation = Quaternion.Euler(42, 0, 0);
+            // GetComponent<ToyIdentityScript>().active = false;
         }
+    }
+
+    void Update()
+    {
         if (AS.isPlaying)
         {
             jaw.localRotation = Quaternion.Lerp(jaw.localRotation, Quaternion.Euler(42, 0, 0), Time.deltaTime * 15);

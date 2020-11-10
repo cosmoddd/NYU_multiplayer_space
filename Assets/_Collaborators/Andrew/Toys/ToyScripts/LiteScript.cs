@@ -1,29 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class LiteScript : MonoBehaviour
+public class LiteScript : NetworkBehaviour
 {
     public Material[] materials;
-    int whichMat;
-    // Start is called before the first frame update
-    void Start()
+
+    [SyncVar]
+    public int whichMat;
+
+    public AudioSource lightSwitchAudio;
+
+  public override void OnStartClient()
+  {
+    base.OnStartClient();
+
+    GetComponent<Renderer>().material = materials[whichMat];  
+  }
+
+    void Interact()
     {
-        
+        CmdLightServer();
     }
 
-    // Update is called once per frame
-    void Update()
+    [Command(ignoreAuthority = true)]
+    public void CmdLightServer()
     {
-        if (GetComponent<ToyIdentityScript>().active)
-        {
+        RpcLightToggle();
+    }
+
+    public AudioClip[] lightSFXclips;
+
+    [ClientRpc]
+    void RpcLightToggle()
+    {
+
             whichMat++;
             if (whichMat>=materials.Length)
             {
                 whichMat = 0;
             }
             GetComponent<Renderer>().material = materials[whichMat];
-            GetComponent<ToyIdentityScript>().active = false;
-        }
+            lightSwitchAudio.clip = lightSFXclips[UnityEngine.Random.Range(0,lightSFXclips.Length)];
+            lightSwitchAudio.pitch = UnityEngine.Random.Range(.7f,1.3f);
+            lightSwitchAudio.Play();
     }
 }

@@ -11,9 +11,11 @@ public class NetworkManagerNYU : NetworkManager
     {
         base.OnStartServer();
 
+        // registers to be spawned 
         NetworkServer.RegisterHandler<SendPlayerMessage>(SpawnPlayerWithMessage);
     }
 
+    // spawns this player w some data.  still not sure how this works but ok
     void SpawnPlayerWithMessage(NetworkConnection connection, SendPlayerMessage m)
     {
         GameObject spawn = Instantiate(playerPrefab, GetStartPosition().position, GetStartPosition().rotation);
@@ -32,18 +34,15 @@ public class NetworkManagerNYU : NetworkManager
         info.HeadColor = m.HeadColor;
         info.FootColor = m.FootColor;
 
-        //customizer.assignFromSavedInfo();
-
         NetworkServer.AddPlayerForConnection(connection, spawn);
-
-
     }
+
+
 
     public override void OnClientConnect(NetworkConnection conn)
     {
+        print("Connected!");
         base.OnClientConnect(conn);
-
-        
 
         SendPlayerMessage thisMessage = new SendPlayerMessage();
 
@@ -58,6 +57,12 @@ public class NetworkManagerNYU : NetworkManager
         thisMessage.FootColor = avatarInfo.FootColor;
 
         conn.Send(thisMessage);
+    }
+
+    public override void OnClientDisconnect(NetworkConnection conn)
+    {
+        print("disconnecting");
+        base.OnClientDisconnect(conn);
     }
 
     public void SetServerAddress(string s)
