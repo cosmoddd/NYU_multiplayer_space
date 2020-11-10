@@ -39,18 +39,11 @@ public class MoveController : NetworkBehaviour
 
     [Header("In Chat Mode")]
     public BoolVariable inChatMode;
-<<<<<<< HEAD:Assets/_Collaborators/Luke/Scripts/MoveController.cs
-    //public GameObject Player;
-    //public GameObject startPos;
-    
-    
-=======
     [Header("Sitting")]
     public BoolReference sittingBool;
 
     public static event Action <GameObject, GameObject> controllerAndCameraInit;
 
->>>>>>> 587cb20c4b8784dc89a87981a6a30c71958cdcc9:Assets/_Collaborators/Luke/Scripts/Controller/MoveController.cs
     // Start is called before the first frame update
     void Start()
     {
@@ -61,14 +54,7 @@ public class MoveController : NetworkBehaviour
             GameObject cameraObject = Instantiate(cameraPrefab, transform.position, transform.rotation);
             cameraObject.GetComponent<CameraController>().target = transform;
             cameraTransform = cameraObject.transform;
-<<<<<<< HEAD:Assets/_Collaborators/Luke/Scripts/MoveController.cs
-
-
-           // GameObject startPos = GameObject.Find("Startposition");
-
-=======
             controllerAndCameraInit?.Invoke(this.gameObject, cameraObject);
->>>>>>> 587cb20c4b8784dc89a87981a6a30c71958cdcc9:Assets/_Collaborators/Luke/Scripts/Controller/MoveController.cs
         }     
 
         if (!isLocalPlayer)
@@ -222,15 +208,4 @@ public class MoveController : NetworkBehaviour
         slopeNormal = Vector3.zero;
         return false;
     }
-
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("Playerkillzone"))
-    //    {
-    //        Destroy(gameObject);
-    //        //NetworkManager.RegisterStartPosition(transform);
-    //       // Instantiate(Player, startPos.transform.position, transform.rotation);
-    //    }
-    //}
 }
