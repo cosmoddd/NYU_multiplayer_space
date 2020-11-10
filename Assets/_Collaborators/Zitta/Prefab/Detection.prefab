@@ -65,9 +65,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   MaxDistance: 50
+  RangeMask:
+    serializedVersion: 2
+    m_Bits: 32768
+  RangeDistance: 15
   raycastHoverEnter: {fileID: 0}
   raycastHoverExit: {fileID: 0}
   hovering: 0
+  HoveredObject: {fileID: 0}
+  OutlinedObject: {fileID: 0}
+  OutlineMaterial: {fileID: 2100000, guid: f93618187af45104c93ab374fc6d6c8f, type: 2}
+  SavedMaterials: []
 --- !u!114 &4266430252529062464
 MonoBehaviour:
   m_ObjectHideFlags: 0
