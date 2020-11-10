@@ -12,11 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  rsKeyList: []
-  rsLastCachedKeyList: []
-  configId: 
-  currentEnvironmentId: 
-  environments: []
+  rsKeyList:
+  - metadata:
+      entityId: 3da0c7ba-e4cd-4f5f-8f17-45c42d9d1b96
+    rs:
+      key: cubeIsBlue
+      type: bool
+      value: False
+  rsLastCachedKeyList:
+  - metadata:
+      entityId: 3da0c7ba-e4cd-4f5f-8f17-45c42d9d1b96
+    rs:
+      key: cubeIsBlue
+      type: bool
+      value: False
+  configId: 1e103164-b3d4-4a9f-83e3-2fde765a545b
+  currentEnvironmentId: 91b1924d-d2f5-4510-bd46-a4a9e9e34ec9
+  environments:
+  - id: 5cfad589-b0fe-4856-973d-284e8f0ddab3
+    appId: 
+    name: Release (Default)
+    description: 
+    createdAt: 2020-11-10T11:00:00Z
+    updatedAt: 2020-11-10T11:00:00Z
+  - id: 91b1924d-d2f5-4510-bd46-a4a9e9e34ec9
+    appId: 
+    name: Development
+    description: 
+    createdAt: 2020-11-10T11:00:00Z
+    updatedAt: 2020-11-10T11:00:00Z
   rulesList: []
   lastCachedRulesList: []
   addedRulesIDs: []

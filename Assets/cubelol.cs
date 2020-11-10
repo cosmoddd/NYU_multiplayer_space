@@ -10,7 +10,7 @@ public class cubelol : MonoBehaviour
     public struct appAttributes { }
 
 
-    public bool isBlue = false;
+    public bool isBlue;
 
 
     public Material blueMaterial;
@@ -21,8 +21,10 @@ public class cubelol : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        rend = GetComponent<Renderer>();
+        isBlue = false;
         ConfigManager.FetchCompleted += SetColor;
-        ConfigManager.FetchConfigs<userAttributes, appAttributes>(new userAttributes { }, new appAttributes { });
+        ConfigManager.FetchConfigs<userAttributes, appAttributes>(new userAttributes(), new appAttributes());
     }
 
     void SetColor(ConfigResponse response)
@@ -46,6 +48,7 @@ public class cubelol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
+
 }
