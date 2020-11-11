@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class NetworkManagerGC : NetworkManager
 {
     public CustomizerData dataMessage = new CustomizerData();
+    public static event Action<string> UserAdded;  
 
     public override void OnStartServer()
     {
@@ -39,6 +41,7 @@ public class NetworkManagerGC : NetworkManager
         else
             Debug.Log("Could not find assigner");
 
+        UserAdded?.Invoke(dataMessage.userName);//when the character is made, ping the event that collected the username data
         NetworkServer.AddPlayerForConnection(conn, character);
     }
 

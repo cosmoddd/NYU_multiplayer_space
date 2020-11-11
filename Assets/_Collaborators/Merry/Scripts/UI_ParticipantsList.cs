@@ -8,101 +8,94 @@ using TMPro;
 public class UI_ParticipantsList : NetworkBehaviour //: MonoBehaviour
 {
 
-    //player list
-    // public SyncList<NameAndModStatus> playerListMod;// = new List<String>(); //player list individual player instances can access
-
-
-    private SyncListString playerList = new SyncListString();
-
-
-    [SyncVar]
-    public string playerListString;
-
-    [SyncVar]
-    int playerCount = 0;
-  
-    public static event Action<string> RecieveList;
-
-    [TextArea(2,10)]
-    public string listTextArea;
-
-    public void OnEnable()
+    public struct UserID
     {
-        CharacterCustomizerScript.NameReady += AddPlayer;   
-        CharacterCustomizerScript.NameUnready += RemovePlayer;
-        ChatBehaviour.RetrievePlayerList += ReturnList;
-    }
+        //what all makes up a struct
+        public string name;
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        
-    }
-
-    public override void OnStopClient()
-    {
-        base.OnStopClient();
-        CharacterCustomizerScript.NameReady -= AddPlayer;
-        CharacterCustomizerScript.NameUnready -= RemovePlayer;
-        ChatBehaviour.RetrievePlayerList -= ReturnList;
-    }
-
-    public void AddPlayer(String player, bool m) //called from player object
-    {
-        // if (!playerList.Contains(player))
-        // {
-        //     print($"{player} added.");
-        //     playerList.Add(player);
-        //     playerCount++;
-        //     CmdUpdatePlayerList();
-        // }
-    }
-
-    public void RemovePlayer(String player, bool m) //called from player object
-    {
-        // if (playerList.Contains(player))
-        // {
-        //     playerList.Remove(player);
-        // }
-
-        print($"{player} is outta here.");
-        playerCount--;
-        CmdUpdatePlayerList();
-    }
-
-    [Command(ignoreAuthority = true)]
-    public void CmdUpdatePlayerList()
-    {
-        listTextArea = "Online: ";
-        for (int i = 0; i < playerCount; i++)
+        //used when making a new struct
+        public UserID(string uName)
         {
-            listTextArea += "\n [ " + i + " ] " + playerList[i];
+            name = uName;
         }
-        RpcSetList(listTextArea);
-    }
+    };
 
-    [ClientRpc]
-    void RpcSetList(string _list)
+    public class UserIDList : SyncList<UserID> { }
+    public UserIDList userList = new UserIDList();
+
+    //note to self: 
+    //1. be sure to have using System included when using events
+    //2. declare event at top like so
+    //3. call event when we want it
+    //4. subscribe to event where we need it
+    //5. ping to a new function with what we wanted that event to trigger
+    public static event Action<List<string>> UsersUpdated;
+
+    public List<string> players = new List<string>();
+
+    void AddUser(string user)
     {
-        RecieveList?.Invoke(_list);
+        if (!isClient)
+        {
+            return;
+        }
+
+        UserID nameToAdd = new UserID(user);
+        userList.Add(nameToAdd);
+        players.Add(user);
+
+        RebuildList();
     }
 
-
-    string ReturnList()
+    void RebuildList()
     {
-        return listTextArea;
+        players = new List<string>();
+        foreach(UserID x in userList)
+        {
+            players.Add(x.name);
+        }
+
+        Debug.Log("Sending list");
+        UsersUpdated?.Invoke(players); //use this to call the event
     }
 
-}
+    void RemoveUser(string removedUser)
+    {
+        if (isServer)
+        {
+            foreach(UserID x in userList)
+            {
+                if(x.name == removedUser)
+                {
+                    userList.Remove(x);
+                    players.Remove(removedUser);
+                }
+            }
 
-public struct SuperString
-{
-    public string name;
-}
+            UsersUpdated?.Invoke(players);
+        }
+    }
 
-[System.Serializable] 
-public class NameAndModerator
-{
-    public string name;
-    public bool isModerator;
+    private void Update()
+    {
+        if (isClient && Input.GetKeyDown(KeyCode.Tab)) {}
+        {
+            RebuildList();
+        }
+    }
+
+    //use these so that its registered for the events we wanna use here
+    private void OnEnable()
+    {
+        NetworkManagerGC.UserAdded += AddUser;
+        UI_ClientParticipantsList.ClientLeft += RemoveUser;
+    }
+
+    private void OnDisable()
+    {
+        NetworkManagerGC.UserAdded -= AddUser;
+        UI_ClientParticipantsList.ClientLeft -= RemoveUser;
+    }
+
+
 }

@@ -125,6 +125,20 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.ActivateInputField();
                 // inputField.MoveTextStart(true);
             }
+
+            participantsListActive.Value = !participantsListActive.Value;
+
+            if (participantsListActive.Value == false)
+            {
+                participantsList.gameObject.SetActive(false);
+
+            }
+            if (participantsListActive.Value == true)
+            {
+                participantsList.gameObject.SetActive(true);
+
+            }
+
         }
 
         // not functional yet!
