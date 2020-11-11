@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class NetworkManagerGC : NetworkManager
 {
+    public static event Action<string> UserAdded;
     public CustomizerData dataMessage = new CustomizerData();
 
     public override void OnStartServer()
@@ -39,6 +41,8 @@ public class NetworkManagerGC : NetworkManager
         else
             Debug.Log("Could not find assigner");
 
+        print($"{dataMessage.userName} is here and ready to rumble.");
+        UserAdded?.Invoke(dataMessage.userName);
         NetworkServer.AddPlayerForConnection(conn, character);
     }
 

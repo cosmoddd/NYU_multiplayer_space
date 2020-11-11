@@ -5,6 +5,7 @@ using Mirror;
 
 public class SyncListExample : NetworkBehaviour
 {
+    // public List<string> players;
     // Create a struct to store the variables you need
     // The struct can be named anything you want
     public struct TraitData
@@ -21,6 +22,7 @@ public class SyncListExample : NetworkBehaviour
             bodyID = ID;
         }
     };
+
 
     // Here we create a class that inherits from the SyncList class
     // using the struct that we just created 

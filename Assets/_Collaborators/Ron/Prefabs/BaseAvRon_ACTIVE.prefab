@@ -5796,6 +5796,7 @@ GameObject:
   - component: {fileID: 7202849672736660093}
   - component: {fileID: 8964705491743332314}
   - component: {fileID: 5197482292368232350}
+  - component: {fileID: 655138214467822744}
   m_Layer: 8
   m_Name: BaseAvRon_ACTIVE
   m_TagString: Player
@@ -6247,6 +6248,18 @@ MonoBehaviour:
   charController: {fileID: 5479427390246189363}
   kickForce: 0.1
   kickHeight: 0.75
+--- !u!114 &655138214467822744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976586562111085665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 814e0f78ae6992e42be72e304c05a64f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2897872534607639004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6424,14 +6437,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
---- !u!1 &4038157503172513569 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1170132631858921213, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
-  m_PrefabInstance: {fileID: 2897872534607639004}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3309351845540940447 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
+  m_PrefabInstance: {fileID: 2897872534607639004}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4038157503172513569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1170132631858921213, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
   m_PrefabInstance: {fileID: 2897872534607639004}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &4911477093567262556 stripped
