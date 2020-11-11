@@ -23,9 +23,11 @@ public class NetworkManagerGC : NetworkManager
         networkAddress = s;
     }
 
+    // when a client connects.  duh
     public override void OnClientConnect(NetworkConnection conn)
     {
         base.OnClientConnect(conn);
+        // client sends message to server that it is here and ready to rumble
         conn.Send(dataMessage);
     }
 
@@ -50,4 +52,6 @@ public class NetworkManagerGC : NetworkManager
     {
         print("did someone show up to the party?");
     }
+
+
 }

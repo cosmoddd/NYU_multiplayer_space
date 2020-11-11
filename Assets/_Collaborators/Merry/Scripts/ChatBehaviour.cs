@@ -49,7 +49,7 @@ public class ChatBehaviour : NetworkBehaviour
 
     [Header("Participants Control")]
     [SerializeField]
-    private GameObject participantsList = null; //participants list
+    public Canvas participantsListCanvas = null; //participants list
     public BoolVariable participantsListActive;
     [SerializeField]
     private TMP_Text participantsText = null;
@@ -79,10 +79,10 @@ public class ChatBehaviour : NetworkBehaviour
             // sendButton.gameObject.SetActive(false);
         }
 
-        if (participantsListActive.Value == false)
-        {
-            participantsList.gameObject.SetActive(false);
-        }
+        // if (participantsListActive.Value == false)
+        // {
+        //     participantsList.gameObject.SetActive(false);
+        // }
 
         avatarName.text = GetComponent<MeshAssigner>().userName;
     }
@@ -114,12 +114,14 @@ public class ChatBehaviour : NetworkBehaviour
             {
                 inputField.gameObject.SetActive(false);
                 chatBackground.gameObject.SetActive(false);
+                participantsListCanvas.enabled = false;
                 // sendButton.gameObject.SetActive(false);
             }
             if (inChatMode.Value == true)
             {
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
+                participantsListCanvas.enabled = true;
                 // sendButton.gameObject.SetActive(true);
                 inputField.Select();
                 inputField.ActivateInputField();
@@ -149,7 +151,7 @@ public class ChatBehaviour : NetworkBehaviour
         // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
-        StartCoroutine(EnterChatToggle());
+            StartCoroutine(EnterChatToggle());
         }
 
     }

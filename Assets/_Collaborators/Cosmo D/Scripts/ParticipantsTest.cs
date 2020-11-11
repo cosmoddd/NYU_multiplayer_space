@@ -6,9 +6,9 @@ using System;
 
 public class ParticipantsTest : NetworkBehaviour
 {
-    public Action<List<string>> SendUsersToList;
+    public static event Action<List<string>> SendUsersToList;
 
-    public List<string> players;
+
     // Here we create a class that inherits from the SyncList class
     // using the struct that we just created 
     // ex. SyncList<struct>
@@ -19,6 +19,10 @@ public class ParticipantsTest : NetworkBehaviour
 
     // Create a struct to store the variables you need
     // The struct can be named anything you want
+
+    // as a normal serialized list
+    public List<string> players;
+    
     public struct UserID
     {
         public string userID;
@@ -35,30 +39,76 @@ public class ParticipantsTest : NetworkBehaviour
     void OnEnable()
     {
         NetworkManagerGC.UserAdded += AddUser;
+        ParticipantsReceiver.RemoveUser += RemoveUser;
     }
 
     void OnDisable()
     {
         NetworkManagerGC.UserAdded -= AddUser;
+        ParticipantsReceiver.RemoveUser -= RemoveUser;        
+
     }
 
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        BuildLocalList();
+    }
+
+    void Update()
+    {
+        if (isClient)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                BuildLocalList();
+            }
+        }
+    }
 
     void AddUser(string user)
     {
-        // When adding objects to the SyncList
-        // ensure that you are creating objects from the struct you used
-        // to create the custom list class
-        UserID exampleObject = new UserID(user);
-        UserIDs.Add(exampleObject);
+        if (!isClient) return;
+        UserID objectToAdd = new UserID(user);
+        UserIDs.Add(objectToAdd);
         players.Add(user);
+
+        BuildLocalList();
+    }
+
+
+    void RemoveUser(string userToRemove)
+    {
+        print("You're done! "+userToRemove);
         
-        List<string> userList = new List<string>();
+        if (isServer) 
+        {
+
+            print("You're the server.  Go ahead and remove.");
+            foreach (UserID u in UserIDs)
+            {
+                if (u.userID == userToRemove)
+                {
+                    print("match! "+userToRemove);
+
+                    UserID objectToRemove = new UserID(userToRemove);
+                    UserIDs.Remove(objectToRemove);
+                    players.Remove(userToRemove);
+                }
+            }
+
+            SendUsersToList?.Invoke(players);
+        }        
+    }
+
+    void BuildLocalList()
+    {
+        players = new List<string>();
 
         foreach (UserID u in UserIDs)
         {
-            userList.Add(u.userID);
+            players.Add(u.userID);
         }
-        
-        SendUsersToList?.Invoke(userList)
+        SendUsersToList?.Invoke(players);
     }
 }
