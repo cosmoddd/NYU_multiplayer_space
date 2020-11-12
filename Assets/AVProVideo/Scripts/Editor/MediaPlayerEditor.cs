@@ -99,7 +99,7 @@ namespace RenderHeads.Media.AVProVideo.Editor
 		public const string LinkForumLastPage = "http://forum.unity3d.com/threads/released-avpro-video-complete-video-playback-solution.385611/page-100";
 		public const string LinkGithubIssues = "https://github.com/RenderHeads/UnityPlugin-AVProVideo/issues";
 		public const string LinkGithubIssuesNew = "https://github.com/RenderHeads/UnityPlugin-AVProVideo/issues/new/choose";
-		public const string LinkAssetStorePage = "https://assetstore.unity.com/packages/slug/56355";
+		public const string LinkAssetStorePage = "https://assetstore.unity.com/packages/tools/video/avpro-video-56355?aid=1101lcNgx";
 		public const string LinkUserManual = "http://downloads.renderheads.com/docs/UnityAVProVideo.pdf";
 		public const string LinkScriptingClassReference = "http://www.renderheads.com/content/docs/AVProVideoClassReference/";
 
@@ -2352,6 +2352,14 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					EditorGUILayout.PropertyField(propUseHardwareDecoding, new GUIContent("Hardware Decoding"));
 				}
 
+				{
+					SerializedProperty propUseLowLatency = serializedObject.FindProperty(optionsVarName + ".useLowLatency");
+					if (propUseLowLatency != null)
+					{
+						EditorGUILayout.PropertyField(propUseLowLatency, new GUIContent("Use Low Latency", "Provides a hint to the decoder to use less buffering"));
+					}
+				}
+
 				int audioModeIndex = 0;
 				{
 					SerializedProperty propUseUnityAudio = serializedObject.FindProperty(optionsVarName + ".useUnityAudio");
@@ -2810,6 +2818,13 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					}
 				}
 			}
+			{
+				SerializedProperty propUseLowLatency = serializedObject.FindProperty(optionsVarName + ".useLowLatency");
+				if (propUseLowLatency != null)
+				{
+					EditorGUILayout.PropertyField(propUseLowLatency, new GUIContent("Use Low Latency", "Provides a hint to the decoder to use less buffering"));
+				}
+			}
 
 			int audioModeIndex = 0;
 			{
@@ -2875,6 +2890,13 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					{
 						ShowNoticeBox(MessageType.Info, "Recommend changing the texture filtering mode to Trilinear when using mip-maps.");
 					}
+				}
+			}
+			{
+				SerializedProperty propUseLowLatency = serializedObject.FindProperty(optionsVarName + ".useLowLatency");
+				if (propUseLowLatency != null)
+				{
+					EditorGUILayout.PropertyField(propUseLowLatency, new GUIContent("Use Low Latency", "Provides a hint to the decoder to use less buffering"));
 				}
 			}
 
