@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class SyncListExample : MonoBehaviour
+public class SyncListExample : NetworkBehaviour
 {
     // Create a struct to store the variables you need
     // The struct can be named anything you want
