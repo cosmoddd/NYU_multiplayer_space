@@ -91,8 +91,8 @@ public class ParticipantsTest : NetworkBehaviour
                 {
                     print("match! "+userToRemove);
 
-                    UserID objectToRemove = new UserID(userToRemove);
-                    UserIDs.Remove(objectToRemove);
+                    // UserID objectToRemove = new UserID(userToRemove);
+                    UserIDs.Remove(u);
                     players.Remove(userToRemove);
                 }
             }

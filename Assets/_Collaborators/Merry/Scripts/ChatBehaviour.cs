@@ -30,6 +30,8 @@ public class ChatBehaviour : NetworkBehaviour
 
     public static event Func<string> RetrievePlayerList;
 
+
+
     public GameObject playerCamera;
     [Header("Chat UI")]
     public Transform avatarTransform;
@@ -41,6 +43,7 @@ public class ChatBehaviour : NetworkBehaviour
     public BoolVariable inChatMode;
 
     [Header("Chat Commands")]
+    [SerializeField] private string SpecificChatCommandsPath = "Atoms/ChatEvents";
     public StringEvent[] SpecificChatCommands;
     public StringEvent GenericChatCommand;
     public bool SendCommandsToChat;
@@ -69,6 +72,7 @@ public class ChatBehaviour : NetworkBehaviour
         //retrieve the participants list
         participantsText.text = RetrievePlayerList?.Invoke();
 
+        SpecificChatCommands = Resources.LoadAll<StringEvent>(SpecificChatCommandsPath);
 
         if (inChatMode.Value == false)
             {
@@ -288,13 +292,16 @@ public class ChatBehaviour : NetworkBehaviour
   {
 
     var cleanMessage = message.Trim();
-    if (cleanMessage[0] != '/')
+    if (cleanMessage[0] != CommandPrefix)
     {
       return false;
     }
 
+
     var splitCommand = cleanMessage.Substring(1).Split(new char[] { ' ' }, 2);
     var commandEvent = SpecificChatCommands.FirstOrDefault(c => c.name == splitCommand[0]);
+
+
     if (commandEvent == null)
     {
       GenericChatCommand.Raise(splitCommand[0]);
