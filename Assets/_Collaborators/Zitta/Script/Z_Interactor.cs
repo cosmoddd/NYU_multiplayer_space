@@ -41,18 +41,23 @@ public class Z_Interactor : MonoBehaviour {
         {
             {
                 Ray ray = C.ScreenPointToRay(Input.mousePosition);
+                Ray rayII = new Ray(C.transform.position, C.transform.forward);
                 
                 Z_Interactee interactee = null;
+                bool MouseInput = false;
 
                 if (Physics.Raycast(ray, out RaycastHit Hit, MaxDistance, Mask))
                 {
+                    MouseInput = true;
                     // print(Hit.transform.gameObject.name);
                     if (Hit.collider.transform.GetComponent<Z_Interactee>())
                         interactee = Hit.collider.transform.GetComponent<Z_Interactee>();
                     else if (Hit.transform.GetComponent<Z_Interactee>())
                         interactee = Hit.transform.GetComponent<Z_Interactee>();
+                    else
+                        MouseInput = false;
                 }
-                else if (Physics.Raycast(ray, out RaycastHit HitII, RangeDistance, RangeMask))
+                else if (Physics.Raycast(rayII, out RaycastHit HitII, RangeDistance, RangeMask))
                 {
                     if (HitII.collider.transform.GetComponent<Zitta_InteractionRange>())
                     {
@@ -65,28 +70,30 @@ public class Z_Interactor : MonoBehaviour {
 
                 if (interactee)
                 {
+                    if (Input.GetKeyDown(InteractKey) || Input.GetMouseButtonDown(0))
+                        interactee.Process();
+                    HoveredObject = interactee;
+                }
+                else
+                    HoveredObject = null;
+
+                if (interactee && MouseInput)
+                {
                     if (hovering == false)
                     {
                         raycastHoverEnter.Raise();
                         // print("Hovering yes");
                         hovering = true;
                     }
-
-                    if (Input.GetKeyDown(InteractKey) || Input.GetMouseButtonDown(0))
-                    {
-                        interactee.Process();
-                    }
-
-                    HoveredObject = interactee;
-                    return;
                 }
-
-                HoveredObject = null;
-                if (hovering)
+                else
                 {
-                    raycastHoverExit.Raise();
-                    // print("Hovring no");
-                    hovering = false;
+                    if (hovering)
+                    {
+                        raycastHoverExit.Raise();
+                        // print("Hovring no");
+                        hovering = false;
+                    }
                 }
             }
         }
