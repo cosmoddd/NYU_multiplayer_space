@@ -8,11 +8,11 @@ public class CharacterMeshData : ScriptableObject
 {
     // must have Serializable attribute to allow array
     // to appear in inspector
-    [Serializable]
-    public struct PresetArray
-    {
-        public float[] presetValues;
-    }
+    //[Serializable]
+    //public struct PresetArray
+    //{
+    //    public float[] presetValues;
+    //}
 
     [Serializable]
     public struct MeshesArray
@@ -21,6 +21,6 @@ public class CharacterMeshData : ScriptableObject
         public Mesh[] meshes;
     }
 
-    public PresetArray[] bodyPresets;
+    //public PresetArray[] bodyPresets;
     public MeshesArray[] bodyMeshes;
 }

@@ -12,7 +12,8 @@ public class CameraController : MonoBehaviour
     public Transform viewCamera;
 
     [Header("Player Settings")]
-    public float mouseSensitivity = 10.0f;
+    public float mouseSensitivity = 1.0f; // scales our sensitivity
+    [SerializeField] float maxSensitivity = 5.0f; // actual max sensitivity value
     public float distFromTargetChangeSensitivity;
 
     [Header("Cursor Settings")]
@@ -88,15 +89,15 @@ public class CameraController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             // yaw for looking side to side, pitch for looking up and down
-            yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
+            yaw += Input.GetAxis("Mouse X") * (maxSensitivity * mouseSensitivity);
 
             if(bInvertY.Value)
             {
-                pitch += Input.GetAxis("Mouse Y") * mouseSensitivity;
+                pitch += Input.GetAxis("Mouse Y") * (maxSensitivity * mouseSensitivity);
             }
             else
             {
-                pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+                pitch -= Input.GetAxis("Mouse Y") * (maxSensitivity * mouseSensitivity);
             }
             
             pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
@@ -138,5 +139,5 @@ public class CameraController : MonoBehaviour
         {
             transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref targetSmoothVelocity, targetSmoothTime);
         }
-  }
+    }
 }
