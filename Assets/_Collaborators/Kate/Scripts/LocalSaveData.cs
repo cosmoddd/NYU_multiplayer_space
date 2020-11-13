@@ -39,13 +39,13 @@ public class LocalSaveData : MonoBehaviour
 
        local_TorsoID = ES3.Load("torsoID", "saveInfo.es3", 0 ); //key, filepath, default value
 
-        local_BodyColor = ES3.Load("bodyColor", "saveInfo.es3", Vector4.zero ); //key, filepath, default value
+        local_BodyColor = ES3.Load("bodyColor", "saveInfo.es3", Vector4.one ); //key, filepath, default value
 
-        local_HeadColor = ES3.Load("headColor", "saveInfo.es3", Vector4.zero ); //key, filepath, default value
+        local_HeadColor = ES3.Load("headColor", "saveInfo.es3", Vector4.one ); //key, filepath, default value
 
-        local_HatColor = ES3.Load("hatColor", "saveInfo.es3", Vector4.zero ); //key, filepath, default value
+        local_HatColor = ES3.Load("hatColor", "saveInfo.es3", Vector4.one ); //key, filepath, default value
 
-        local_FootColor = ES3.Load("footColor", "saveInfo.es3", Vector4.zero ); //key, filepath, default value
+        local_FootColor = ES3.Load("footColor", "saveInfo.es3", Vector4.one ); //key, filepath, default value
         //headID footID hatID torsoID bodyColor headColor hatColor footColor
 
     }
@@ -55,9 +55,7 @@ public class LocalSaveData : MonoBehaviour
         Debug.Log("SetCustomizer");
          // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 body
         localCustomizer.bodyIDs[0] = local_HatMeshID;
-
-        Color tmpColor = new Color(local_HatColor.x, local_HatColor.y, local_HatColor.z, local_HatColor.w);
-        localCustomizer.bodyColors[0] = tmpColor;
+        localCustomizer.bodyColors[0] = local_HatColor;
 
         localCustomizer.bodyIDs[1] = local_HeadMeshID;
         localCustomizer.bodyColors[1] = local_HeadColor;
