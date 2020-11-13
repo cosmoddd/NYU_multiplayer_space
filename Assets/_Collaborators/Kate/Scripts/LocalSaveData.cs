@@ -79,15 +79,15 @@ public class LocalSaveData : MonoBehaviour
     public void SaveData()
     {
         //headID footID hatID torsoID bodyColor headColor hatColor footColor
-        ES3.Save("username", localCustomizer.userName);
-        ES3.Save("headID", localCustomizer.bodyIDs[1]);
-        ES3.Save("footID", localCustomizer.bodyIDs[2]);
-        ES3.Save("hatID", localCustomizer.bodyIDs[0]);
-        ES3.Save("torsoID", localCustomizer.bodyIDs[4]);
-        ES3.Save("bodyColor", localCustomizer.bodyColors[4]);
-        ES3.Save("headColor", localCustomizer.bodyColors[1]);
-        ES3.Save("hatColor", localCustomizer.bodyColors[0]);
-        ES3.Save("footColor", localCustomizer.bodyColors[2]);
+        ES3.Save("username", localCustomizer.userName, "saveInfo.es3");
+        ES3.Save("headID", localCustomizer.bodyIDs[1], "saveInfo.es3");
+        ES3.Save("footID", localCustomizer.bodyIDs[2], "saveInfo.es3");
+        ES3.Save("hatID", localCustomizer.bodyIDs[0], "saveInfo.es3");
+        ES3.Save("torsoID", localCustomizer.bodyIDs[4], "saveInfo.es3");
+        ES3.Save("bodyColor", localCustomizer.bodyColors[4], "saveInfo.es3");
+        ES3.Save("headColor", localCustomizer.bodyColors[1], "saveInfo.es3");
+        ES3.Save("hatColor", localCustomizer.bodyColors[0],"saveInfo.es3");
+        ES3.Save("footColor", localCustomizer.bodyColors[2], "saveInfo.es3");
     }
 
     // Update is called once per frame
