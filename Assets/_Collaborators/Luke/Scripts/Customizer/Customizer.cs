@@ -43,10 +43,10 @@ public class Customizer : MonoBehaviour
 
         manager = FindObjectOfType<NetworkManagerGC>();
 
-        for(int i = 0; i < bodyColors.Length; i++)
-        {
-            bodyColors[i]=initialColor;
-        }
+        // for(int i = 0; i < bodyColors.Length; i++)
+        // {
+        //     bodyColors[i]=initialColor;
+        // }
     }
 
     public void SaveData()
