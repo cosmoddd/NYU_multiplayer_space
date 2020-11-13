@@ -22,6 +22,10 @@ public class GridDetectionScript : NetworkBehaviour
     public int[] currentMeshTris;
     public Vector3[] currentMeshNormals;
 
+    Transform cubeOutline;
+    MeshFilter outlineFilter;
+    MeshRenderer outlineRenderer;
+
     void Start()
     {
         
@@ -34,6 +38,12 @@ public class GridDetectionScript : NetworkBehaviour
         MF.mesh = bigChunk;
 
         MH.UpdateMesh();
+        triCount = MH.syncedTris.Count;
+
+         
+        outlineFilter = GetComponentInChildren<MeshFilter>();
+        outlineRenderer = GetComponentInChildren<MeshRenderer>();
+        cubeOutline = outlineFilter.transform;
     }
 
 
@@ -57,6 +67,22 @@ public class GridDetectionScript : NetworkBehaviour
         {
             removeCubeFromMesh(digPosition);
             CmdUpdateMesh();
+        }
+
+        checkIfSyncListChanged();
+
+        outlineRenderer.enabled = hit.collider != null;
+        cubeOutline.position = digPosition;
+    }
+
+    int triCount;
+
+    void checkIfSyncListChanged()
+    {
+        if (MH.syncedTris.Count!=triCount)
+        {
+            MH.UpdateMesh();
+            triCount = MH.syncedTris.Count;
         }
     }
 
@@ -157,7 +183,7 @@ public class GridDetectionScript : NetworkBehaviour
 
         Debug.Log(bigChunk.vertices.Length);
         Debug.Log(bigChunk.triangles.Length);
-        
+       
         //GameObject.Find("MeshHolder").AddComponent<MeshCollider>();
     }
 

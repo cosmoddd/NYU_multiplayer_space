@@ -17,7 +17,7 @@ public class MeshHolderScript : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //syncedTris.Callback += OnTrisUpdated;
+        syncedTris.Callback += OnTrisUpdated;
         MF = GetComponent<MeshFilter>();
     }
 
@@ -53,10 +53,12 @@ public class MeshHolderScript : NetworkBehaviour
         switch (op)
         {
             case SyncList<int>.Operation.OP_ADD:
+                //UpdateMesh();
                 // index is where it got added in the list
                 // item is the new item
                 break;
             case SyncList<int>.Operation.OP_CLEAR:
+                //UpdateMesh();
                 // list got cleared
                 break;
             case SyncList<int>.Operation.OP_INSERT:
