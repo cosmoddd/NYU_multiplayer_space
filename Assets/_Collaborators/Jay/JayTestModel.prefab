@@ -3648,9 +3648,10 @@ GameObject:
   - component: {fileID: 3869749744398646870}
   - component: {fileID: 5609269483322706804}
   - component: {fileID: 3434920189664595471}
+  - component: {fileID: 5493219053765507106}
   m_Layer: 0
   m_Name: Physics Shell
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3677,7 +3678,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5913962785559442347}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 2.1
   m_Height: 9.46
@@ -3698,7 +3699,24 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
+--- !u!114 &5493219053765507106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5913962785559442347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e5d7304e0444637986c9d1d70cc344, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  eject: 1
+  playerPrefab: {fileID: 5408506347325878289}
+  pTran: {fileID: 5408506347325878289}
 --- !u!1 &5952527985817230500
 GameObject:
   m_ObjectHideFlags: 0
