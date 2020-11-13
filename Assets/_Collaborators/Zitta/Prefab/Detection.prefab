@@ -65,9 +65,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   MaxDistance: 50
+  RangeMask:
+    serializedVersion: 2
+    m_Bits: 32768
+  RangeDistance: 15
   raycastHoverEnter: {fileID: 0}
   raycastHoverExit: {fileID: 0}
   hovering: 0
+  HoveredObject: {fileID: 0}
+  OutlinedObject: {fileID: 0}
+  OutlineMaterial: {fileID: 2100000, guid: f93618187af45104c93ab374fc6d6c8f, type: 2}
+  SavedMaterials: []
 --- !u!114 &4266430252529062464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +83,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8410355105338167623}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11321920a53e6564db9497506e2a9c54, type: 3}
   m_Name: 
@@ -91,11 +99,11 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8410355105338167623}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 21df28e837fd5bc4785e2ddaec5fc137, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
