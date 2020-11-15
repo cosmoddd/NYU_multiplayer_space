@@ -55,13 +55,17 @@ public class MoveController : NetworkBehaviour
         {
             cc = GetComponent<CharacterController>();
             GameObject cameraObject = Instantiate(cameraPrefab, transform.position, transform.rotation);
-            cameraObject.GetComponent<CameraController>().target = transform;
+            CameraController camController = cameraObject.GetComponent<CameraController>();
+            camController.target = transform;
             cameraTransform = cameraObject.transform;
 
 
            // GameObject startPos = GameObject.Find("Startposition");
 
             controllerAndCameraInit?.Invoke(this.gameObject, cameraObject);
+
+            // pass a reference of our camera script to the options menu
+            optionsUI.GetComponent<OptionsMenu>().Initialize(camController);
         }     
 
         if (!isLocalPlayer)
@@ -103,7 +107,7 @@ public class MoveController : NetworkBehaviour
                 }
                 else
                 {
-                    optionsUI.SetActive(false);
+                    optionsUI.GetComponent<OptionsMenu>().CloseOptionsMenu();
                 }
             }
 
