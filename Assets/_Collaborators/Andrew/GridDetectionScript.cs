@@ -157,8 +157,7 @@ public class GridDetectionScript : NetworkBehaviour
         {
             triangles.Add(newTris[i]+triLength);
         }
-
-        
+       
 
         for (int i = 0; i < bigChunk.vertices.Length; i++)
         {
@@ -200,8 +199,8 @@ public class GridDetectionScript : NetworkBehaviour
         bigChunk.triangles = triangles.ToArray();
         bigChunk.vertices = vertices.ToArray();
 
-        Debug.Log(bigChunk.vertices.Length);
-        Debug.Log(bigChunk.triangles.Length);
+        // Debug.Log(bigChunk.vertices.Length);
+        // Debug.Log(bigChunk.triangles.Length);
        
       //  CmdUpdateMesh();
         //GameObject.Find("MeshHolder").AddComponent<MeshCollider>();
