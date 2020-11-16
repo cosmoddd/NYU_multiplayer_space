@@ -83,11 +83,6 @@ public class ChatBehaviour : NetworkBehaviour
             // sendButton.gameObject.SetActive(false);
         }
 
-        // if (participantsListActive.Value == false)
-        // {
-        //     participantsList.gameObject.SetActive(false);
-        // }
-
         avatarName.text = GetComponent<MeshAssigner>().userName;
     }
 
@@ -132,40 +127,9 @@ public class ChatBehaviour : NetworkBehaviour
                 // inputField.MoveTextStart(true);
             }
 
-            participantsListActive.Value = !participantsListActive.Value;
-
-            if (participantsListActive.Value == false)
-            {
-                participantsList.gameObject.SetActive(false);
-
-            }
-            if (participantsListActive.Value == true)
-            {
-                participantsList.gameObject.SetActive(true);
-
-            }
-
         }
 
-        // not functional yet!
-        /*
-        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape)) //activate participants list
-        {
-            participantsListActive.Value = !participantsListActive.Value;
-
-            if (participantsListActive.Value == false)
-            {
-                participantsList.gameObject.SetActive(false);
- 
-            }
-            if (participantsListActive.Value == true)
-            {
-                participantsList.gameObject.SetActive(true);
-
-            }
-        }
-        */
-        
+       
         // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
