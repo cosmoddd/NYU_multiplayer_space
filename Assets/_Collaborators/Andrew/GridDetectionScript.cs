@@ -88,7 +88,7 @@ public class GridDetectionScript : NetworkBehaviour
     {
         if (MH.syncedTris.Count!=triCount)
         {
-            print("THE SYNC LIST HAS CHANGED!");
+            // print("THE SYNC LIST HAS CHANGED!");
             MH.UpdateMesh();
             triCount = MH.syncedTris.Count;
         }
