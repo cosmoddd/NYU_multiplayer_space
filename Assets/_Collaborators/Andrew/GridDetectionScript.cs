@@ -52,7 +52,8 @@ public class GridDetectionScript : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) return;
-        checkIfSyncListChanged();
+
+        // checkIfSyncListChanged();
 
         Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out hit);
         if (hit.collider!=null)
@@ -75,8 +76,8 @@ public class GridDetectionScript : NetworkBehaviour
             CmdUpdateMesh();
         }
 
-
-        // checkIfLocalListChanged();
+        checkIfSyncListChanged();
+        checkIfLocalListChanged();
 
         outlineRenderer.enabled = hit.collider != null;
         cubeOutline.position = digPosition;
