@@ -60,6 +60,11 @@ public class ChatBehaviour : NetworkBehaviour
 
     private bool hasMod = false; //intergrated with authenticator and tags player as a mod
 
+    [Header("Emote Control")]
+    [SerializeField]
+    public GameObject emoteList = null; //participants list
+    public BoolVariable emoteListActive;
+
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -80,6 +85,7 @@ public class ChatBehaviour : NetworkBehaviour
 
                 inputField.gameObject.SetActive(false);
             chatBackground.gameObject.SetActive(false);
+            emoteList.SetActive(false);
             // sendButton.gameObject.SetActive(false);
         }
 
@@ -119,6 +125,7 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.gameObject.SetActive(false);
                 chatBackground.gameObject.SetActive(false);
                 participantsListCanvas.enabled = false;
+                emoteList.SetActive(false);
                 // sendButton.gameObject.SetActive(false);
             }
             if (inChatMode.Value == true)
@@ -126,6 +133,7 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
                 participantsListCanvas.enabled = true;
+                emoteList.SetActive(false);
                 // sendButton.gameObject.SetActive(true);
                 inputField.Select();
                 inputField.ActivateInputField();
@@ -133,6 +141,32 @@ public class ChatBehaviour : NetworkBehaviour
             }
         }
 
+        //EMOTE STUFF
+        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Slash))
+        {
+            inChatMode.Value = !inChatMode.Value;
+
+            if (inChatMode.Value == false)
+            {
+                inputField.gameObject.SetActive(false);
+                chatBackground.gameObject.SetActive(false);
+                emoteList.SetActive(false);
+                participantsListCanvas.enabled = false;
+                // sendButton.gameObject.SetActive(false);
+            }
+            if (inChatMode.Value == true)
+            {
+                inputField.gameObject.SetActive(true);
+                chatBackground.gameObject.SetActive(true);
+                emoteList.SetActive(true); //panel with all emotes
+                participantsListCanvas.enabled = false;
+
+                inputField.Select();
+                inputField.text = "/";
+                inputField.ActivateInputField();
+                // inputField.MoveTextStart(true);
+            }
+        }
         // not functional yet!
         /*
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape)) //activate participants list
@@ -151,7 +185,7 @@ public class ChatBehaviour : NetworkBehaviour
             }
         }
         */
-        
+
         // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
@@ -198,6 +232,8 @@ public class ChatBehaviour : NetworkBehaviour
         inputField.gameObject.SetActive(false);
         chatBackground.gameObject.SetActive(false);
         inChatMode.Value = false;
+        emoteList.SetActive(false);
+        participantsListCanvas.enabled = false;
     }
 
     public override void OnStartAuthority()
