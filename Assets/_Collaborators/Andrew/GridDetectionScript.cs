@@ -52,7 +52,8 @@ public class GridDetectionScript : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) return;
-        checkIfSyncListChanged();
+
+        // checkIfSyncListChanged();
 
         Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out hit);
         if (hit.collider!=null)
@@ -75,8 +76,8 @@ public class GridDetectionScript : NetworkBehaviour
             CmdUpdateMesh();
         }
 
-
-        // checkIfLocalListChanged();
+        checkIfSyncListChanged();
+        checkIfLocalListChanged();
 
         outlineRenderer.enabled = hit.collider != null;
         cubeOutline.position = digPosition;
@@ -88,7 +89,7 @@ public class GridDetectionScript : NetworkBehaviour
     {
         if (MH.syncedTris.Count!=triCount)
         {
-            print("THE SYNC LIST HAS CHANGED!");
+            // print("THE SYNC LIST HAS CHANGED!");
             MH.UpdateMesh();
             triCount = MH.syncedTris.Count;
         }
@@ -157,8 +158,7 @@ public class GridDetectionScript : NetworkBehaviour
         {
             triangles.Add(newTris[i]+triLength);
         }
-
-        
+       
 
         for (int i = 0; i < bigChunk.vertices.Length; i++)
         {
@@ -200,8 +200,8 @@ public class GridDetectionScript : NetworkBehaviour
         bigChunk.triangles = triangles.ToArray();
         bigChunk.vertices = vertices.ToArray();
 
-        Debug.Log(bigChunk.vertices.Length);
-        Debug.Log(bigChunk.triangles.Length);
+        // Debug.Log(bigChunk.vertices.Length);
+        // Debug.Log(bigChunk.triangles.Length);
        
       //  CmdUpdateMesh();
         //GameObject.Find("MeshHolder").AddComponent<MeshCollider>();

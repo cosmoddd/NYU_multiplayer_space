@@ -21,8 +21,14 @@ public class LocalSaveData : MonoBehaviour
 
     void Start()
     {
+      if (ES3.FileExists("saveInfo.es3"))
+      {
+        print("file exists.  loading data");
         LoadData();
         SetCustomizer();
+        return;
+      }
+      print("file doesn't exist");
     }
 
     void LoadData()

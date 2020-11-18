@@ -40,6 +40,7 @@ public class MeshHolderScript : NetworkBehaviour
             tris[t] = syncedTris[t];
         }
 
+        MF.mesh.Clear(true);
         MF.mesh.vertices = verts;
         MF.mesh.triangles = tris;
 
