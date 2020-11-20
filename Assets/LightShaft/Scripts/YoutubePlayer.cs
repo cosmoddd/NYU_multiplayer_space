@@ -210,6 +210,7 @@ public class YoutubePlayer : MonoBehaviour
 
     private float lastStartedTime;
     private bool youtubeUrlReady = false;
+    private static bool needUpdate = false;
 
     #endregion
 
@@ -219,7 +220,7 @@ public class YoutubePlayer : MonoBehaviour
     private static string jsUrl;
 
     /*PRIVATE INFO DO NOT CHANGE THESE URLS OR VALUES, ONLY IF YOU WANT HOST YOUR OWN SERVER| TURORIALS IN THE PROJECT FILES*/
-    private const string serverURI = "https://unity-dev-youtube.herokuapp.com/api/info?url=";
+    private const string serverURI = "https://lightshaftstream.herokuapp.com/api/info?url=";
     private const string formatURI = "&format=best&flatten=true";
     private const string VIDEOURIFORWEBGLPLAYER = "https://youtubewebgl.herokuapp.com/download.php?mime=video/mp4&title=generatedvideo&token=";
     /*END OF PRIVATE INFO*/
@@ -230,6 +231,33 @@ public class YoutubePlayer : MonoBehaviour
 
     private void Awake()
     {
+        //System to update some things on the go
+        if (PlayerPrefs.HasKey("utube_config"))
+        {
+            Debug.Log("Load Utube auto updater data from device");
+
+            magicResult = new MagicContent();
+            magicResult.regexForFuncName = @PlayerPrefsX.GetStringArray("utube_regex_funcName");
+            magicResult.regexForHtmlJson = PlayerPrefs.GetString("utube_regex_htmlJson");
+            magicResult.regexForHtmlPlayerVersion = PlayerPrefs.GetString("utube_regex_htmlPlayerVersion");
+        }
+        else
+        {
+            Debug.Log("create auto updater for utube");
+            PlayerPrefs.SetInt("utube_config", 1);
+
+            magicResult = new MagicContent();
+            PlayerPrefsX.SetStringArray("utube_regex_funcName", @magicResult.defaultFuncName);
+            PlayerPrefs.SetString("utube_regex_htmlJson", magicResult.defaultHtmlJson);
+            PlayerPrefs.SetString("utube_regex_htmlPlayerVersion", magicResult.defaultHtmlPlayerVersion);
+
+            magicResult.regexForFuncName = @PlayerPrefsX.GetStringArray("utube_regex_funcName");
+            magicResult.regexForHtmlJson = PlayerPrefs.GetString("utube_regex_htmlJson");
+            magicResult.regexForHtmlPlayerVersion = PlayerPrefs.GetString("utube_regex_htmlPlayerVersion");
+
+        }
+        //end
+
         if (!playUsingInternalDevicePlayer && !loadYoutubeUrlsOnly)
         {
             if (videoQuality == YoutubeVideoQuality.STANDARD) //Disable the second video player to eco resource;
@@ -247,11 +275,71 @@ public class YoutubePlayer : MonoBehaviour
         }
     }
 
+    private void UpdateRegexMethodsFromServer()
+    {
+        //StartCoroutine(CallServerForUpdate());  //Load the updater. Need to improve this.
+    }
+
+    IEnumerator CallServerForUpdate()
+    {
+        
+        UnityWebRequest request = UnityWebRequest.Get("http://test-youtube-unity.herokuapp.com/api/regexUpdater");
+        yield return request.SendWebRequest();
+
+        if (request.isDone)
+        {
+            RegexUpdaterLoaded(JSON.Parse(request.downloadHandler.text));
+        }
+    }
+
+    private void RegexUpdaterLoaded(JSONNode regexJsonData)
+    {
+        if(regexJsonData["patterns"] == null)
+        {
+            PlayerPrefs.SetInt("utube_config", 1);
+
+            magicResult = new MagicContent();
+            PlayerPrefsX.SetStringArray("utube_regex_funcName", @magicResult.defaultFuncName);
+            PlayerPrefs.SetString("utube_regex_htmlJson", magicResult.defaultHtmlJson);
+            PlayerPrefs.SetString("utube_regex_htmlPlayerVersion", magicResult.defaultHtmlPlayerVersion);
+
+            magicResult.regexForFuncName = @PlayerPrefsX.GetStringArray("utube_regex_funcName");
+            magicResult.regexForHtmlJson = PlayerPrefs.GetString("utube_regex_htmlJson");
+            magicResult.regexForHtmlPlayerVersion = PlayerPrefs.GetString("utube_regex_htmlPlayerVersion");
+        }
+        else
+        {
+            JSONArray patternArray = regexJsonData["patterns"].AsArray;
+            string[] newRegexArray = new string[patternArray.Count];
+
+            for (int x = 0; x < patternArray.Count; x++)
+            {
+                string tempString = patternArray[x].Value;
+                newRegexArray[x] = @tempString;
+            }
+
+            magicResult = new MagicContent();
+            PlayerPrefsX.SetStringArray("utube_regex_funcName", @newRegexArray);
+            PlayerPrefs.SetString("utube_regex_htmlJson", regexJsonData["htmlJson"]);
+            PlayerPrefs.SetString("utube_regex_htmlPlayerVersion", regexJsonData["htmlPlayerVersion"]);
+
+
+            magicResult.regexForFuncName = @PlayerPrefsX.GetStringArray("utube_regex_funcName");
+            magicResult.regexForHtmlJson = PlayerPrefs.GetString("utube_regex_htmlJson");
+            magicResult.regexForHtmlPlayerVersion = PlayerPrefs.GetString("utube_regex_htmlPlayerVersion");
+
+            Debug.Log("<color='yellow'>Regex updated from server, if the error continues mail support at kelvinparkour@gmail.com</color>");
+        }
+    }
+
+
     public void Start()
     {
         if (playUsingInternalDevicePlayer)
             loadYoutubeUrlsOnly = true;
-
+#if UNITY_WEBGL
+        videoQuality = YoutubeVideoQuality.STANDARD;
+#endif
 
         if (!loadYoutubeUrlsOnly)
         {
@@ -469,6 +557,13 @@ public class YoutubePlayer : MonoBehaviour
 
     double lastTimePlayed = Mathf.Infinity;
 
+
+    IEnumerator ReleaseNeedUpdate()
+    {
+        yield return new WaitForSeconds(40);
+        canUpdate = true;
+    }
+
     void FixedUpdate()
     {
         if (!loadYoutubeUrlsOnly)
@@ -534,6 +629,13 @@ public class YoutubePlayer : MonoBehaviour
                 if (progress != null)
                     progress.fillAmount = (float)videoPlayer.frame / (float)videoPlayer.frameCount;
             }
+        }
+
+        if (needUpdate)
+        {
+            needUpdate = false;
+            StartCoroutine(ReleaseNeedUpdate());
+            UpdateRegexMethodsFromServer();
         }
 
         if (gettingYoutubeURL)
@@ -734,10 +836,10 @@ public class YoutubePlayer : MonoBehaviour
             url = url.Remove(last);
         }
 
-        /*if (!url.Contains("youtu"))
+        if (!url.Contains("youtu"))
         {
             url = "youtube.com/watch?v=" + url;
-        }*/
+        }
 
         bool isYoutubeUrl = TryNormalizeYoutubeUrlLocal(url, out url);
         if (!isYoutubeUrl)
@@ -1338,6 +1440,7 @@ public class YoutubePlayer : MonoBehaviour
         newRequestResults = new YoutubeResultIds();
         var requestData = JSON.Parse(request.downloadHandler.text);
         var videos = requestData["videos"][0]["formats"];
+        Debug.Log(request.downloadHandler.text);
         newRequestResults.bestFormatWithAudioIncluded = requestData["videos"][0]["url"];
         for (int counter = 0; counter < videos.Count; counter++)
         {
@@ -1761,11 +1864,21 @@ public class YoutubePlayer : MonoBehaviour
     public void Volume()
     {
         if (videoPlayer.audioOutputMode == VideoAudioOutputMode.Direct)
+        {
             audioPlayer.SetDirectAudioVolume(0, volumeSlider.value);
+            videoPlayer.SetDirectAudioVolume(0, volumeSlider.value);
+        }
         else if (videoPlayer.audioOutputMode == VideoAudioOutputMode.AudioSource)
+        {
             videoPlayer.GetComponent<AudioSource>().volume = volumeSlider.value;
+            videoPlayer.SetDirectAudioVolume(0, volumeSlider.value);
+        }
         else
+        {
             videoPlayer.GetComponent<AudioSource>().volume = volumeSlider.value;
+            videoPlayer.SetDirectAudioVolume(0, volumeSlider.value);
+        }
+            
     }
 
     public void Speed()
@@ -2103,7 +2216,6 @@ public class YoutubePlayer : MonoBehaviour
         yield return request.SendWebRequest();
         startedPlayingWebgl = false;
         webGlResults = new YoutubeResultIds();
-        Debug.Log(request.url);
         var requestData = JSON.Parse(request.downloadHandler.text);
         var videos = requestData["videos"][0]["formats"];
         webGlResults.bestFormatWithAudioIncluded = requestData["videos"][0]["url"];
@@ -2228,10 +2340,7 @@ public class YoutubePlayer : MonoBehaviour
 
 
     private string[] patternNames = {
-        @"(?:\b|[^\w$])([\w$]{2})\s*=\s*function\(\s*a\s*\)\s*{\s*a\s*=\s*a\.split\(\s*""""\s*\)",
-        @"(\w+)=function\(\w+\){(\w+)=\2\.split\(\x22{2}\);.*?return\s+\2\.join\(\x22{2}\)}",
-        @"\b[cs]\s*&&\s*[adf]\.set\([^,]+\s*,\s*encodeURIComponent\s*\(\s*([\w$]+)\(",
-        
+        ""
     };
     //private int patternIndex = 0;
 
@@ -2242,6 +2351,9 @@ public class YoutubePlayer : MonoBehaviour
         //Find "C" in this: var A = B.sig||C (B.s)
         //string functNamePattern = @"(\w+)\s*=\s*function\(\s*(\w+)\s*\)\s*{\s*\2\s*=\s*\2\.split\(\""\""\)\s*;(.+)return\s*\2\.join\(\""\""\)\s*}\s*;";
         var funcName = "";
+
+        patternNames = @magicResult.regexForFuncName;
+
         foreach ( string pat in patternNames)
         {
             string h  = Regex.Match(js, pat).Groups[1].Value;
@@ -2257,8 +2369,11 @@ public class YoutubePlayer : MonoBehaviour
             funcName = "\\" + funcName; //Due To Dollar Sign Introduction, Need To Escape
         }
 
+        Debug.Log(funcName);
+
         string funcPattern = @"(?!h\.)" + @funcName + @"=function\(\w+\)\{.*?\}"; //Escape funcName string
         var funcBody = Regex.Match(js, funcPattern, RegexOptions.Singleline).Value; //Entire sig function
+        Debug.Log(funcBody);
 
         var lines = funcBody.Split(';'); //Each line in sig function
 
@@ -2395,8 +2510,13 @@ public class YoutubePlayer : MonoBehaviour
         if (string.IsNullOrEmpty(operations))
         {
             Debug.Log("Operation is empty for low qual, trying again.");
-           
+            if (canUpdate)
+            {
+                needUpdate = true;
+                canUpdate = false;
+            }
             decryptedVideoUrlResult = null;
+            return;
         }
         else
         {
@@ -2446,7 +2566,7 @@ public class YoutubePlayer : MonoBehaviour
 
         //string functNamePattern = @"\b[cs]\s*&&\s*[adf]\.set\([^,]+\s*,\s*encodeURIComponent\s*\(\s*([\w$]+)\(";
         //string functNamePattern = patternNames[patternIndex];
-
+        patternNames = magicResult.regexForFuncName;
         var funcName = "";
         foreach (string pat in patternNames)
         {
@@ -2464,17 +2584,20 @@ public class YoutubePlayer : MonoBehaviour
             funcName = "\\" + funcName; //Due To Dollar Sign Introduction, Need To Escape
         }
 
-        string funcPattern = @"(?!h\.)" + @funcName + @"=function\(\w+\)\{.*?\}"; //Escape funcName string
-        var funcBody = Regex.Match(js, funcPattern, RegexOptions.Singleline).Value; //Entire sig function
+        
+        string funcPattern = @"(?!h\.)" + @funcName + @"=function\(\w+\)\{.*?join.*\};"; //Escape funcName string
+        
+        var funcBody = Regex.Match(js, funcPattern).Value; //Entire sig function old entire function....
         var lines = funcBody.Split(';'); //Each line in sig function
-        Debug.Log(funcBody);
 
         string idReverse = "", idSlice = "", idCharSwap = ""; //Hold name for each cipher method
         string functionIdentifier = "";
         string operations = "";
 
+      
         foreach (var line in lines.Skip(1).Take(lines.Length - 2)) //Matches the funcBody with each cipher method. Only runs till all three are defined.
         {
+
             if (!string.IsNullOrEmpty(idReverse) && !string.IsNullOrEmpty(idSlice) &&
                 !string.IsNullOrEmpty(idCharSwap))
             {
@@ -2550,6 +2673,11 @@ public class YoutubePlayer : MonoBehaviour
         if (string.IsNullOrEmpty(operations))
         {
             Debug.Log("Operation is empty, trying again.");
+            if (canUpdate)
+            {
+                needUpdate = true;
+                canUpdate = false;
+            }
             decryptedAudioUrlResult = null;
             decryptedVideoUrlResult = null;
         }
@@ -2640,17 +2768,34 @@ public class YoutubePlayer : MonoBehaviour
 
             try
             {
-                var dataRegex = new Regex(@"ytplayer\.config\s*=\s*(\{.+?\});ytplayer", RegexOptions.Multiline);
+                var dataRegex = new Regex(magicResult.regexForHtmlJson, RegexOptions.Multiline);
                 string extractedJson = dataRegex.Match(jsonForHtmlVersion).Result("$1");
                 JObject json = JObject.Parse(extractedJson);
                 string videoTitle = GetVideoTitle(json);
                 if (debug)
                     Debug.Log(videoTitle);
                 IEnumerable<ExtractionInfo> downloadUrls = ExtractDownloadUrls(json);
-               
+
+
+                string htmlPlayerVersion = "";
+
+                if (!json.ContainsItem("assets"))
+                {
+                    var secondaryDataRegex = new Regex(@"ytplayer\.web_player_context_config\s*=\s*(\{.+?\});", RegexOptions.Multiline);
+                    JObject secondaryJson = JObject.Parse(secondaryDataRegex.Match(jsonForHtmlVersion).Result("$1"));
+
+                    string js = secondaryJson["jsUrl"].ToString();
+                    jsUrl = "https://www.youtube.com" + js;
+                    htmlPlayerVersion = TryMatchHtmlVersion(js, magicResult.regexForHtmlPlayerVersion);
+                }
+                else
+                {
+                    htmlPlayerVersion = GetHtml5PlayerVersion(json, magicResult.regexForHtmlPlayerVersion);
+                    htmlVersion = htmlPlayerVersion;
+                }
+
+                htmlVersion = htmlPlayerVersion;
                 List<VideoInfo> infos = GetVideoInfos(downloadUrls, videoTitle).ToList();
-                string htmlPlayerVersion = GetHtml5PlayerVersion(json);
-                htmlVersion = GetHtml5PlayerVersion(json);
                 
                 if (string.IsNullOrEmpty(htmlVersion))
                 {
@@ -2670,6 +2815,7 @@ public class YoutubePlayer : MonoBehaviour
                 if (!loadYoutubeUrlsOnly)
                 {
                     Debug.Log("Resolver Exception!: " + e.Message);
+                    Debug.Log(e.Source + " " + e.StackTrace);
                     Debug.Log(Application.persistentDataPath);
                     //string filePath = Application.persistentDataPath + "/log_download_exception_" + DateTime.Now.ToString("ddMMyyyyhhmmssffff") + ".txt";
                     //Debug.Log("DownloadUrl content saved to " + filePath);
@@ -2678,7 +2824,7 @@ public class YoutubePlayer : MonoBehaviour
                     Debug.Log("retry!");
                     if (player != null)
                     {
-                            player.RetryPlayYoutubeVideo();
+                        player.RetryPlayYoutubeVideo();
                     }
                     else
                     {
@@ -2866,11 +3012,11 @@ public class YoutubePlayer : MonoBehaviour
             isValid = _valid;
         }
     }
-    private static string GetHtml5PlayerVersion(JObject json)
+
+    private static string GetHtml5PlayerVersion(JObject json, string regexForHtmlPVersions)
     {
 
-        var regex = new Regex(@"player_ias-(.+?).js");
-
+        var regex = new Regex(regexForHtmlPVersions);
         string js = json["assets"]["js"].ToString();
         jsUrl = "https://www.youtube.com"+js;
 
@@ -2884,6 +3030,18 @@ public class YoutubePlayer : MonoBehaviour
         regex = new Regex(@"player-(.+?).js");
 
         return regex.Match(js).Result("$1");
+    }
+
+    private static string TryMatchHtmlVersion(string input, string regexForHtmlPVersions)
+    {
+        var regex = new Regex(regexForHtmlPVersions);
+        Match match = regex.Match(input);
+        if (match.Success) return match.Result("$1");
+        regex = new Regex(@"player_ias(.+?).js");
+        match = regex.Match(input);
+        if (match.Success) return match.Result("$1");
+        regex = new Regex(@"player-(.+?).js");
+        return regex.Match(input).Result("$1");
     }
 
     private static string GetStreamMap(JObject json)
@@ -3233,6 +3391,31 @@ public class YoutubePlayer : MonoBehaviour
 
     [HideInInspector]
     public bool checkIfSync = false;
+
+
+    #region Magic to update the plugin on the go
+    private class MagicContent {
+        public string[] regexForFuncName; //"(?:\b|[^\w$])([\w$]{2})\s*=\s*function\(\s*a\s*\)\s*{\s*a\s*=\s*a\.split\(\s*""""\s*\)"
+        public string regexForHtmlJson; //"ytplayer\.config\s*=\s*(\{.+?\});ytplayer"
+        public string regexForHtmlPlayerVersion; //"player_ias-(.+?).js"
+
+        //---
+
+        public string[] defaultFuncName = {
+            @"(?:\b|[^\w$])([\w$]{2})\s*=\s*function\(\s*a\s*\)\s*{\s*a\s*=\s*a\.split\(\s*""""\s*\)",
+            @"(\w+)=function\(\w+\){(\w+)=\2\.split\(\x22{2}\);.*?return\s+\2\.join\(\x22{2}\)}",
+            @"\b[cs]\s*&&\s*[adf]\.set\([^,]+\s*,\s*encodeURIComponent\s*\(\s*([\w$]+)\("
+        } ;
+        public string defaultHtmlJson = @"ytplayer\.config\s*=\s*(\{.+?\});ytplayer";
+        public string defaultHtmlPlayerVersion = @"player_ias-(.+?).js";
+    }
+    private MagicContent magicResult;
+    private bool canUpdate = true;
+
+
+
+    #endregion
+
 }
 
 public static class Extensions

@@ -8,6 +8,8 @@ using UnityAtoms.BaseAtoms;
 public class Z_Interactee : NetworkBehaviour {
 
     public UnityEvent onPressed;
+    public List<MeshRenderer> Meshes;
+    [HideInInspector] public bool LastActive;
 
     public void Process()
     {
@@ -17,4 +19,19 @@ public class Z_Interactee : NetworkBehaviour {
         onPressed.Invoke();
     }
 
+    public void Update()
+    {
+        if (!Z_Interactor.Main)
+            return;
+        if (this == Z_Interactor.Main.HoveredObject && !LastActive)
+        {
+            if (Z_Interactor.Main.StartOutline(this))
+                LastActive = true;
+        }
+        else if (this != Z_Interactor.Main.HoveredObject && LastActive)
+        {
+            if (Z_Interactor.Main.EndOutline(this))
+                LastActive = false;
+        }
+    }
 }

@@ -280,6 +280,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FullText: {fileID: 11400000, guid: 763d77e1cb0440a4f8e29f837bf82a5f, type: 2}
+  RepetitionDivider:
+    _usage: 0
+    _value: ' | '
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
   DisplayLength:
     _usage: 0
     _value: 15
@@ -293,12 +299,6 @@ MonoBehaviour:
     _variable: {fileID: 0}
     _variableInstancer: {fileID: 0}
   PartialText: {fileID: 11400000, guid: 0983b73a3621bbe4d888bb9b737a87dd, type: 2}
-  RepetitionDivider:
-    _usage: 0
-    _value: ' | '
-    _constant: {fileID: 0}
-    _variable: {fileID: 0}
-    _variableInstancer: {fileID: 0}
 --- !u!114 &7918971727576585063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -612,7 +612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentTrackName: 
+  currentTrackInServerName: 
   serverPlaytime: 0
   clientPlaytime: 0
   TracksPath: jukebox\de-mix
@@ -888,7 +888,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4666557338414739033}
         m_TargetAssemblyTypeName: OnlineJukebox, Assembly-CSharp
-        m_MethodName: EnqueueRandomSong
+        m_MethodName: Skip
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

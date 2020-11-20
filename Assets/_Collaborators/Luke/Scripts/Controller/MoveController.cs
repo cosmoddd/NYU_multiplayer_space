@@ -39,6 +39,9 @@ public class MoveController : NetworkBehaviour
 
     [Header("In Chat Mode")]
     public BoolVariable inChatMode;
+
+    
+
     [Header("Sitting")]
     public BoolReference sittingBool;
 
@@ -55,6 +58,10 @@ public class MoveController : NetworkBehaviour
             CameraController camController = cameraObject.GetComponent<CameraController>();
             camController.target = transform;
             cameraTransform = cameraObject.transform;
+
+
+           // GameObject startPos = GameObject.Find("Startposition");
+
             controllerAndCameraInit?.Invoke(this.gameObject, cameraObject);
 
             // pass a reference of our camera script to the options menu
@@ -212,4 +219,15 @@ public class MoveController : NetworkBehaviour
         slopeNormal = Vector3.zero;
         return false;
     }
+
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Playerkillzone"))
+    //    {
+    //        Destroy(gameObject);
+    //        //NetworkManager.RegisterStartPosition(transform);
+    //       // Instantiate(Player, startPos.transform.position, transform.rotation);
+    //    }
+    //}
 }
