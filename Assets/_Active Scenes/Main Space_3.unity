@@ -58923,6 +58923,10 @@ PrefabInstance:
       propertyPath: whenToUpdateTransform
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5546164255834770838, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1997673191801630018, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
@@ -58950,6 +58954,33 @@ MonoBehaviour:
       m_Calls: []
   Meshes: []
   LastActive: 0
+--- !u!54 &2021079079 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 2185896381231103765, guid: ef72d9e4569f1b64a86c21facf166321, type: 3}
+  m_PrefabInstance: {fileID: 2021079076}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2021079080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021079077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83392ae5c1b731446909f252fd494ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  target: {fileID: 2021079079}
+  clientAuthority: 0
+  syncVelocity: 1
+  clearVelocity: 0
+  velocitySensitivity: 0.1
+  syncAngularVelocity: 1
+  clearAngularVelocity: 0
+  angularVelocitySensitivity: 0.1
 --- !u!1 &2024381383
 GameObject:
   m_ObjectHideFlags: 0
