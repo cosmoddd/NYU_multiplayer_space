@@ -154,4 +154,22 @@ public class Customizer : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(0, lerpRot, 0);
     }
+
+    //used to set the torso nodes from the save file, makes sure they are the same length  *Kate
+    public void SetTorsoNodes(float[] loadNodes)
+    {
+        //Check the lengths match
+        if(torsoNodeScales.Length != loadNodes.Length) Debug.Log("Torso Save Data Mismatched: Check Array Lengths");
+
+        
+        for(int i = 0; i < torsoNodeScales.Length; i++)
+        {
+            //If there is no load node for this scale, break
+            if(loadNodes.Length - 1 < i) break;
+
+            //For each Torso Node Scale, Set it to the load node value
+            torsoNodeScales[i] = loadNodes[i];
+        }
+
+    }
 }
