@@ -5,7 +5,7 @@ using Mirror;
 
 public class MeshHolderScript : NetworkBehaviour
 {
-    MeshFilter MF;
+    public MeshFilter MF;
 
 
     public class SyncTri : SyncList<int> { }
