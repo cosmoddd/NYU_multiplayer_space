@@ -179,6 +179,10 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.text = "/";
                 inputField.ActivateInputField();
                 // inputField.MoveTextStart(true);
+
+                // Start a coroutine to deselect text and move caret to end. 
+                // This can't be done now, must be done in the next frame.
+                StartCoroutine(MoveTextEnd_NextFrame());
             }
         }
         // not functional yet!
@@ -206,6 +210,12 @@ public class ChatBehaviour : NetworkBehaviour
             StartCoroutine(EnterChatToggle());
         }
 
+    }
+
+    IEnumerator MoveTextEnd_NextFrame()
+    {
+        yield return 0; // Skip the first frame in which this is called.
+        inputField.MoveTextEnd(false); // Do this during the next frame.
     }
 
     // need to do this in a coroutine to avoid simultaneous frame conflict with enabling/disabling
