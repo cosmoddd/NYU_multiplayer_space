@@ -31,6 +31,12 @@ public class CustomizerUITabs : MonoBehaviour
 
     public AuthenticationManager authentication;
 
+    public Slider[] torsoSliders;
+
+    public GameObject slidersPanel;
+
+    public GameObject scrollPanel;
+
 
     public Customizer customizerScript;
     //--ColorValues--   these are used to make new colors when the sliders change
@@ -76,23 +82,43 @@ public class CustomizerUITabs : MonoBehaviour
             return;
         }
 
+        //check for saved data, load the saved character if it exsits. 
+        
+
+        //back button
+
         customizePanel.SetActive(true);
+        slidersPanel.SetActive(true);
+        scrollPanel.SetActive(false);
         loginPanel.SetActive(false);
+        SetSliderValues();
 
         SetCustomizationTab(currentTab);
         colorPicker.gameObject.SetActive(true);
     }
 
-    
+    void SetSliderValues()
+    {
+        for(int i = 0; i < torsoSliders.Length; i++)
+        {
+            float clampDif = customizerScript.torsoScaleClamps[i].y - customizerScript.torsoScaleClamps[i].x; //the range between the two clamp values
+            float currentValue = customizerScript.torsoNodeScales[i]; //the current scale of that node, set by the load data script
+
+            float percentageValue = (clampDif - currentValue) / clampDif; //the percentage the current value is, from 0-1
+
+            torsoSliders[i].SetValueWithoutNotify(percentageValue); //set the torso sliders inital value to this value
+        }
+    }
+
         public void SaveCharacter()
     {
-        //call save character script
-
         //change tabs
         customizePanel.SetActive(false);
         colorPicker.gameObject.SetActive(false);
 
         clientLoginPanel.SetActive(true);
+
+        //SET USERNAME HERE?
 
     }
 
@@ -189,22 +215,30 @@ public class CustomizerUITabs : MonoBehaviour
     public void SelectHeadTab()
     {
         SetCustomizationTab(0);
+        slidersPanel.SetActive(false);
+        scrollPanel.SetActive(true);
+        
     }
-    
+
     public void SelectTorsoTab()
     {
         SetCustomizationTab(1);
+        slidersPanel.SetActive(true);
+        scrollPanel.SetActive(false);
     }
-
 
     public void SelectFeetTab()
     {
         SetCustomizationTab(2);
+        slidersPanel.SetActive(false);
+        scrollPanel.SetActive(true);
     }
 
     public void SelectHatTab()
     {
         SetCustomizationTab(3);
+        slidersPanel.SetActive(false);
+        scrollPanel.SetActive(true);
     }
 
     //COLOR
@@ -234,5 +268,25 @@ public class CustomizerUITabs : MonoBehaviour
         string username = input;
         customizerScript.userName = username;
     }
+
+    void SliderSetValue(float value, int slider)
+    {
+        float clampDif = customizerScript.torsoScaleClamps[slider].y - customizerScript.torsoScaleClamps[slider].x; //the range between the two clamp values
+
+        float currentValue = clampDif -  (value * clampDif); //the real value from the percentage value
+
+        customizerScript.torsoNodeScales[slider] = currentValue;
+
+    }
+
+    public void SliderZeroSetValue(float value){  SliderSetValue(value,0); }
+    public void SliderOneSetValue(float value){  SliderSetValue(value,1); }
+    public void SliderTwoSetValue(float value){  SliderSetValue(value,2); }
+    public void SliderThreeSetValue(float value){  SliderSetValue(value,3); }
+    public void SliderFourSetValue(float value){  SliderSetValue(value,4); }
+    public void SliderFiveSetValue(float value){  SliderSetValue(value,5); }
+    public void SliderSixSetValue(float value){  SliderSetValue(value,6); }
+    public void SliderSevenSetValue(float value){  SliderSetValue(value,7); }
+
 
 }

@@ -5,7 +5,7 @@ using Mirror;
 
 public class MeshHolderScript : NetworkBehaviour
 {
-    MeshFilter MF;
+    public MeshFilter MF;
 
 
     public class SyncTri : SyncList<int> { }
@@ -40,6 +40,7 @@ public class MeshHolderScript : NetworkBehaviour
             tris[t] = syncedTris[t];
         }
 
+        MF.mesh.Clear(true);
         MF.mesh.vertices = verts;
         MF.mesh.triangles = tris;
 
