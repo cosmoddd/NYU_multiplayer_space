@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CamControlScript : MonoBehaviour
 {
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +18,18 @@ public class CamControlScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+
         yrot -= Input.GetAxisRaw("Mouse Y") * 300 * Time.deltaTime;
         xrot += Input.GetAxisRaw("Mouse X") * 300 * Time.deltaTime;
 

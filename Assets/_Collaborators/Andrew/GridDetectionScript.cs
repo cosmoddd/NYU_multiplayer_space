@@ -26,6 +26,8 @@ public class GridDetectionScript : NetworkBehaviour
     MeshFilter outlineFilter;
     MeshRenderer outlineRenderer;
 
+    
+
     void Start()
     {
         
@@ -39,12 +41,12 @@ public class GridDetectionScript : NetworkBehaviour
 
         MH.UpdateMesh();
         triCount = MH.syncedTris.Count;
-        localTriCount = bigChunk.triangles.Length;
+        localTriCount = MH.MF.mesh.triangles.Length;
          
         outlineFilter = GetComponentInChildren<MeshFilter>();
         outlineRenderer = GetComponentInChildren<MeshRenderer>();
         cubeOutline = outlineFilter.transform;
-  
+    
     }
 
 
@@ -52,7 +54,7 @@ public class GridDetectionScript : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) return;
-
+        if (Input.GetKeyDown(KeyCode.Space)) { MH.UpdateMesh(); }
         // checkIfSyncListChanged();
 
         Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out hit);
@@ -76,8 +78,9 @@ public class GridDetectionScript : NetworkBehaviour
             CmdUpdateMesh();
         }
 
-        checkIfSyncListChanged();
         checkIfLocalListChanged();
+        checkIfSyncListChanged();
+        
 
         outlineRenderer.enabled = hit.collider != null;
         cubeOutline.position = digPosition;
@@ -91,6 +94,7 @@ public class GridDetectionScript : NetworkBehaviour
         {
             // print("THE SYNC LIST HAS CHANGED!");
             MH.UpdateMesh();
+            localTriCount = MH.MF.mesh.triangles.Length; //?????
             triCount = MH.syncedTris.Count;
         }
     }
@@ -99,10 +103,10 @@ public class GridDetectionScript : NetworkBehaviour
 
     void checkIfLocalListChanged()
     {
-      if (bigChunk.triangles.Length!= localTriCount)
+      if (MH.MF.mesh.triangles.Length!= localTriCount)
       {
         CmdUpdateMesh();
-        localTriCount = bigChunk.triangles.Length;
+        localTriCount = MH.MF.mesh.triangles.Length;
       }
     }
 
@@ -110,15 +114,15 @@ public class GridDetectionScript : NetworkBehaviour
     void CmdUpdateMesh()
     {
         MH.syncedTris.Clear();
-        for (int t = 0; t < bigChunk.triangles.Length; t++)
+        for (int t = 0; t < MH.MF.mesh.triangles.Length; t++)
         {
-            MH.syncedTris.Add(bigChunk.triangles[t]);
+            MH.syncedTris.Add(MH.MF.mesh.triangles[t]);
         }
 
         MH.syncedVerts.Clear();
-        for (int v = 0; v < bigChunk.vertices.Length; v++)
+        for (int v = 0; v < MH.MF.mesh.vertices.Length; v++)
         {
-            MH.syncedVerts.Add(bigChunk.vertices[v]);
+            MH.syncedVerts.Add(MH.MF.mesh.vertices[v]);
         }
 
         // RpcUpdateMesh();
@@ -133,6 +137,8 @@ public class GridDetectionScript : NetworkBehaviour
     [Command(ignoreAuthority = true)]
     void CmdAddCubeToMesh(Vector3 pos)
     {
+        checkIfLocalListChanged();
+        checkIfSyncListChanged();
         //Destroy(GameObject.Find("MeshHolder").GetComponent<MeshCollider>());
         //
         List<Vector3> vertices = new List<Vector3>();
@@ -152,7 +158,7 @@ public class GridDetectionScript : NetworkBehaviour
             //}
         }
 
-        int triLength = bigChunk.vertices.Length;
+        int triLength = MH.MF.mesh.vertices.Length;
 
         for (int i = 0; i < newTris.Length; i++)
         {
@@ -160,20 +166,23 @@ public class GridDetectionScript : NetworkBehaviour
         }
        
 
-        for (int i = 0; i < bigChunk.vertices.Length; i++)
+        for (int i = 0; i < MH.MF.mesh.vertices.Length; i++)
         {
-            vertices.Add(bigChunk.vertices[i]);
+            vertices.Add(MH.MF.mesh.vertices[i]);
         }
 
 
-        for (int i = 0; i < bigChunk.triangles.Length; i++)
+        for (int i = 0; i < MH.MF.mesh.triangles.Length; i++)
         {          
-            triangles.Add(bigChunk.triangles[i]);           
+            triangles.Add(MH.MF.mesh.triangles[i]);           
         }
 
-        bigChunk.vertices = vertices.ToArray();
-        bigChunk.triangles = triangles.ToArray();
-        bigChunk.RecalculateNormals();
+        MH.MF.mesh.vertices = vertices.ToArray();
+        MH.MF.mesh.triangles = triangles.ToArray();
+        MH.MF.mesh.RecalculateNormals();
+
+        checkIfLocalListChanged();
+        checkIfSyncListChanged();
 
         //GameObject.Find("MeshHolder").AddComponent<MeshCollider>();
     }
@@ -181,10 +190,12 @@ public class GridDetectionScript : NetworkBehaviour
     [Command(ignoreAuthority = true)]
     void CmdRemoveCubeFromMesh(Vector3 pos)
     {
+        checkIfLocalListChanged();
+        checkIfSyncListChanged();
         List<Vector3> vertices = new List<Vector3>();
-        for (int i = 0; i < bigChunk.vertices.Length; i++)
+        for (int i = 0; i < MH.MF.mesh.vertices.Length; i++)
         {
-            vertices.Add(bigChunk.vertices[i]);
+            vertices.Add(MH.MF.mesh.vertices[i]);
         }
 
         Debug.Log(vertices.IndexOf(pos));
@@ -192,18 +203,21 @@ public class GridDetectionScript : NetworkBehaviour
         vertices.RemoveRange(centerIndex - 8, 25);
 
         List<int> triangles = new List<int>();
-        for (int i = cubeMesh.triangles.Length; i < bigChunk.triangles.Length; i++)
+        for (int i = cubeMesh.triangles.Length; i < MH.MF.mesh.triangles.Length; i++)
         {
-            triangles.Add(bigChunk.triangles[i]);
+            triangles.Add(MH.MF.mesh.triangles[i]);
         }
 
-        bigChunk.triangles = triangles.ToArray();
-        bigChunk.vertices = vertices.ToArray();
+        MH.MF.mesh.triangles = triangles.ToArray();
+        MH.MF.mesh.vertices = vertices.ToArray();
+
+        checkIfLocalListChanged();
+        checkIfSyncListChanged();
 
         // Debug.Log(bigChunk.vertices.Length);
         // Debug.Log(bigChunk.triangles.Length);
-       
-      //  CmdUpdateMesh();
+
+        //  CmdUpdateMesh();
         //GameObject.Find("MeshHolder").AddComponent<MeshCollider>();
     }
 
