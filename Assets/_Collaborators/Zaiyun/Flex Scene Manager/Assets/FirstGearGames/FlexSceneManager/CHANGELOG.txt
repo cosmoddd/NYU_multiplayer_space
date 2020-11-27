@@ -1,0 +1,15 @@
+2020/11/19
+	- This release is intended to address game breaking bugs. More features are planned. See trello for updates! https://trello.com/c/gzw9opQw/65-flex-scene-manager-project
+	- Several fixes and API.
+		+ Fixed streamed scenes not unloading on clients when they no longer need the scene.
+		+ Fixed shared scene stacking not unloading properly on clients.
+		+ Work towards making demo scenes more clear. Loading Screen demo is functional but still needs to be cleaned up. Remaining demos have been fixed or adjusted for ease of use.
+		+ FlexSceneManager API CHANGES:
+			OnClientSceneChangeStart, OnClientSceneChangeEnd have been removed. In place there is now
+			OnClientVisibilityChangeStart, OnClientVisibilityChangeEnd.
+			These are called on the server, before and after visibility changes are made for the client. See ClientVisibilityChangeEventArgs and the events themselves for more information.
+			Shared Scene stacking example now uses API changes.
+
+2020/11/13
+	- Official release!
+		+ v100.
