@@ -1,16 +1,13 @@
-You need to have the HLS playback plugin in project, i added demos in the Lightshaft/Players/ folder, you need to import the desired player to the project.
+Hi if you have any doubt or issue you can contact me at email kelvinparkour@gmail.com.
+
+--For low internet connection we recommend use the LOW quality, unity video player dont support the buffering feature yet, when it supports we will implemment for sure.
 
 
-If you receive errors related to MediaPlayerCtrl not found, remeber that you need the easy movie texture asset:
-https://www.assetstore.unity3d.com/en/#!/content/10032
-(Easy movie texture hls playback is not working good in desktop, but works great in mobile builds, avpro are working for all platforms).
 
-For AvPro you can get the trial package here:
-http://renderheads.com/product/avpro-video/
+Check the docs:
+https://lightshaftgames.github.io/site/doc.html 10/25/2018 less 
 
-For UMP request me in my email if you dont know how to edit the avpro code to add for your own.
 
-Unity have plans to add HLS support so, in the future you will dont need that plugins(i hope so), but by now, is the only way to play livestreams in your project.
-I'll create a major version with all youtube features integrated then if you want to upgrade you will be able to pay only the difference.
+For webgl take a look at the folder 'Webgl Youtube Player Setup' if you want to host your webgl player system. (I recommend to use your own, if you dont want to use, just use the webgl demo scene as start).
 
-Support email: kelvinparkour@gmail.com
+-s

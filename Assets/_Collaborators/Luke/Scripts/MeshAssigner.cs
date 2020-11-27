@@ -18,10 +18,25 @@ public class MeshAssigner : NetworkBehaviour
         }
     };
 
+    // custom struct for creating SyncList for torso scales
+    public struct TorsoData
+    {
+        public float scale;
+        
+        public TorsoData(float scale)
+        {
+            this.scale = scale;
+        }
+    };
+
+
+    // custom class
     public class SyncTrait : SyncList<TraitData> {}
+    public class SyncTorso : SyncList<TorsoData> {}
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 body
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 Torso
     public SyncTrait bodyTraits = new SyncTrait();
+    public SyncTorso torsoScales = new SyncTorso();
 
     [SyncVar]
     public string userName;
@@ -61,6 +76,12 @@ public class MeshAssigner : NetworkBehaviour
             TraitData traitStruct = new TraitData(customData.bodyColors[i], customData.bodyIDs[i]);
             bodyTraits.Add(traitStruct);
         }
+
+        for (int i = 0; i < customData.torsoScales.Length; i++)
+        {
+            TorsoData torsoData = new TorsoData(customData.torsoScales[i]);
+            torsoScales.Add(torsoData);
+        }
     }
 
     public void AssignAvatarTraits()
@@ -83,7 +104,8 @@ public class MeshAssigner : NetworkBehaviour
 
         for (int i = 0; i < TorsoNodes.Length; i++)
         {
-            TorsoNodes[i].localScale = Vector3.one * meshData.bodyPresets[bodyTraits[4].bodyID].presetValues[i];
+            //TODO fix to work with slider presets
+            TorsoNodes[i].localScale = Vector3.one * torsoScales[i].scale;
         }
     }
 

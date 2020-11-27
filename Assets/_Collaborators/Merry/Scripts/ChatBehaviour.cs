@@ -30,6 +30,8 @@ public class ChatBehaviour : NetworkBehaviour
 
     public static event Func<string> RetrievePlayerList;
 
+
+
     public GameObject playerCamera;
     [Header("Chat UI")]
     public Transform avatarTransform;
@@ -41,6 +43,7 @@ public class ChatBehaviour : NetworkBehaviour
     public BoolVariable inChatMode;
 
     [Header("Chat Commands")]
+    [SerializeField] private string SpecificChatCommandsPath = "Atoms/ChatEvents";
     public StringEvent[] SpecificChatCommands;
     public StringEvent GenericChatCommand;
     public bool SendCommandsToChat;
@@ -49,7 +52,7 @@ public class ChatBehaviour : NetworkBehaviour
 
     [Header("Participants Control")]
     [SerializeField]
-    private GameObject participantsList = null; //participants list
+    public Canvas participantsListCanvas = null; //participants list
     public BoolVariable participantsListActive;
     [SerializeField]
     private TMP_Text participantsText = null;
@@ -69,6 +72,7 @@ public class ChatBehaviour : NetworkBehaviour
         //retrieve the participants list
         participantsText.text = RetrievePlayerList?.Invoke();
 
+        SpecificChatCommands = Resources.LoadAll<StringEvent>(SpecificChatCommandsPath);
 
         if (inChatMode.Value == false)
             {
@@ -79,10 +83,10 @@ public class ChatBehaviour : NetworkBehaviour
             // sendButton.gameObject.SetActive(false);
         }
 
-        if (participantsListActive.Value == false)
-        {
-            participantsList.gameObject.SetActive(false);
-        }
+        // if (participantsListActive.Value == false)
+        // {
+        //     participantsList.gameObject.SetActive(false);
+        // }
 
         avatarName.text = GetComponent<MeshAssigner>().userName;
     }
@@ -114,17 +118,33 @@ public class ChatBehaviour : NetworkBehaviour
             {
                 inputField.gameObject.SetActive(false);
                 chatBackground.gameObject.SetActive(false);
+                participantsListCanvas.enabled = false;
                 // sendButton.gameObject.SetActive(false);
             }
             if (inChatMode.Value == true)
             {
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
+                participantsListCanvas.enabled = true;
                 // sendButton.gameObject.SetActive(true);
                 inputField.Select();
                 inputField.ActivateInputField();
                 // inputField.MoveTextStart(true);
             }
+
+            // participantsListActive.Value = !participantsListActive.Value;
+
+            // if (participantsListActive.Value == false)
+            // {
+            //     participantsList.gameObject.SetActive(false);
+
+            // }
+            // if (participantsListActive.Value == true)
+            // {
+            //     participantsList.gameObject.SetActive(true);
+
+            // }
+
         }
 
         // not functional yet!
@@ -149,7 +169,7 @@ public class ChatBehaviour : NetworkBehaviour
         // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
-        StartCoroutine(EnterChatToggle());
+            StartCoroutine(EnterChatToggle());
         }
 
     }
@@ -286,13 +306,16 @@ public class ChatBehaviour : NetworkBehaviour
   {
 
     var cleanMessage = message.Trim();
-    if (cleanMessage[0] != '/')
+    if (cleanMessage[0] != CommandPrefix)
     {
       return false;
     }
 
+
     var splitCommand = cleanMessage.Substring(1).Split(new char[] { ' ' }, 2);
     var commandEvent = SpecificChatCommands.FirstOrDefault(c => c.name == splitCommand[0]);
+
+
     if (commandEvent == null)
     {
       GenericChatCommand.Raise(splitCommand[0]);

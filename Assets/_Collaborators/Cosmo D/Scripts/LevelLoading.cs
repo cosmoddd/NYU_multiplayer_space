@@ -11,21 +11,23 @@ public class LevelLoading : NetworkBehaviour
 
     void OnTriggerEnter()
     {
-        // if(isClient)
+        if(isClient)
         {
             {
                 SceneManager.LoadSceneAsync(thisScene.name, LoadSceneMode.Additive);
             }
             
-            SceneMessage msg = new SceneMessage
-            {
-                sceneName = thisScene.name,
-                sceneOperation = SceneOperation.LoadAdditive
-            };
+            // SceneMessage msg = new SceneMessage
+            // {
+            //     sceneName = thisScene.name,
+            //     sceneOperation = SceneOperation.LoadAdditive
+            // };
 
-            connectionToClient.Send(msg);
+            // connectionToClient.Send(msg);
         }
     }
+
+    
 
     void OnTriggerExit()
     {

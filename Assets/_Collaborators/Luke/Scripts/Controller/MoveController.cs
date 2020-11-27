@@ -39,6 +39,9 @@ public class MoveController : NetworkBehaviour
 
     [Header("In Chat Mode")]
     public BoolVariable inChatMode;
+
+    
+
     [Header("Sitting")]
     public BoolReference sittingBool;
 
@@ -52,9 +55,17 @@ public class MoveController : NetworkBehaviour
         {
             cc = GetComponent<CharacterController>();
             GameObject cameraObject = Instantiate(cameraPrefab, transform.position, transform.rotation);
-            cameraObject.GetComponent<CameraController>().target = transform;
+            CameraController camController = cameraObject.GetComponent<CameraController>();
+            camController.target = transform;
             cameraTransform = cameraObject.transform;
+
+
+           // GameObject startPos = GameObject.Find("Startposition");
+
             controllerAndCameraInit?.Invoke(this.gameObject, cameraObject);
+
+            // pass a reference of our camera script to the options menu
+            optionsUI.GetComponent<OptionsMenu>().Initialize(camController);
         }     
 
         if (!isLocalPlayer)
@@ -96,7 +107,7 @@ public class MoveController : NetworkBehaviour
                 }
                 else
                 {
-                    optionsUI.SetActive(false);
+                    optionsUI.GetComponent<OptionsMenu>().CloseOptionsMenu();
                 }
             }
 
@@ -208,4 +219,15 @@ public class MoveController : NetworkBehaviour
         slopeNormal = Vector3.zero;
         return false;
     }
+
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Playerkillzone"))
+    //    {
+    //        Destroy(gameObject);
+    //        //NetworkManager.RegisterStartPosition(transform);
+    //       // Instantiate(Player, startPos.transform.position, transform.rotation);
+    //    }
+    //}
 }

@@ -304,7 +304,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   viewCamera: {fileID: 91347644157836269}
-  mouseSensitivity: 2
+  mouseSensitivity: 1
+  maxSensitivity: 5
   distFromTargetChangeSensitivity: 1
   cursorVisible: 1
   clickToMove: 1
@@ -315,7 +316,7 @@ MonoBehaviour:
   maxCamDist: 60
   camDistSmoothRate: 0.6
   targetSmoothTime: 0.165
-  cameraOffset: {x: 0, y: 7, z: -2}
+  cameraOffset: {x: 0, y: 7, z: 0}
   inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
   bInvertY: {fileID: 11400000, guid: 384d67d844578f2449e5a18173e0ae43, type: 2}
 --- !u!1 &7511339777451240563

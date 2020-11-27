@@ -554,7 +554,7 @@ namespace RenderHeads.Media.AVProVideo
 
 	public static class Helper
 	{
-		public const string ScriptVersion = "1.11.5";
+		public const string ScriptVersion = "1.11.6";
 
 		public static string GetName(Platform platform)
 		{
