@@ -17,6 +17,13 @@ public class BallScript : NetworkBehaviour
     public float distanceToBall;
     public float upAngle = 1.5f;
 
+    public Collider[] overlappingItems;
+    public float[] distanceToObject;
+    public LayerMask overlappingTargetLayer;
+
+    [SyncVar]
+    public bool assessingAuthority;
+
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -30,6 +37,7 @@ public class BallScript : NetworkBehaviour
         MoveController.controllerAndCameraInit -= GetControllerAndCamera;
     }
 
+
     void GetControllerAndCamera(GameObject _localPlayer, GameObject _localCamera)
     {
         localPlayer = _localPlayer;
@@ -38,16 +46,15 @@ public class BallScript : NetworkBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-
+        
         //  print("KICK?");
-        /* if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             print("KICK!!");
             Vector3 kickDirection = (other.transform.position - transform.position).normalized;
-
-            CmdContactBall(kickDirection);
-        } */
-
+            BasicKick(kickDirection);
+            // CmdContactBall(kickDirection);
+        }
 
         if (other.gameObject.CompareTag("Fall Zone"))
         {
@@ -59,6 +66,8 @@ public class BallScript : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        print($"{other.name} hit it!");
+
         if (other.tag == "Goal")
         {
             other.GetComponent<GoalpostScript>().CmdScoredGoal();
@@ -67,8 +76,53 @@ public class BallScript : NetworkBehaviour
         }
     }
 
+    public float drawRadius = 10f;
+    
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, drawRadius);
+    }
+
+    public override void OnStartAuthority()
+    {
+      print("You have authority over the "+ this.gameObject.name);
+    }
+
+
+    [Command(ignoreAuthority=true)]
+    void CmdMoveIntoSphere(NetworkIdentity playerConn)
+    {
+      netIdentity.RemoveClientAuthority();
+      netIdentity.AssignClientAuthority(playerConn.connectionToClient);
+      assessingAuthority = false;
+    }  
+
+    [Command(ignoreAuthority=true)]
+    void CmdAssessAuthority()
+    {
+       assessingAuthority = true;
+    }
+
     public void Update()
     {
+      if (Input.GetKeyDown(KeyCode.Y))
+      {
+        CmdAssessAuthority();
+      }
+
+      // if (assessingAuthority == true)
+      {
+          overlappingItems = Physics.OverlapSphere(transform.position, drawRadius, overlappingTargetLayer);
+
+          if (overlappingItems.Length>0)
+          {
+            // CmdMoveIntoSphere(overlappingItems[0].gameObject.GetComponent<NetworkIdentity>());
+          }
+      }
+     
+
         if (!localCamera) return;
 
         if (localPlayer)
@@ -76,7 +130,9 @@ public class BallScript : NetworkBehaviour
             distanceToBall = (this.transform.position - localPlayer.transform.position).magnitude;
         }
 
-        if (isClickable)
+      // DetermineShortestDistance();
+
+/*         if (isClickable)
         {
             if (Input.GetMouseButtonDown(0) && distanceToBall < 15f)
             {
@@ -90,8 +146,20 @@ public class BallScript : NetworkBehaviour
                     }
                 }
             }
-        }
+        } */
     }
+
+    void DetermineShortestDistance()
+    {
+      if (overlappingItems.Length>0)
+      {
+        for (int i = 0; i < overlappingItems.Length; i++)
+        {
+          distanceToObject[i] = ((this.transform.position - overlappingItems[i].transform.position).magnitude);
+        }
+      }
+    }
+ 
 
     [Command(ignoreAuthority = true)]
     void CmdKickBall(Vector3 kickDirection)
@@ -126,7 +194,7 @@ public class BallScript : NetworkBehaviour
         }
     }
 
-    [Command(ignoreAuthority = true)]
+/*     [Command(ignoreAuthority = true)]
     void CmdContactBall(Vector3 contactDirection) => RpcContactBall(contactDirection);
 
     [ClientRpc]
@@ -140,5 +208,18 @@ public class BallScript : NetworkBehaviour
             contactSound.Play();
         }
 
+    } */
+
+    void BasicKick(Vector3 contactDirection)
+    {
+        print("kicking in a direction!!");
+        thisRigidbody.AddForce((contactDirection + new Vector3(0, upAngle, 0)) * punchForce, ForceMode.Impulse);
+        if (!contactSound.isPlaying || contactSound.time > .4f)
+        {
+            contactSound.pitch = UnityEngine.Random.Range(.8f, 1.3f);
+            contactSound.Play();
+        }
+
     }
+    
 }
