@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5296571158349775668}
   - component: {fileID: 6522581976921643957}
   - component: {fileID: 3809221859195598577}
+  - component: {fileID: 6094463372704096565}
   m_Layer: 0
   m_Name: MoviePlayerYoutubeTwitch
   m_TagString: Untagged
@@ -116,9 +117,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  serverTimeToLoadNextVideo:
+    _usage: 0
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  requestNextVideo:
+    m_PersistentCalls:
+      m_Calls: []
   serverURL: 
+  serverYoutubeURL: 
   serverPlaybackSeconds: 0
   youtubePlayer: {fileID: 8471982775544474266}
+--- !u!114 &6094463372704096565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6627951354408405192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401b5f9d802c2884e89cf129fa85cd00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  serverTimeToLoadNextVideo:
+    _usage: 1
+    _value: 0
+    _constant: {fileID: 11400000, guid: 08b596b2d00eae649abc2f99cc3ce421, type: 2}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  currentIndex: 0
+  queue: []
+  youtubePlayer: {fileID: 8471982775544474266}
+  alias:
+    _usage: 0
+    _value: 
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  playVideoEvent: {fileID: 11400000, guid: e531d196fb909544f8ae0cfab233ae7a, type: 2}
+  playlistEvent: {fileID: 11400000, guid: 955db89678cf61b40b0d024427a46b3d, type: 2}
+  addCommandString:
+    _usage: 0
+    _value: add
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  removeCommandString:
+    _usage: 0
+    _value: remove
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
 --- !u!1001 &1782965945646609504
 PrefabInstance:
   m_ObjectHideFlags: 0

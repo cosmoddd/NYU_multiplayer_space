@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityAtoms.BaseAtoms;
+using UnityEngine.Events;
 
 public class SyncTube : NetworkBehaviour
 {
     [Header("config")]
-    public bool useRawURL = false;
+    public FloatReference serverTimeToLoadNextVideo;
+    private bool useRawURL = false;
+    public UnityEvent requestNextVideo;
 
     [Header("SyncVars")]
     //[SyncVar(hook = nameof(NewServerUrl))]
@@ -20,8 +24,9 @@ public class SyncTube : NetworkBehaviour
     [SerializeField] private int serverPlaybackSeconds;
 
     [Header("references")]
-
     [SerializeField] private YoutubePlayer youtubePlayer;
+
+    private float serverTimeVideoOver;
 
     public override void OnStartClient()
     {
@@ -34,13 +39,10 @@ public class SyncTube : NetworkBehaviour
         // Update is called once per frame
         if (isServer)
         {
+            // Update custom values
             serverPlaybackSeconds = (int)youtubePlayer.currentVideoDuration;
             serverURL = youtubePlayer.videoUrl;
             serverYoutubeURL = youtubePlayer.youtubeUrl;
-        }
-        else
-        {
-            //CheckVideoOverAndUpdate(serverURL);
         }
     }
 
