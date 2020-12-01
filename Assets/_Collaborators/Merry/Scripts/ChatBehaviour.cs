@@ -89,11 +89,6 @@ public class ChatBehaviour : NetworkBehaviour
             // sendButton.gameObject.SetActive(false);
         }
 
-        // if (participantsListActive.Value == false)
-        // {
-        //     participantsList.gameObject.SetActive(false);
-        // }
-
         avatarName.text = GetComponent<MeshAssigner>().userName;
     }
 
@@ -140,19 +135,6 @@ public class ChatBehaviour : NetworkBehaviour
                 // inputField.MoveTextStart(true);
             }
 
-            // participantsListActive.Value = !participantsListActive.Value;
-
-            // if (participantsListActive.Value == false)
-            // {
-            //     participantsList.gameObject.SetActive(false);
-
-            // }
-            // if (participantsListActive.Value == true)
-            // {
-            //     participantsList.gameObject.SetActive(true);
-
-            // }
-
         }
 
         //EMOTE STUFF
@@ -185,25 +167,6 @@ public class ChatBehaviour : NetworkBehaviour
                 StartCoroutine(MoveTextEnd_NextFrame());
             }
         }
-        // not functional yet!
-        /*
-        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape)) //activate participants list
-        {
-            participantsListActive.Value = !participantsListActive.Value;
-
-            if (participantsListActive.Value == false)
-            {
-                participantsList.gameObject.SetActive(false);
- 
-            }
-            if (participantsListActive.Value == true)
-            {
-                participantsList.gameObject.SetActive(true);
-
-            }
-        }
-        */
-
         // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
@@ -221,7 +184,13 @@ public class ChatBehaviour : NetworkBehaviour
     // need to do this in a coroutine to avoid simultaneous frame conflict with enabling/disabling
     IEnumerator EnterChatToggle()
     {
-        // yield return null;
+        if (inChatMode.Value == true && string.IsNullOrWhiteSpace(inputField.text))
+        {
+          yield return null;
+          print("I'm outta here");
+          DisableChatMode();
+          yield break;
+        }
 
         // enable chat mode if disabled
         if (!inputField.gameObject.activeInHierarchy && inChatMode.Value == false)
@@ -236,12 +205,6 @@ public class ChatBehaviour : NetworkBehaviour
         yield break;
         }
 
-        if (inChatMode.Value == true && string.IsNullOrWhiteSpace(inputField.text))
-        {
-        print("I'm outta here");
-        DisableChatMode();
-        yield break;
-        }
 
         if (inChatMode.Value == true && inputField.gameObject.activeInHierarchy)
         {
