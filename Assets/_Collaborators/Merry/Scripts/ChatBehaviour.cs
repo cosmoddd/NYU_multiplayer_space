@@ -85,7 +85,7 @@ public class ChatBehaviour : NetworkBehaviour
 
                 inputField.gameObject.SetActive(false);
             chatBackground.gameObject.SetActive(false);
-            emoteList.SetActive(false);
+            if (emoteList) emoteList.SetActive(false);
             // sendButton.gameObject.SetActive(false);
         }
 
@@ -125,7 +125,7 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.gameObject.SetActive(false);
                 chatBackground.gameObject.SetActive(false);
                 participantsListCanvas.enabled = false;
-                emoteList.SetActive(false);
+                if (emoteList) emoteList.SetActive(false);
                 // sendButton.gameObject.SetActive(false);
             }
             if (inChatMode.Value == true)
@@ -133,7 +133,7 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
                 participantsListCanvas.enabled = true;
-                emoteList.SetActive(false);
+                if (emoteList) emoteList.SetActive(false);
                 // sendButton.gameObject.SetActive(true);
                 inputField.Select();
                 inputField.ActivateInputField();
@@ -164,7 +164,7 @@ public class ChatBehaviour : NetworkBehaviour
             {
                 inputField.gameObject.SetActive(false);
                 chatBackground.gameObject.SetActive(false);
-                emoteList.SetActive(false);
+                if (emoteList) emoteList.SetActive(false);
                 participantsListCanvas.enabled = false;
                 // sendButton.gameObject.SetActive(false);
             }
@@ -172,7 +172,7 @@ public class ChatBehaviour : NetworkBehaviour
             {
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
-                emoteList.SetActive(true); //panel with all emotes
+                if (emoteList) emoteList.SetActive(true); //panel with all emotes
                 participantsListCanvas.enabled = false;
 
                 inputField.Select();
@@ -256,7 +256,7 @@ public class ChatBehaviour : NetworkBehaviour
         inputField.gameObject.SetActive(false);
         chatBackground.gameObject.SetActive(false);
         inChatMode.Value = false;
-        emoteList.SetActive(false);
+        if (emoteList) emoteList.SetActive(false);
         participantsListCanvas.enabled = false;
     }
 
