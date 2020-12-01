@@ -10,7 +10,7 @@ public class SimpleWarp : NetworkBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-      if (isClient)
+      if (isClient && other.CompareTag("Player"))
       {
         print(other.gameObject.name + "is trying to rise!");
         other.GetComponent<CharacterController>().enabled = false;

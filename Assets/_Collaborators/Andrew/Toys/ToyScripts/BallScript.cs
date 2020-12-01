@@ -21,8 +21,6 @@ public class BallScript : NetworkBehaviour
     public Collider[] overlappingItems;
     public LayerMask overlappingTargetLayer;
 
-    [SyncVar]
-    public bool assessingAuthority;
 
     public override void OnStartClient()
     {
@@ -103,7 +101,6 @@ public class BallScript : NetworkBehaviour
     {
       netIdentity.RemoveClientAuthority();
       netIdentity.AssignClientAuthority(playerConn.connectionToClient);
-      assessingAuthority = false;
     }  
 
 
@@ -161,9 +158,9 @@ public class BallScript : NetworkBehaviour
 
           if((closestCharacter != closestCharacterSaved))
           {
+            closestCharacterSaved = closestCharacter;
             CmdMoveIntoSphere(closestCharacter.GetComponent<NetworkIdentity>());
             print("Setting new network id for..." + closestCharacter.name);
-            closestCharacterSaved = closestCharacter;
           }
         }
       

@@ -174,8 +174,11 @@ MonoBehaviour:
   overlappingTargetLayer:
     serializedVersion: 2
     m_Bits: 256
-  assessingAuthority: 0
   drawRadius: 20
+  distancesToBall: []
+  minFloat: 0
+  closestCharacter: {fileID: 0}
+  closestCharacterSaved: {fileID: 0}
 --- !u!82 &4818365980469493344
 AudioSource:
   m_ObjectHideFlags: 0
@@ -345,7 +348,7 @@ MonoBehaviour:
   isScaleCompressed: 0
   isVelocityCompressed: 0
   isAngularVelocityCompressed: 0
-  isSmoothingAuthorityChanges: 0
+  isSmoothingAuthorityChanges: 1
   transformSource: 0
   whenToUpdateTransform: 1
   sendRate: 60
