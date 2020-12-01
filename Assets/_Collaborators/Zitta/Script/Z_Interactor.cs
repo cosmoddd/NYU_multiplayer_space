@@ -75,14 +75,26 @@ public class Z_Interactor : MonoBehaviour {
                     HoveredObject = interactee;
                 }
                 else
+                {
+                    if (HoveredObject && HoveredObject.GetComponent<Outline>())
+                    {
+                      HoveredObject.GetComponent<Outline>().enabled = false;    
+                    }
                     HoveredObject = null;
+                }
 
                 if (interactee && MouseInput)
                 {
                     if (hovering == false)
                     {
                         raycastHoverEnter.Raise();
-                        // print("Hovering yes");
+
+                        if (HoveredObject.GetComponent<Outline>())
+                        {
+                          HoveredObject.GetComponent<Outline>().enabled = true;    
+                        }
+
+
                         hovering = true;
                     }
                 }
@@ -90,6 +102,7 @@ public class Z_Interactor : MonoBehaviour {
                 {
                     if (hovering)
                     {
+
                         raycastHoverExit.Raise();
                         // print("Hovring no");
                         hovering = false;
