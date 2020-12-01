@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 4127826459489806080}
   - component: {fileID: 5296571158349775668}
   - component: {fileID: 6522581976921643957}
+  - component: {fileID: 3809221859195598577}
   m_Layer: 0
-  m_Name: MovieChooser
+  m_Name: MoviePlayerYoutubeTwitch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,6 +102,23 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!114 &3809221859195598577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6627951354408405192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95935324f16ba6346ad3eca682866b17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  serverURL: 
+  serverPlaybackSeconds: 0
+  youtubePlayer: {fileID: 8471982775544474266}
 --- !u!1001 &1782965945646609504
 PrefabInstance:
   m_ObjectHideFlags: 0
