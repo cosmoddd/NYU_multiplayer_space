@@ -104,6 +104,8 @@ public class MoveController : NetworkBehaviour
                 if(!optionsUI.activeSelf)
                 {
                     optionsUI.SetActive(true);
+                    inChatMode.SetValue(true);
+                    Cursor.lockState = CursorLockMode.None;
                 }
                 else
                 {

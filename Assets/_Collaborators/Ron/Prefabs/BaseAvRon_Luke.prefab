@@ -5479,7 +5479,7 @@ GameObject:
   - component: {fileID: 7635283257328493970}
   - component: {fileID: 2737449609619415570}
   m_Layer: 0
-  m_Name: BaseAvRon
+  m_Name: BaseAvRon_Luke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5565,6 +5565,13 @@ MonoBehaviour:
   optionsUI: {fileID: 8389097583887008471}
   inputDirection: {x: 0, y: 0}
   inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
+  sittingBool:
+    _usage: 0
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  rotationRate: 10
 --- !u!143 &5479427390246189363
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5605,7 +5612,17 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   avatarTransform: {fileID: 2471437610692028880}
   avatarChat: {fileID: 4636986776484052845}
+  avatarChatAudio: {fileID: 0}
+  avatarName: {fileID: 0}
   inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
+  SpecificChatCommandsPath: Atoms/ChatEvents
+  SpecificChatCommands: []
+  GenericChatCommand: {fileID: 0}
+  SendCommandsToChat: 0
+  CommandPrefix: 47
+  participantsListCanvas: {fileID: 0}
+  participantsListActive: {fileID: 0}
+  participantsText: {fileID: 0}
 --- !u!114 &3032604060024752481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5638,6 +5655,7 @@ MonoBehaviour:
   syncInterval: 0.1
   inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
   animController: {fileID: 7635283257328493970}
+  sitting: {fileID: 0}
 --- !u!95 &7635283257328493970
 Animator:
   serializedVersion: 3
@@ -5700,7 +5718,6 @@ MonoBehaviour:
   - {fileID: 8483490706289778132}
   - {fileID: 4497056234745894746}
   - {fileID: 7947553936335438034}
-  activeAvatar: {fileID: 8976586562111085665}
   defaultHatMaterial: {fileID: 2100000, guid: 7cb90547d00ea8348839a10041d211e0, type: 2}
   manager: {fileID: 0}
 --- !u!1001 &2688451225262566937
