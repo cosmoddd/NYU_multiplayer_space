@@ -72,8 +72,7 @@ public class ChatBehaviour : NetworkBehaviour
         //check if player is a mod and grant it
 
         //add player name & mod status to participants list in UI_ParticipantsList.cs
-        //  GameObject player = GetComponent<SavedAvatarInfoScript>().GameObject;
-        
+
         //retrieve the participants list
         participantsText.text = RetrievePlayerList?.Invoke();
 
