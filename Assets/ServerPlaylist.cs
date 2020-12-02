@@ -27,14 +27,14 @@ public class ServerPlaylist : NetworkBehaviour
     [SerializeField]
     private StringEvent playVideoEvent;
 
-    [SerializeField]
-    private StringEvent playlistEvent;
+    [SerializeField] private StringEvent playlistEvent;
 
-    [SerializeField]
-    private StringReference addCommandString;
+    [SerializeField] private StringReference addCommandString;
 
-    [SerializeField]
-    private StringReference removeCommandString;
+    [SerializeField] private StringReference removeCommandString;
+
+    [SerializeField] private StringReference skipCommandString;
+
 
     private float serverTimeVideoOver;
 
@@ -57,15 +57,20 @@ public class ServerPlaylist : NetworkBehaviour
             var parameters = Regex.Replace(s, @"\s+", " ").Split(new[] { ' ' }, 3);
             var aliasAttempt = parameters[0];
             var command = parameters[1];
-            var videoId = parameters[2];
             if (aliasAttempt.ToLowerInvariant() != alias.Value.ToLowerInvariant()) return;
             if (command.ToLowerInvariant() == addCommandString.Value.ToLowerInvariant())
             {
+                var videoId = parameters[2];
                 CmdEnqueue(videoId);
             }
             else if (command.ToLowerInvariant() == removeCommandString.Value.ToLowerInvariant())
             {
+                var videoId = parameters[2];
                 CmdRemove(videoId);
+            }
+            else if (command.ToLowerInvariant() == skipCommandString.Value.ToLowerInvariant())
+            {
+                CmdRequestNext();
             }
         });
     }
@@ -75,6 +80,7 @@ public class ServerPlaylist : NetworkBehaviour
 
     private void ServerMoveNext()
     {
+        if (queue.Count == 0) return;
         currentIndex = (currentIndex + 1) % queue.Count;
         playVideoEvent.Raise($"{alias.Value} {currentId}");
     }
@@ -94,6 +100,6 @@ public class ServerPlaylist : NetworkBehaviour
     [Command(ignoreAuthority = true)]
     public void CmdRemove(string id)
     {
-        queue.Remove(id);
+        queue.RemoveAll(i => i == id);
     }
 }
