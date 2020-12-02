@@ -30,7 +30,9 @@ public class ChatBehaviour : NetworkBehaviour
 
     public static event Func<string> RetrievePlayerList;
 
+    public ScrollRect myScrollRect;
 
+    // public Canvas mainCanvas;
 
     public GameObject playerCamera;
     [Header("Chat UI")]
@@ -243,7 +245,12 @@ public class ChatBehaviour : NetworkBehaviour
     public void HandleNewMessage(string message)
     {
         chatText.text += message;
-        // Debug.Log(chatText.text);
+        
+        // this should work???  GH 12-2-2020
+        if(isLocalPlayer)
+        {
+          Canvas.ForceUpdateCanvases();
+        }
     }
 
     [Client]
@@ -258,9 +265,17 @@ public class ChatBehaviour : NetworkBehaviour
             CmdSendMessage(message);  // if the message is not consumed, send it to chat
         }
 
+        // automatically scroll down every time text is inserted
+        myScrollRect.verticalNormalizedPosition = 0.0f;
+
         inputField.text = string.Empty; //clear text input field 
         inputField.Select();
         inputField.ActivateInputField();
+
+        if(isLocalPlayer)
+        {
+          Canvas.ForceUpdateCanvases();
+        }
         // inputField.MoveTextStart(true);
     }
 
