@@ -160,7 +160,7 @@ MonoBehaviour:
     _variable: {fileID: 0}
     _variableInstancer: {fileID: 0}
   playVideoEvent: {fileID: 11400000, guid: e531d196fb909544f8ae0cfab233ae7a, type: 2}
-  playlistEvent: {fileID: 11400000, guid: 955db89678cf61b40b0d024427a46b3d, type: 2}
+  playlistEvent: {fileID: 11400000, guid: 160d753a971237940ad817496505e239, type: 2}
   addCommandString:
     _usage: 0
     _value: add
@@ -170,6 +170,12 @@ MonoBehaviour:
   removeCommandString:
     _usage: 0
     _value: remove
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  skipCommandString:
+    _usage: 0
+    _value: 
     _constant: {fileID: 0}
     _variable: {fileID: 0}
     _variableInstancer: {fileID: 0}
@@ -321,12 +327,56 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 44.113003
       objectReference: {fileID: 0}
+    - target: {fileID: 23557287780770044, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 476bcdc2c1ed21542ac9931f38f76830, type: 3}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114179375918869224, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
       propertyPath: autoPlayOnStart
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114179375918869224, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
       propertyPath: showPlayerControls
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114222573715148508, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Text
+      value: Please Stand By...
+      objectReference: {fileID: 0}
+    - target: {fileID: 114222573715148508, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 10da334e9b7b23845a0b88ee941c7634, type: 3}
+    - target: {fileID: 114222573715148508, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_FontData.m_MinSize
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114287909359393746, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
@@ -336,6 +386,38 @@ PrefabInstance:
     - target: {fileID: 114465580197935198, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: YoutubePlayer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 224760859499433788, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224760859499433788, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224760859499433788, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 16.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224760859499433788, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 295.8072
+      objectReference: {fileID: 0}
+    - target: {fileID: 224907842417703490, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 224907842417703490, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 224907842417703490, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 224907842417703490, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 392.78586
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
