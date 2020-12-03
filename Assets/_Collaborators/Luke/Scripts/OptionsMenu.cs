@@ -7,6 +7,7 @@ using UnityAtoms.BaseAtoms;
 
 public class OptionsMenu : MonoBehaviour
 {
+    public OptionsSave saveScript;
     public Dropdown resolutionDropdown;
     public Slider mouseSenseSlider;
     public Slider masterVolumeSlider;
@@ -19,7 +20,7 @@ public class OptionsMenu : MonoBehaviour
 
     public Text mouseSenseText;
     public Text volumeText;
-    CameraController camController;
+    public CameraController camController;
 
     [Header("In Chat Mode")]
     public BoolVariable inChatMode;
@@ -72,6 +73,24 @@ public class OptionsMenu : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
+    public void SetResolution(Vector2 resolution)
+    {
+        int initialScreenIndex = 0;
+
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            if ((int)resolution.x == resolutions[i].width
+                && (int)resolution.y == resolutions[i].height)
+            {
+                initialScreenIndex = i;
+            }
+        }
+
+        resolutionDropdown.value = initialScreenIndex;
+        resolutionDropdown.RefreshShownValue();
+        Screen.SetResolution((int)resolution.x, (int)resolution.y, Screen.fullScreen);
+    }
+
     public void SetFullScreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
@@ -79,6 +98,8 @@ public class OptionsMenu : MonoBehaviour
 
     public void LeaveSession()
     {
+        // TODO my have to che
+        saveScript.SaveData();
         manager.StopClient();
     }
 
@@ -135,6 +156,7 @@ public class OptionsMenu : MonoBehaviour
         videoSettingPanel.SetActive(false);
         mainPanel.SetActive(true);
         inChatMode.SetValue(false);
+        saveScript.SaveData();
     }
 
     public void ChangeMouseSense(float newSense)
@@ -153,4 +175,9 @@ public class OptionsMenu : MonoBehaviour
         volumeText.text = textVal.ToString("D");
     }
 
+    public void SetSliders()
+    {
+        masterVolumeSlider.value = AudioListener.volume;
+        mouseSenseSlider.value = camController.mouseSensitivity;
+    }
 }
