@@ -80,7 +80,6 @@ public class OptionsMenu : MonoBehaviour
     public void LeaveSession()
     {
         manager.StopClient();
-        Application.Quit();
     }
 
     public void ConfirmQuit()
