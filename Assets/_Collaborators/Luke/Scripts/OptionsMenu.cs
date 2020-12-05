@@ -62,8 +62,10 @@ public class OptionsMenu : MonoBehaviour
         resolutionDropdown.value = initialScreenIndex;
         resolutionDropdown.RefreshShownValue();
 
-        masterVolumeSlider.maxValue = AudioListener.volume;
-        mouseSenseSlider.value = camController.mouseSensitivity;
+        // after loading save data disable menu
+        saveScript.LoadSave();
+        SetSliders();
+        gameObject.SetActive(false);
     }
 
     public void SetResolution(int resolutionIndex)
@@ -98,7 +100,6 @@ public class OptionsMenu : MonoBehaviour
 
     public void LeaveSession()
     {
-        // TODO my have to che
         saveScript.SaveData();
         manager.StopClient();
     }
