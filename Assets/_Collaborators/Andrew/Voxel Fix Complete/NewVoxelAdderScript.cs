@@ -5,6 +5,7 @@ using Mirror;
 
 public class NewVoxelAdderScript : NetworkBehaviour
 {
+    public bool withinValidArea;
     RaycastHit hit;
 
     Vector3 placePosition;
@@ -61,45 +62,55 @@ public class NewVoxelAdderScript : NetworkBehaviour
             //Debug.Log(verts.Length);
         }
     }
-
+    public Transform boxOutline;
     // Update is called once per frame
     void Update()
     {
-        Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);
-
-
-
-        if (hit.collider != null)
+        if (withinValidArea)
         {
-            placePosition = RoundVectorToInt(hit.point + (hit.normal / 2));
-            digPosition = RoundVectorToInt(hit.point - (hit.normal / 2));
-        }
+            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit); //this is the raycast
 
-        if (hit.collider!=null && Input.GetKeyDown(KeyCode.Mouse0)) // add a block
-        {
-            //AddCubeToMesh(placePosition);
-            if(MH.MF.mesh.vertices.Length/25>chunkSize)
+            if (hit.collider != null)
             {
-                foreach (newMeshHolderScript m in holders)
+                placePosition = RoundVectorToInt(hit.point + (hit.normal / 2));
+                digPosition = RoundVectorToInt(hit.point - (hit.normal / 2));
+                boxOutline.position = digPosition;
+                boxOutline.localScale = new Vector3(1, 1, 1) * 1.01f;
+            }
+            else
+            {
+                boxOutline.localScale = new Vector3(1, 1, 1) * .001f;
+            }
+            boxOutline.rotation = Quaternion.Euler(0,0,0);
+            if (hit.collider != null && Input.GetKeyDown(KeyCode.Mouse0)) // add a block
+            {
+                //AddCubeToMesh(placePosition);
+                if (MH.MF.mesh.vertices.Length / 25 > chunkSize)
                 {
-                    if (m.MF.mesh.vertices.Length / 25 <= chunkSize)
+                    foreach (newMeshHolderScript m in holders)
                     {
-                        currentID = m.ID;
-                        break;
+                        if (m.MF.mesh.vertices.Length / 25 <= chunkSize)
+                        {
+                            currentID = m.ID;
+                            break;
+                        }
                     }
-                }
-            } // makes each chunk smaller than a set amount
+                } // makes each chunk smaller than a set amount
 
-            CmdAddCubeToMesh(placePosition, currentID);
+                CmdAddCubeToMesh(placePosition, currentID);
+            }
+
+            if (hit.collider != null && hit.collider.tag == "cubes" && Input.GetKeyDown(KeyCode.Mouse1)) // remove a block
+            {
+                MH = hit.collider.GetComponent<newMeshHolderScript>();
+                //delCubefromMesh(digPosition);
+                CmddelCubefromMesh(digPosition, MH.ID);
+            }
         }
-
-        if (hit.collider != null && hit.collider.tag=="cubes" && Input.GetKeyDown(KeyCode.Mouse1)) // remove a block
+        else
         {
-            MH = hit.collider.GetComponent<newMeshHolderScript>();
-            //delCubefromMesh(digPosition);
-            CmddelCubefromMesh(digPosition,MH.ID);
+            boxOutline.localScale = new Vector3(1, 1, 1) * .001f;
         }
-
     }
 
     [Command(ignoreAuthority = true)]

@@ -12,8 +12,8 @@ public class CamControlScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    float xrot = 88.86f;
-    float yrot = 18.22f;
+    float xrot = 0;
+    float yrot = 50;
 
     // Update is called once per frame
     void Update()
