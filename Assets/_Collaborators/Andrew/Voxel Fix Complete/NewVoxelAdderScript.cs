@@ -63,25 +63,36 @@ public class NewVoxelAdderScript : NetworkBehaviour
         }
     }
     public Transform boxOutline;
+    public Camera cameraRayCam;
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer) return;
+
+        while(cameraRayCam == null)
+        {
+          GameObject o = GameObject.Find("Camera Variant");
+          cameraRayCam = o.GetComponent<Camera>();
+        }
+
+        if (cameraRayCam == null) return;
+
         if (withinValidArea)
         {
-            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit); //this is the raycast
+            Physics.Raycast(cameraRayCam.ScreenPointToRay(Input.mousePosition), out hit); //this is the raycast
 
             if (hit.collider != null)
             {
                 placePosition = RoundVectorToInt(hit.point + (hit.normal / 2));
                 digPosition = RoundVectorToInt(hit.point - (hit.normal / 2));
-                boxOutline.position = digPosition;
-                boxOutline.localScale = new Vector3(1, 1, 1) * 1.01f;
+                if (boxOutline) boxOutline.position = digPosition;
+                if (boxOutline) boxOutline.localScale = new Vector3(1, 1, 1) * 1.01f;
             }
             else
             {
-                boxOutline.localScale = new Vector3(1, 1, 1) * .001f;
+                if (boxOutline) boxOutline.localScale = new Vector3(1, 1, 1) * .001f;
             }
-            boxOutline.rotation = Quaternion.Euler(0,0,0);
+            if (boxOutline) boxOutline.rotation = Quaternion.Euler(0,0,0);
             if (hit.collider != null && Input.GetKeyDown(KeyCode.Mouse0)) // add a block
             {
                 //AddCubeToMesh(placePosition);
@@ -109,7 +120,7 @@ public class NewVoxelAdderScript : NetworkBehaviour
         }
         else
         {
-            boxOutline.localScale = new Vector3(1, 1, 1) * .001f;
+            if (boxOutline) boxOutline.localScale = new Vector3(1, 1, 1) * .001f;
         }
     }
 

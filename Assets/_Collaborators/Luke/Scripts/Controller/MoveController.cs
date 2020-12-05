@@ -56,10 +56,11 @@ public class MoveController : NetworkBehaviour
             cc = GetComponent<CharacterController>();
             GameObject cameraObject = Instantiate(cameraPrefab, transform.position, transform.rotation);
             CameraController camController = cameraObject.GetComponent<CameraController>();
+            
             camController.target = transform;
             cameraTransform = cameraObject.transform;
 
-
+          
            // GameObject startPos = GameObject.Find("Startposition");
 
             controllerAndCameraInit?.Invoke(this.gameObject, cameraObject);
