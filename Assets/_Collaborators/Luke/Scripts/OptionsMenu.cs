@@ -20,7 +20,7 @@ public class OptionsMenu : MonoBehaviour
 
     public Text mouseSenseText;
     public Text volumeText;
-    public CameraController camController;
+    CameraController camController;
 
     [Header("In Chat Mode")]
     public BoolVariable inChatMode;
@@ -180,5 +180,10 @@ public class OptionsMenu : MonoBehaviour
     {
         masterVolumeSlider.value = AudioListener.volume;
         mouseSenseSlider.value = camController.mouseSensitivity;
+    }
+
+    public CameraController GetCamControl()
+    {
+        return camController;
     }
 }

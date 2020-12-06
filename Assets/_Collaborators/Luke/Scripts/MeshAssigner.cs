@@ -106,21 +106,22 @@ public class MeshAssigner : NetworkBehaviour
     [ClientRpc]
     void RpcChangeTrait()
     {
+        // update new body trait IDs and call AssignAvatarTraits
+        // to apply new change on all clients
+        Debug.Log(bodyTraits[0].bodyID);
+        bodyTraits[0].bodyID = bodyTraits[0].bodyID + 1;
+
+        Debug.Log("Assigned new trait");
+        Debug.Log(bodyTraits[0].bodyID);
+
         AssignAvatarTraits();
     }
 
     [Command(ignoreAuthority = true)]
     void CmdChangeTrait()
     {
-        Debug.Log(bodyTraits[0].bodyID);
-        bodyTraits[0].bodyID = bodyTraits[0].bodyID + 1;
-        
-        Debug.Log("Assigned new trait");
-        Debug.Log(bodyTraits[0].bodyID);
-
+        // Send a request to run ChangeTrait RPC on the server
         RpcChangeTrait();
-
-        //AssignAvatarTraits();
     }
 
     public void LoadData(CustomizerData customData)

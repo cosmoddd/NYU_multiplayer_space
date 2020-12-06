@@ -27,16 +27,16 @@ public class OptionsSave : MonoBehaviour
 
         localMenu.ChangeMouseSense(localMouseSense);
         localMenu.AdjustMasterVolume(localVolume);
-        localMenu.camController.bInvertY.SetValue(ES3.Load("invertMouse", "userSettings.es3", false));
+        localMenu.GetCamControl().bInvertY.SetValue(ES3.Load("invertMouse", "userSettings.es3", false));
         Screen.fullScreen = ES3.Load("fullscreen", "userSettings.es3", true);
         localMenu.SetResolution(local_Resolution);
     }
 
     public void SaveData()
     {
-        ES3.Save("mouseSensitivity", localMenu.camController.mouseSensitivity, "userSettings.es3");
+        ES3.Save("mouseSensitivity", localMenu.GetCamControl().mouseSensitivity, "userSettings.es3");
         ES3.Save("volume", AudioListener.volume, "userSettings.es3");
-        ES3.Save("invertMouse", localMenu.camController.bInvertY.Value, "userSettings.es3");
+        ES3.Save("invertMouse", localMenu.GetCamControl().bInvertY.Value, "userSettings.es3");
         ES3.Save("fullscreen", Screen.fullScreen, "userSettings.es3");
         ES3.Save("resolution", new Vector2(Screen.currentResolution.width, Screen.currentResolution.height), "userSettings.es3");
     }
