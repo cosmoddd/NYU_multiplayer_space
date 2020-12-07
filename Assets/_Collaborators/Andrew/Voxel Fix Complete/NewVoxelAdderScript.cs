@@ -20,6 +20,8 @@ public class NewVoxelAdderScript : NetworkBehaviour
 
     public int chunkSize = 5;
 
+    int layerMask = 1 << 16; // only against layer 16
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +66,9 @@ public class NewVoxelAdderScript : NetworkBehaviour
     }
     public Transform boxOutline;
     public Camera cameraRayCam;
+
+    int camRayCamMask;
+
     // Update is called once per frame
     void Update()
     {
@@ -73,27 +78,34 @@ public class NewVoxelAdderScript : NetworkBehaviour
         {
           GameObject o = GameObject.Find("Camera Variant");
           cameraRayCam = o.GetComponent<Camera>();
+            camRayCamMask = cameraRayCam.cullingMask | 1<<16;
+            cameraRayCam.cullingMask = camRayCamMask;
         }
 
         if (cameraRayCam == null) return;
 
         if (withinValidArea)
         {
-            Physics.Raycast(cameraRayCam.ScreenPointToRay(Input.mousePosition), out hit); //this is the raycast
-
+            Physics.Raycast(cameraRayCam.ScreenPointToRay(Input.mousePosition), out hit, layerMask); //this is the raycast
+            Debug.Log(hit.collider.gameObject.layer);
             if (hit.collider != null)
             {
                 placePosition = RoundVectorToInt(hit.point + (hit.normal / 2));
                 digPosition = RoundVectorToInt(hit.point - (hit.normal / 2));
                 if (boxOutline) boxOutline.position = digPosition;
-                if (boxOutline) boxOutline.localScale = new Vector3(1, 1, 1) * 1.01f;
+                if (boxOutline) boxOutline.localScale = new Vector3(1, 1, 1) * 101f;
             }
             else
             {
                 if (boxOutline) boxOutline.localScale = new Vector3(1, 1, 1) * .001f;
             }
+            if(hit.collider.gameObject.layer != 16)
+            {
+                if (boxOutline) boxOutline.localScale = new Vector3(1, 1, 1) * .001f;
+            }
+
             if (boxOutline) boxOutline.rotation = Quaternion.Euler(0,0,0);
-            if (hit.collider != null && Input.GetKeyDown(KeyCode.Mouse0)) // add a block
+            if (hit.collider != null && Input.GetKeyDown(KeyCode.Mouse0) && hit.collider.gameObject.layer==16) // add a block
             {
                 //AddCubeToMesh(placePosition);
                 if (MH.MF.mesh.vertices.Length / 25 > chunkSize)
@@ -111,7 +123,7 @@ public class NewVoxelAdderScript : NetworkBehaviour
                 CmdAddCubeToMesh(placePosition, currentID);
             }
 
-            if (hit.collider != null && hit.collider.tag == "cubes" && Input.GetKeyDown(KeyCode.Mouse1)) // remove a block
+            if (hit.collider != null && hit.collider.tag == "cubes" && Input.GetKeyDown(KeyCode.Mouse1) && hit.collider.gameObject.layer==16) // remove a block
             {
                 MH = hit.collider.GetComponent<newMeshHolderScript>();
                 //delCubefromMesh(digPosition);
@@ -149,7 +161,7 @@ public class NewVoxelAdderScript : NetworkBehaviour
 
         for (int i = 0; i < newVerts.Length; i++)
         {
-            newVerts[i] = transform.InverseTransformPoint(pos + newVerts[i]);
+            newVerts[i] = MH.transform.InverseTransformPoint(pos + newVerts[i]);
             vertices.Add(newVerts[i]);
             //if (newVerts[i] == pos)
             //{
