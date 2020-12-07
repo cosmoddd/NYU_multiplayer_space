@@ -82,12 +82,9 @@ public class LocalSaveData : MonoBehaviour
         localCustomizer.SetTorsoNodes(local_TorsoIDs);
         localCustomizer.bodyColors[4] = local_BodyColor;
 
+        localCustomizer.userName = local_userName;
 
-    }
 
-    void SetUsername()
-    {
-        //unsure how i will do this
     }
 
     public void SaveUsername()
