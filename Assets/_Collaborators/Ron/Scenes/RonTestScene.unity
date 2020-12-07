@@ -166,9 +166,18 @@ MonoBehaviour:
   jumpHeight: 3.5
   turnSmoothTime: 0.2
   speedSmoothTime: 0.1
+  rayCastHeightOffset: 4
   cameraPrefab: {fileID: 0}
+  optionsUI: {fileID: 0}
   inputDirection: {x: 0, y: 0}
   inChatMode: {fileID: 0}
+  sittingBool:
+    _usage: 0
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  rotationRate: 10
 --- !u!143 &251795738
 CharacterController:
   m_ObjectHideFlags: 0
@@ -703,7 +712,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1425574712
 Light:
   m_ObjectHideFlags: 0
@@ -1070,6 +1079,7 @@ MonoBehaviour:
   target: {fileID: 3968606648211541967}
   viewCamera: {fileID: 0}
   mouseSensitivity: 10
+  maxSensitivity: 5
   distFromTargetChangeSensitivity: 0
   cursorVisible: 0
   clickToMove: 1
@@ -1082,6 +1092,7 @@ MonoBehaviour:
   targetSmoothTime: 0
   cameraOffset: {x: 0, y: 0, z: 0}
   inChatMode: {fileID: 0}
+  bInvertY: {fileID: 0}
 --- !u!114 &1620556709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1774,9 +1785,18 @@ MonoBehaviour:
   jumpHeight: 3.5
   turnSmoothTime: 0.2
   speedSmoothTime: 0.1
+  rayCastHeightOffset: 4
   cameraPrefab: {fileID: 0}
+  optionsUI: {fileID: 0}
   inputDirection: {x: 0, y: 0}
   inChatMode: {fileID: 0}
+  sittingBool:
+    _usage: 0
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  rotationRate: 10
 --- !u!143 &2089082755
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1844,6 +1864,7 @@ MonoBehaviour:
   syncInterval: 0.1
   inChatMode: {fileID: 0}
   animController: {fileID: 0}
+  sitting: {fileID: 0}
 --- !u!1001 &2107095556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2519,9 +2540,18 @@ MonoBehaviour:
   jumpHeight: 3.5
   turnSmoothTime: 0.2
   speedSmoothTime: 0.1
+  rayCastHeightOffset: 4
   cameraPrefab: {fileID: 0}
+  optionsUI: {fileID: 0}
   inputDirection: {x: 0, y: 0}
   inChatMode: {fileID: 0}
+  sittingBool:
+    _usage: 0
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  rotationRate: 10
 --- !u!143 &2124267555
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3439,6 +3469,63 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1001 &7220333504071370263
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7220333504260509097, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.7631698
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220333504260509097, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.4681001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220333504260509097, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.6319222
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220333504260509097, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220333504260509097, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220333504260509097, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220333504260509097, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220333504260509097, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220333504260509097, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220333504260509097, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220333504260509097, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220333504260509100, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
+      propertyPath: m_Name
+      value: FireFlies
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d4cff94c8ca95494b8bc7608cd331e10, type: 3}
 --- !u!1 &7230271056355273822
 GameObject:
   m_ObjectHideFlags: 0
