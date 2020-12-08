@@ -2513,7 +2513,7 @@ MonoBehaviour:
   offlineScene: Assets/_Active Scenes/Main Login 4.unity
   onlineScene: Assets/_Active Scenes/Main Space 4.unity
   transport: {fileID: 320053944}
-  networkAddress: localhost
+  networkAddress: 67.245.1.31
   maxConnections: 60
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 20
@@ -5708,7 +5708,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1fcd3487bc67074c9a67ee01f0d17b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bIsModerator: 0
+  loginInfo:
+    email: 
+    password: 
+    tags: []
   userName: 
   bodyColors:
   - {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
@@ -5768,10 +5771,6 @@ MonoBehaviour:
   activeAvatar: {fileID: 3504575070400667032}
   defaultHatMaterial: {fileID: 2100000, guid: 7cb90547d00ea8348839a10041d211e0, type: 2}
   manager: {fileID: 0}
-  loginInfo:
-    email: 
-    password: 
-    tags: []
 --- !u!1 &777793067
 GameObject:
   m_ObjectHideFlags: 0
@@ -10235,8 +10234,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1610032843}
   m_HandleRect: {fileID: 1610032842}
   m_Direction: 2
-  m_Value: 0.99965656
-  m_Size: 0.59187967
+  m_Value: 0.9996567
+  m_Size: 0.5918797
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

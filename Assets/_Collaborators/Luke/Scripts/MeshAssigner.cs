@@ -179,7 +179,7 @@ public class MeshAssigner : NetworkBehaviour
     public void LoadData(CustomizerData customData)
     {
         userName = customData.userName;
-        loginInfo = new LoginData(customData.email,customData.password,customData.tags);
+        loginInfo = new LoginData(customData.userName,customData.password,customData.tags);
 
 
         for(int i = 0; i < customData.bodyIDs.Length; i++)
