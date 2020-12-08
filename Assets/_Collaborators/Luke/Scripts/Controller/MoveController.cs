@@ -65,6 +65,7 @@ public class MoveController : NetworkBehaviour
 
             controllerAndCameraInit?.Invoke(this.gameObject, cameraObject);
 
+            optionsUI.SetActive(true);
             // pass a reference of our camera script to the options menu
             optionsUI.GetComponent<OptionsMenu>().Initialize(camController);
         }     

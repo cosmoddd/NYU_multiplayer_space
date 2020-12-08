@@ -24,6 +24,7 @@ public class ChatBehaviour : NetworkBehaviour
 
     [SerializeField]
     private Image chatBackground = null; //chat background + goes with slider
+    public GameObject scrollBar;
 
     private static event Action<string> OnMessage;
     public static event Action LoggedIn;
@@ -87,6 +88,7 @@ public class ChatBehaviour : NetworkBehaviour
 
                 inputField.gameObject.SetActive(false);
             chatBackground.gameObject.SetActive(false);
+            scrollBar.SetActive(false);
             if (emoteList) emoteList.SetActive(false);
             // sendButton.gameObject.SetActive(false);
             _slashChat = false;
@@ -122,6 +124,7 @@ public class ChatBehaviour : NetworkBehaviour
             {
                 inputField.gameObject.SetActive(false);
                 chatBackground.gameObject.SetActive(false);
+                scrollBar.SetActive(false);
                 participantsListCanvas.enabled = false;
                 if (emoteList) emoteList.SetActive(false);
                 _slashChat = false;
@@ -131,6 +134,7 @@ public class ChatBehaviour : NetworkBehaviour
             {
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
+                scrollBar.SetActive(true);
                 participantsListCanvas.enabled = true;
                 if (emoteList) emoteList.SetActive(false);
                 // sendButton.gameObject.SetActive(true);
@@ -158,6 +162,7 @@ public class ChatBehaviour : NetworkBehaviour
             {
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
+                scrollBar.SetActive(true);
                 if (emoteList) emoteList.SetActive(true); //panel with all emotes
                 participantsListCanvas.enabled = false;
 
@@ -209,6 +214,7 @@ public class ChatBehaviour : NetworkBehaviour
         inChatMode.Value = true;
         inputField.gameObject.SetActive(true);
         chatBackground.gameObject.SetActive(true);
+        scrollBar.SetActive(true);
         inputField.Select();
         inputField.ActivateInputField();
         yield break;
@@ -227,6 +233,7 @@ public class ChatBehaviour : NetworkBehaviour
     {
         inputField.gameObject.SetActive(false);
         chatBackground.gameObject.SetActive(false);
+        scrollBar.SetActive(false);
         inChatMode.Value = false;
         if (emoteList) emoteList.SetActive(false);
         participantsListCanvas.enabled = false;

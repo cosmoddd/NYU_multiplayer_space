@@ -6,11 +6,17 @@ using UnityEngine;
 public class MeshAssigner : NetworkBehaviour
 {
     // custom struct and class to allow syncing of trait lists
-    public struct TraitData
+    public class TraitData
     {
         public Vector3 color;
         public int bodyID;
 
+        public TraitData()
+        {
+            color = Vector3.zero;
+            bodyID = 0;
+        }
+        
         public TraitData(Vector3 inColor, int ID)
         {
             color = inColor;
@@ -64,6 +70,58 @@ public class MeshAssigner : NetworkBehaviour
     void Awake()
     {
         manager = FindObjectOfType<NetworkManagerGC>();
+    }
+
+    public void Update()
+    {
+        if(!isLocalPlayer)
+        {
+            return;
+        }
+
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            CmdChangeName();
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            CmdChangeTrait();
+        }
+    }
+
+    [Command(ignoreAuthority = true)]
+    void CmdChangeName()
+    {
+        if(userName == "Bob")
+        {
+            userName = "Joe";
+        }
+        else if(userName == "Joe")
+        {
+            userName = "Bob";
+        }
+    }
+
+    [ClientRpc]
+    void RpcChangeTrait()
+    {
+        // update new body trait IDs and call AssignAvatarTraits
+        // to apply new change on all clients
+        Debug.Log(bodyTraits[0].bodyID);
+        bodyTraits[0].bodyID = bodyTraits[0].bodyID + 1;
+
+        Debug.Log("Assigned new trait");
+        Debug.Log(bodyTraits[0].bodyID);
+
+        AssignAvatarTraits();
+    }
+
+    [Command(ignoreAuthority = true)]
+    void CmdChangeTrait()
+    {
+        // Send a request to run ChangeTrait RPC on the server
+        RpcChangeTrait();
     }
 
     public void LoadData(CustomizerData customData)
