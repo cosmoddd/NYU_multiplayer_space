@@ -429,6 +429,7 @@ namespace RenderHeads.Media.AVProVideo
 			public bool forceAudioResample = true;
 			public bool useTextureMips = false;
 			public bool hintAlphaChannel = false;
+			public bool useLowLatency = false;
 			public string forceAudioOutputDeviceName = string.Empty;
 			public List<string> preferredFilters = new List<string>();
 			public bool enableAudio360 = false;
@@ -436,7 +437,7 @@ namespace RenderHeads.Media.AVProVideo
 
 			public override bool IsModified()
 			{
-				return (base.IsModified() || !useHardwareDecoding || useTextureMips || hintAlphaChannel || useUnityAudio || videoApi != Windows.VideoApi.MediaFoundation || !forceAudioResample || enableAudio360 || audio360ChannelMode != Audio360ChannelMode.TBE_8_2 || !string.IsNullOrEmpty(forceAudioOutputDeviceName) || preferredFilters.Count != 0);
+				return (base.IsModified() || !useHardwareDecoding || useTextureMips || hintAlphaChannel || useLowLatency || useUnityAudio || videoApi != Windows.VideoApi.MediaFoundation || !forceAudioResample || enableAudio360 || audio360ChannelMode != Audio360ChannelMode.TBE_8_2 || !string.IsNullOrEmpty(forceAudioOutputDeviceName) || preferredFilters.Count != 0);
 			}
 		}
 
@@ -627,10 +628,11 @@ namespace RenderHeads.Media.AVProVideo
 			public bool useUnityAudio = false;
 			public bool forceAudioResample = true;
 			public bool useTextureMips = false;
+			public bool useLowLatency = false;
 
 			public override bool IsModified()
 			{
-				return (base.IsModified() || !useHardwareDecoding || useTextureMips || useUnityAudio || !forceAudioResample);
+				return (base.IsModified() || !useHardwareDecoding || useTextureMips || useLowLatency || useUnityAudio || !forceAudioResample);
 			}
 		}
 
@@ -641,10 +643,11 @@ namespace RenderHeads.Media.AVProVideo
 			public bool useUnityAudio = false;
 			public bool forceAudioResample = true;
 			public bool useTextureMips = false;
+			public bool useLowLatency = false;
 
 			public override bool IsModified()
 			{
-				return (base.IsModified() || !useHardwareDecoding || useTextureMips || useUnityAudio || !forceAudioResample);
+				return (base.IsModified() || !useHardwareDecoding || useTextureMips || useLowLatency || useUnityAudio || !forceAudioResample);
 			}
 		}
 
@@ -1908,7 +1911,7 @@ namespace RenderHeads.Media.AVProVideo
 #elif UNITY_EDITOR_WIN
 			if (WindowsMediaPlayer.InitialisePlatform())
 			{
-				mediaPlayer = new WindowsMediaPlayer(_optionsWindows.videoApi, _optionsWindows.useHardwareDecoding, _optionsWindows.useTextureMips, _optionsWindows.hintAlphaChannel, _optionsWindows.forceAudioOutputDeviceName, _optionsWindows.useUnityAudio, _optionsWindows.forceAudioResample, _optionsWindows.preferredFilters);
+				mediaPlayer = new WindowsMediaPlayer(_optionsWindows.videoApi, _optionsWindows.useHardwareDecoding, _optionsWindows.useTextureMips, _optionsWindows.hintAlphaChannel, _optionsWindows.useLowLatency, _optionsWindows.forceAudioOutputDeviceName, _optionsWindows.useUnityAudio, _optionsWindows.forceAudioResample, _optionsWindows.preferredFilters);
 			}
 #endif
 #else
@@ -1917,11 +1920,11 @@ namespace RenderHeads.Media.AVProVideo
 			if (WindowsMediaPlayer.InitialisePlatform())
 			{
 #if UNITY_STANDALONE_WIN
-				mediaPlayer = new WindowsMediaPlayer(_optionsWindows.videoApi, _optionsWindows.useHardwareDecoding, _optionsWindows.useTextureMips, _optionsWindows.hintAlphaChannel, _optionsWindows.forceAudioOutputDeviceName, _optionsWindows.useUnityAudio, _optionsWindows.forceAudioResample, _optionsWindows.preferredFilters);
+				mediaPlayer = new WindowsMediaPlayer(_optionsWindows.videoApi, _optionsWindows.useHardwareDecoding, _optionsWindows.useTextureMips, _optionsWindows.hintAlphaChannel, _optionsWindows.useLowLatency, _optionsWindows.forceAudioOutputDeviceName, _optionsWindows.useUnityAudio, _optionsWindows.forceAudioResample, _optionsWindows.preferredFilters);
 #elif UNITY_WSA_10_0
-				mediaPlayer = new WindowsMediaPlayer(Windows.VideoApi.MediaFoundation, _optionsWindowsUWP.useHardwareDecoding, _optionsWindowsUWP.useTextureMips, false, string.Empty, _optionsWindowsUWP.useUnityAudio, _optionsWindowsUWP.forceAudioResample, _optionsWindows.preferredFilters);
+				mediaPlayer = new WindowsMediaPlayer(Windows.VideoApi.MediaFoundation, _optionsWindowsUWP.useHardwareDecoding, _optionsWindowsUWP.useTextureMips, false, _optionsWindowsUWP.useLowLatency, string.Empty, _optionsWindowsUWP.useUnityAudio, _optionsWindowsUWP.forceAudioResample, _optionsWindows.preferredFilters);
 #elif UNITY_WINRT_8_1
-				mediaPlayer = new WindowsMediaPlayer(Windows.VideoApi.MediaFoundation, _optionsWindowsPhone.useHardwareDecoding, _optionsWindowsPhone.useTextureMips, false, string.Empty, _optionsWindowsPhone.useUnityAudio, _optionsWindowsPhone.forceAudioResample, _optionsWindows.preferredFilters);
+				mediaPlayer = new WindowsMediaPlayer(Windows.VideoApi.MediaFoundation, _optionsWindowsPhone.useHardwareDecoding, _optionsWindowsPhone.useTextureMips, false, _optionsWindowsPhone.useLowLatency, string.Empty, _optionsWindowsPhone.useUnityAudio, _optionsWindowsPhone.forceAudioResample, _optionsWindows.preferredFilters);
 #endif
 			}
 #elif (UNITY_STANDALONE_OSX || UNITY_IPHONE || UNITY_IOS || UNITY_TVOS)

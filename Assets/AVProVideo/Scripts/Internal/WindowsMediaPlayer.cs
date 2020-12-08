@@ -62,6 +62,7 @@ namespace RenderHeads.Media.AVProVideo
 		private bool		_useHardwareDecoding = true;
 		private bool		_useTextureMips = false;
 		private bool		_hintAlphaChannel = false;
+		private bool		_useLowLatency = false;
 		private int			_queueSetAudioTrackIndex = -1;
 		private bool		_supportsLinearColorSpace = true;
 
@@ -127,17 +128,18 @@ namespace RenderHeads.Media.AVProVideo
 			return Native.GetAudioChannelCount(_instance);
 		}
 
-		public WindowsMediaPlayer(Windows.VideoApi videoApi, bool useHardwareDecoding, bool useTextureMips, bool hintAlphaChannel, string audioDeviceOutputName, bool useUnityAudio, bool forceResample, List<string> preferredFilters)
+		public WindowsMediaPlayer(Windows.VideoApi videoApi, bool useHardwareDecoding, bool useTextureMips, bool hintAlphaChannel, bool useLowLatency, string audioDeviceOutputName, bool useUnityAudio, bool forceResample, List<string> preferredFilters)
 		{
-			SetOptions(videoApi, useHardwareDecoding:useHardwareDecoding, useTextureMips:useTextureMips, hintAlphaChannel:hintAlphaChannel, audioDeviceOutputName:audioDeviceOutputName, useUnityAudio:useUnityAudio, forceResample:forceResample, preferredFilters:preferredFilters);
+			SetOptions(videoApi, useHardwareDecoding:useHardwareDecoding, useTextureMips:useTextureMips, hintAlphaChannel:hintAlphaChannel, useLowLatency:useLowLatency, audioDeviceOutputName:audioDeviceOutputName, useUnityAudio:useUnityAudio, forceResample:forceResample, preferredFilters:preferredFilters);
 		}
 
-		public void SetOptions(Windows.VideoApi videoApi, bool useHardwareDecoding, bool useTextureMips, bool hintAlphaChannel, string audioDeviceOutputName, bool useUnityAudio, bool forceResample, List<string> preferredFilters)
+		public void SetOptions(Windows.VideoApi videoApi, bool useHardwareDecoding, bool useTextureMips, bool hintAlphaChannel, bool useLowLatency, string audioDeviceOutputName, bool useUnityAudio, bool forceResample, List<string> preferredFilters)
 		{
 			_videoApi = videoApi;
 			_useHardwareDecoding = useHardwareDecoding;
 			_useTextureMips = useTextureMips;
 			_hintAlphaChannel = hintAlphaChannel;
+			_useLowLatency = useLowLatency;
 			_audioDeviceOutputName = audioDeviceOutputName;
 			if (!string.IsNullOrEmpty(_audioDeviceOutputName))
 			{
@@ -199,7 +201,7 @@ namespace RenderHeads.Media.AVProVideo
 				}
 			}
 
-			_instance = Native.OpenSource(_instance, path, (int)_videoApi, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, false, _audioDeviceOutputName, _useUnityAudio, _forceAudioResample, GetUnityAudioSampleRate(), filters, filterCount, (int)_audioChannelMode, sourceSamplerate, sourceChannels);
+			_instance = Native.OpenSource(_instance, path, (int)_videoApi, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, _useLowLatency, _audioDeviceOutputName, _useUnityAudio, _forceAudioResample, GetUnityAudioSampleRate(), filters, filterCount, (int)_audioChannelMode, sourceSamplerate, sourceChannels);
 
 			if (filters != null)
 			{
@@ -239,7 +241,7 @@ namespace RenderHeads.Media.AVProVideo
 				}
 			}
 
-			_instance = Native.OpenSourceFromBuffer(_instance, buffer, (ulong)buffer.Length, (int)_videoApi, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, false, _audioDeviceOutputName, _useUnityAudio, filters, (uint)_preferredFilters.Count);
+			_instance = Native.OpenSourceFromBuffer(_instance, buffer, (ulong)buffer.Length, (int)_videoApi, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, _useLowLatency, _audioDeviceOutputName, _useUnityAudio, filters, (uint)_preferredFilters.Count);
 
 			if (filters != null)
 			{
@@ -290,7 +292,7 @@ namespace RenderHeads.Media.AVProVideo
 				}
 			}
 
-			_instance = Native.EndOpenSourceFromBuffer(_instance, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, false, _audioDeviceOutputName, _useUnityAudio, filters, (uint)_preferredFilters.Count);
+			_instance = Native.EndOpenSourceFromBuffer(_instance, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, _useLowLatency, _audioDeviceOutputName, _useUnityAudio, filters, (uint)_preferredFilters.Count);
 
 			if (filters != null)
 			{
@@ -315,7 +317,7 @@ namespace RenderHeads.Media.AVProVideo
 		{
 			CloseVideo();
 
-			_instance = Native.OpenSourceFromStream(_instance, ras, path, (int)_videoApi, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, false, _audioDeviceOutputName, _useUnityAudio, _forceAudioResample, GetUnityAudioSampleRate(), sourceSamplerate, sourceChannels);
+			_instance = Native.OpenSourceFromStream(_instance, ras, path, (int)_videoApi, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, _useLowLatency, _audioDeviceOutputName, _useUnityAudio, _forceAudioResample, GetUnityAudioSampleRate(), sourceSamplerate, sourceChannels);
 
 			if (_instance == System.IntPtr.Zero)
 			{

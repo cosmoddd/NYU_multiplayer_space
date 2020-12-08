@@ -12,6 +12,11 @@ public class XylophoneMallet : NetworkBehaviour
     AudioSource audioSource;
     MeshRenderer meshRenderer;
     
+    public override void OnStartClient()
+    {
+      
+    }
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();

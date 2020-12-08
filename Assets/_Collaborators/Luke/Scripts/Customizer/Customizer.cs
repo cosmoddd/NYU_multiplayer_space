@@ -19,7 +19,15 @@ public class Customizer : MonoBehaviour
     public Color initialColor = Color.white;
 
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 Torso
-    public int[] bodyIDs = new int[5];
+    public int[] bodyIDs = new int[4];
+
+    // 0 Pelvis, 1 Spine0, 2 Spine1, 3 Spine2, 4 Spine3, 5 Neck
+    // NOTE: make sure this array length matches TorsoNodes Transform array length
+    public float[] torsoNodeScales;
+
+    // NOTE: make sure this array length matches torsoNodeScales length
+    // NOTE: X is Min and Y is Max
+    public Vector2[] torsoScaleClamps;
 
     // body meshes stored in a scriptable object
     public CharacterMeshData meshData;  
@@ -54,6 +62,11 @@ public class Customizer : MonoBehaviour
         manager.dataMessage.bodyIDs = bodyIDs;
         manager.dataMessage.userName = userName;
         manager.dataMessage.bIsModerator = bIsModerator;
+
+        for (int i = 0; i < torsoNodeScales.Length; i++)
+        {
+            manager.dataMessage.torsoScales[i] = torsoNodeScales[i];
+        }
         
         for(int i = 0; i < bodyColors.Length; i++)
         {
@@ -87,14 +100,12 @@ public class Customizer : MonoBehaviour
     public void bodyIDChange(int ID, int changeInt)
     {
         // torso is index 4
-        if(ID == 4)
-        {
-            bodyIDs[ID] = Mathf.Clamp(bodyIDs[ID] + changeInt, 0, meshData.bodyPresets.Length - 1);
-        }
-        else
-        {
-            bodyIDs[ID] = Mathf.Clamp(bodyIDs[ID] + changeInt, 0, meshData.bodyMeshes[ID].meshes.Length - 1);
-        }    
+        //if(ID == 4)
+        //{
+        //    bodyIDs[ID] = Mathf.Clamp(bodyIDs[ID] + changeInt, 0, meshData.bodyPresets.Length - 1);
+        //}
+                     
+        bodyIDs[ID] = Mathf.Clamp(bodyIDs[ID] + changeInt, 0, meshData.bodyMeshes[ID].meshes.Length - 1);
     }
 
     public void ActiveAvatarTraitAssigner()
@@ -111,9 +122,12 @@ public class Customizer : MonoBehaviour
             AssignFromArray(bodyIDs[i], meshData.bodyMeshes[i].meshes, bodyTransforms[i], bodyColors[i]);
         }
 
+        // 0 Pelvis, 1 Spine0, 2 Spine1, 3 Spine2, 4 Spine3, 5 Neck
         for (int i = 0; i < TorsoNodes.Length; i++)
         {
-            TorsoNodes[i].localScale = Vector3.Lerp(TorsoNodes[i].localScale, Vector3.one * meshData.bodyPresets[bodyIDs[4]].presetValues[i],
+            float newScale = Mathf.Clamp(torsoNodeScales[i], torsoScaleClamps[i].x, torsoScaleClamps[i].y);
+
+            TorsoNodes[i].localScale = Vector3.Lerp(TorsoNodes[i].localScale, Vector3.one * newScale,
                 Time.deltaTime * 10);
         }
     }
@@ -139,5 +153,23 @@ public class Customizer : MonoBehaviour
         lerpRot = Mathf.Lerp(lerpRot, rot, Time.deltaTime * 5);
 
         transform.localRotation = Quaternion.Euler(0, lerpRot, 0);
+    }
+
+    //used to set the torso nodes from the save file, makes sure they are the same length  *Kate
+    public void SetTorsoNodes(float[] loadNodes)
+    {
+        //Check the lengths match
+        if(torsoNodeScales.Length != loadNodes.Length) Debug.Log("Torso Save Data Mismatched: Check Array Lengths");
+
+        
+        for(int i = 0; i < torsoNodeScales.Length; i++)
+        {
+            //If there is no load node for this scale, break
+            if(loadNodes.Length - 1 < i) break;
+
+            //For each Torso Node Scale, Set it to the load node value
+            torsoNodeScales[i] = loadNodes[i];
+        }
+
     }
 }

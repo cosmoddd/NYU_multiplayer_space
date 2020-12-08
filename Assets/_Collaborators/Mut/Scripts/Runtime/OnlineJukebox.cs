@@ -10,8 +10,8 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(AudioSource))]
 public class OnlineJukebox : NetworkBehaviour
 {
-    [SyncVar]
-    [SerializeField] private string currentTrackName;
+    [SyncVar(hook = nameof(OnServerTrackChanged))]
+    [SerializeField] private string currentTrackInServerName;
 
     [SyncVar]
     [SerializeField] private float serverPlaytime;
@@ -25,11 +25,14 @@ public class OnlineJukebox : NetworkBehaviour
     [SerializeField] private StringVariable currentTrackNameVariable;
     [SerializeField] private FloatVariable currentTrackElapsed;
 
+    private bool ShouldRandomizeQueueOnEmpty = true;
+
     [SerializeField] private readonly SyncListString queue = new SyncListString();
 
     private AudioSource audioSource;
 
-    private AudioClip currentTrack => tracks.FirstOrDefault(t => t.name == currentTrackName);
+    private AudioClip GetTrackByName(string name) => tracks.FirstOrDefault(t => t.name == name);
+    private AudioClip currentTrack => GetTrackByName(currentTrackInServerName);
 
     [SyncVar]
     public bool paused = false;
@@ -59,11 +62,12 @@ public class OnlineJukebox : NetworkBehaviour
     {
         // if (paused) return;
 
-        currentTrackNameVariable.Value = currentTrackName;
+        currentTrackNameVariable.Value = currentTrackInServerName;
         clientPlaytime = audioSource.time;
 
         if (isServer) serverPlaytime = clientPlaytime;
 
+        // Update local current track elapsed time
         if (audioSource.clip != null)
         {
             currentTrackElapsed.Value = clientPlaytime / audioSource.clip.length;
@@ -73,16 +77,21 @@ public class OnlineJukebox : NetworkBehaviour
             currentTrackElapsed.Value = 0;
         }
 
-        if (audioSource.clip == null || clientPlaytime >= audioSource.clip.length)
+        // If it should be playing but it's not
+        if ((!paused && !audioSource.isPlaying))
         {
+            print("Song is over");
             // Song is over call for next in queue;
             if (isServer)
             {
                 ServerDequeueSong();
             }
 
-            if (audioSource.clip?.name != currentTrackName)
+            // if the local clip doesn't match the server's start playing the server's one
+            if (audioSource.clip?.name != currentTrackInServerName)
             {
+                print("Playing next thing" + currentTrack);
+                audioSource.Stop();
                 audioSource.clip = currentTrack;
                 audioSource.Play();
                 clientPlaytime = 0;
@@ -95,7 +104,7 @@ public class OnlineJukebox : NetworkBehaviour
     public void SyncWithServer()
     {
         audioSource.clip = currentTrack;
-        if (audioSource.clip != null)
+        if (audioSource.clip != null && !paused)
         {
             audioSource.Play();
         }
@@ -103,25 +112,54 @@ public class OnlineJukebox : NetworkBehaviour
         audioSource.time = serverPlaytime;
     }
 
+    private bool isWaitingForServerTrackChange;
+    private void OnServerTrackChanged(string oldTrackName, string newTrackName)
+    {
+        if (isWaitingForServerTrackChange)
+        {
+            SyncWithServer();
+            isWaitingForServerTrackChange = false;
+        }
+    }
+
     // Runs server queue
     private void ServerDequeueSong()
     {
         // Remove current element of top of queue on the server
-        if (queue == null || queue.Count() == 0)
+        if (queue.Count() == 0)
         {
-            // Debug.Log("No more songs in queue");
-            audioSource.clip = null;
-            return;
+            if (ShouldRandomizeQueueOnEmpty)
+            {
+                trackNameList.OrderBy(_ => Random.value - 0.5)
+                  .ToList()
+                  .ForEach(queue.Add);
+
+                // So it doesn't immediatly repeat the current track, add it to some random position after the next song
+                queue.Remove(currentTrackInServerName);
+                queue.Insert(Random.Range(1, queue.Count()), currentTrackInServerName);
+            }
+            else
+            {
+                // Debug.Log("No more songs in queue");
+                audioSource.clip = null;
+                return;
+            }
         }
 
         // Server should always dequeue first, so no real reason to worry for some race condition going on here
         // Might be nice to call Sync every once in a while to be sure it's synced (can be called on a region outside of the listening radius)
 
-        currentTrackName = queue.First();
+        currentTrackInServerName = queue.First();
         queue.RemoveAt(0);
+
+        audioSource.Stop();
+        audioSource.clip = currentTrack;
+        audioSource.Play();
+        serverPlaytime = 0;
+        clientPlaytime = 0;
     }
 
-    private void Skip()
+    public void Skip()
     {
         if (isClient)
         {
@@ -129,36 +167,51 @@ public class OnlineJukebox : NetworkBehaviour
         }
         else
         {
+            ServerDequeueSong();
             RpcSkipSong();
         }
     }
 
     [Command(ignoreAuthority = true)]
-    public void CmdPlayPause() => RpcPlayPause();
+    public void CmdPlayPause()
+    {
+        RpcPlayPause();
+    }
 
     [ClientRpc]
     void RpcPlayPause()
     {
-        if (audioSource.isPlaying)
+        if (!paused)
         {
-            print("playing!");
+            print("pausing!");
             audioSource.Pause();
+            paused = true;
             return;
         }
-        if (!audioSource.isPlaying)
+        else
         {
             print("unpausing!");
             audioSource.UnPause();
+            paused = false;
+            SyncWithServer();
             return;
         }
     }
 
 
-    [Command]
-    private void CmdSkipSong() => RpcSkipSong();
+    [Command(ignoreAuthority = true)]
+    private void CmdSkipSong()
+    {
+        ServerDequeueSong();
+        RpcSkipSong();
+    }
 
     [ClientRpc]
-    private void RpcSkipSong() => ServerDequeueSong();
+    void RpcSkipSong()
+    {
+        SyncWithServer();
+        isWaitingForServerTrackChange = true;
+    }
 
     public void EnqueueRandomSong() => EnqueueRandomSongFromList(trackNameList.List);
     public void EnqueueRandomUniqueSong() => EnqueueRandomSongFromList(trackNameList.Except(queue).ToList());

@@ -1936,6 +1936,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &7497161009715450078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2712301331718003657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5698eeb41ecfbc4584b096bae065dda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localParticipantsList: {fileID: 6451264691619019700}
 --- !u!1 &2766511237705967502
 GameObject:
   m_ObjectHideFlags: 0
@@ -5448,7 +5461,7 @@ GameObject:
   - component: {fileID: 6310906250255267318}
   - component: {fileID: 7635283257328493970}
   m_Layer: 0
-  m_Name: BaseAvRon
+  m_Name: BaseAvRon_Merry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5662,9 +5675,18 @@ MonoBehaviour:
   jumpHeight: 3.5
   turnSmoothTime: 0.12
   speedSmoothTime: 0.18
+  rayCastHeightOffset: 4
   cameraPrefab: {fileID: 5915573456097954982, guid: 536a57c0fc35bc3408e88fcc5f3415ab, type: 3}
+  optionsUI: {fileID: 0}
   inputDirection: {x: 0, y: 0}
   inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
+  sittingBool:
+    _usage: 0
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  rotationRate: 10
 --- !u!143 &5479427390246189363
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5705,7 +5727,13 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   avatarTransform: {fileID: 2471437610692028880}
   avatarChat: {fileID: 4636986776484052845}
+  avatarChatAudio: {fileID: 0}
+  avatarName: {fileID: 0}
   inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
+  SpecificChatCommands: []
+  GenericChatCommand: {fileID: 0}
+  SendCommandsToChat: 0
+  CommandPrefix: 47
   participantsList: {fileID: 2712301331718003657}
   participantsListActive: {fileID: 11400000, guid: d36929ae923ca734d85a59a5c1ae0394, type: 2}
   participantsText: {fileID: 6451264691619019700}
@@ -5741,6 +5769,7 @@ MonoBehaviour:
   syncInterval: 0.1
   inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
   animController: {fileID: 7635283257328493970}
+  sitting: {fileID: 0}
 --- !u!95 &7635283257328493970
 Animator:
   serializedVersion: 3
