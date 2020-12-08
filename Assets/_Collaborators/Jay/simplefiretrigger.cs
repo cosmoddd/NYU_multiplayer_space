@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class simplefiretrigger : NetworkBehaviour
+public class simplefiretrigger : MonoBehaviour
 {
+
+    public GameObject Fire;
     // Start is called before the first frame update
     void Start()
     {
-        this.gameObject.SetActive(false);
+        Fire.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            this.gameObject.SetActive(true);
+            Fire.SetActive(true);
 
-        } else if (Input.GetKeyDown(KeyCode.P))
-
+        } else if (Input.GetKeyDown(KeyCode.O))
         {
-            this.gameObject.SetActive(false);
+            Fire.SetActive(false);
         }
     }
 }
