@@ -12,7 +12,9 @@ public class AuthenticationManager : MonoBehaviour
 
     public LoginInfo[] loginInfoList;
 
-    Dictionary<string,string> loginInfoDictionary;
+    Dictionary<string,string> passwordDictionary;
+
+    Dictionary<string,LoginInfo> loginInfoDictionary;
 
     public Customizer customizerScript;
 
@@ -24,10 +26,12 @@ public class AuthenticationManager : MonoBehaviour
     {
         loginInfoList = loginReader.ReadFile();
         
-        loginInfoDictionary = new Dictionary<string, string>();
+        passwordDictionary = new Dictionary<string, string>();
+        loginInfoDictionary = new Dictionary<string, LoginInfo>();
         foreach(LoginInfo info in loginInfoList)
         {
-            loginInfoDictionary.Add(info.email, info.password);
+            passwordDictionary.Add(info.email, info.password);
+            loginInfoDictionary.Add(info.email, info);
         }
         
     }
@@ -40,10 +44,10 @@ public class AuthenticationManager : MonoBehaviour
 
     public bool Login(string email, string password)
     {
-        if(loginInfoDictionary.ContainsKey(email))
+        if(passwordDictionary.ContainsKey(email))
         {
             //print("dictionary contains : "+ email);
-            if(loginInfoDictionary[email] == password)
+            if(passwordDictionary[email] == password)
             {
                 //print("correct password");
                 return true;
@@ -54,6 +58,12 @@ public class AuthenticationManager : MonoBehaviour
         }
         return false;
 
+    }
+
+    public LoginInfo GetLoginInfo(string email)
+    {
+      if(loginInfoDictionary.ContainsKey(email)) return loginInfoDictionary[email];
+      else return null;
     }
 }
 
