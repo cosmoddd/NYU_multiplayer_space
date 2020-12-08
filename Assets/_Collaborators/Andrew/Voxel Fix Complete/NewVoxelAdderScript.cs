@@ -87,7 +87,7 @@ public class NewVoxelAdderScript : NetworkBehaviour
         if (withinValidArea)
         {
             Physics.Raycast(cameraRayCam.ScreenPointToRay(Input.mousePosition), out hit, layerMask); //this is the raycast
-            Debug.Log(hit.collider.gameObject.layer);
+            // Debug.Log(hit.collider.gameObject.layer);
             if (hit.collider != null)
             {
                 placePosition = RoundVectorToInt(hit.point + (hit.normal / 2));
