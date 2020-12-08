@@ -6,7 +6,9 @@ using Mirror;
 public class CustomizerData : MessageBase
 {
     public string userName;
-    public bool bIsModerator;
+    public string email;
+    public string password;
+    public string[] tags;
     public int[] bodyIDs = new int[4];
 
     // make sure this array lenght matches torsoNodes & torsoNodeScales

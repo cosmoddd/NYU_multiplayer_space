@@ -86,7 +86,8 @@ public class CustomizerUITabs : MonoBehaviour
             return;
         }
 
-        //check for saved data, load the saved character if it exsits. 
+        //save login info
+        customizerScript.loginInfo = authentication.GetLoginInfo(emailField.text);
         
 
         //back button
