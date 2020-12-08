@@ -66,6 +66,7 @@ public class ChatBehaviour : NetworkBehaviour
     [SerializeField]
     public GameObject emoteList = null; //participants list
     public BoolVariable emoteListActive;
+    private bool _slashChat;
 
     public override void OnStartClient()
     {
@@ -88,6 +89,7 @@ public class ChatBehaviour : NetworkBehaviour
             chatBackground.gameObject.SetActive(false);
             if (emoteList) emoteList.SetActive(false);
             // sendButton.gameObject.SetActive(false);
+            _slashChat = false;
         }
 
         avatarName.text = GetComponent<MeshAssigner>().userName;
@@ -122,6 +124,7 @@ public class ChatBehaviour : NetworkBehaviour
                 chatBackground.gameObject.SetActive(false);
                 participantsListCanvas.enabled = false;
                 if (emoteList) emoteList.SetActive(false);
+                _slashChat = false;
                 // sendButton.gameObject.SetActive(false);
             }
             if (inChatMode.Value == true)
@@ -139,18 +142,18 @@ public class ChatBehaviour : NetworkBehaviour
         }
 
         //EMOTE STUFF
-        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Slash))
+        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Slash) && _slashChat == false)
         {
             inChatMode.Value = !inChatMode.Value;
 
-            if (inChatMode.Value == false)
+            /*if (inChatMode.Value == false)
             {
                 inputField.gameObject.SetActive(false);
                 chatBackground.gameObject.SetActive(false);
                 if (emoteList) emoteList.SetActive(false);
                 participantsListCanvas.enabled = false;
                 // sendButton.gameObject.SetActive(false);
-            }
+            }*/
             if (inChatMode.Value == true)
             {
                 inputField.gameObject.SetActive(true);
@@ -162,6 +165,7 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.text = "/";
                 inputField.ActivateInputField();
                 // inputField.MoveTextStart(true);
+                _slashChat = true; //make sure you don't open chat a bunch
 
                 // Start a coroutine to deselect text and move caret to end. 
                 // This can't be done now, must be done in the next frame.
@@ -171,6 +175,10 @@ public class ChatBehaviour : NetworkBehaviour
         // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
+            if (_slashChat == true) //if was openned with slash chat, can be closed
+            {
+                _slashChat = false;
+            }
             StartCoroutine(EnterChatToggle());
         }
 
@@ -244,16 +252,27 @@ public class ChatBehaviour : NetworkBehaviour
 
     public void HandleNewMessage(string message)
     {
+        StartCoroutine(WaitAFrame(message));
+    }
+
+
+    IEnumerator WaitAFrame(string message)
+    {
+        //returning 0 will make it wait 1 frame
+        yield return 0;
+        //yield return new WaitForSeconds(1);
+
+        //code goes here
         chatText.text += message;
-        
+
         // this should work???  GH 12-2-2020
-        if(isLocalPlayer)
+        if (isLocalPlayer)
         {
-          Canvas.ForceUpdateCanvases();
+            Canvas.ForceUpdateCanvases();
         }
     }
 
-    [Client]
+[Client]
     public void Send(string message)
     {
         if (!Input.GetKeyDown(KeyCode.Return)) { return; }
