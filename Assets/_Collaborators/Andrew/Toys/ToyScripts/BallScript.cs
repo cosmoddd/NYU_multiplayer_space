@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using System.Linq;
 
 public class BallScript : NetworkBehaviour
 {
@@ -17,6 +18,10 @@ public class BallScript : NetworkBehaviour
     public float distanceToBall;
     public float upAngle = 1.5f;
 
+    public Collider[] overlappingItems;
+    public LayerMask overlappingTargetLayer;
+
+
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -30,6 +35,7 @@ public class BallScript : NetworkBehaviour
         MoveController.controllerAndCameraInit -= GetControllerAndCamera;
     }
 
+
     void GetControllerAndCamera(GameObject _localPlayer, GameObject _localCamera)
     {
         localPlayer = _localPlayer;
@@ -38,16 +44,14 @@ public class BallScript : NetworkBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-
+        
         //  print("KICK?");
-        /* if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             print("KICK!!");
             Vector3 kickDirection = (other.transform.position - transform.position).normalized;
-
-            CmdContactBall(kickDirection);
-        } */
-
+            BasicKick(kickDirection);
+        }
 
         if (other.gameObject.CompareTag("Fall Zone"))
         {
@@ -59,6 +63,8 @@ public class BallScript : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        print($"{other.name} hit it!");
+
         if (other.tag == "Goal")
         {
             other.GetComponent<GoalpostScript>().CmdScoredGoal();
@@ -67,16 +73,51 @@ public class BallScript : NetworkBehaviour
         }
     }
 
+    public float drawRadius = 10f;
+    
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, drawRadius);
+    }
+
+    public override void OnStartAuthority()
+    {
+      print("You have authority over the "+ this.gameObject.name);
+    }
+
+  public override void OnStopAuthority()
+  {
+    base.OnStopAuthority();
+    print("You NO LONGER have authority over the "+ this.gameObject.name);
+
+  }
+
+
+
+    [Command(ignoreAuthority=true)]
+    void CmdMoveIntoSphere(NetworkIdentity playerConn)
+    {
+      netIdentity.RemoveClientAuthority();
+      netIdentity.AssignClientAuthority(playerConn.connectionToClient);
+    }  
+
+
     public void Update()
     {
-        if (!localCamera) return;
+      overlappingItems = Physics.OverlapSphere(transform.position, drawRadius, overlappingTargetLayer);
 
-        if (localPlayer)
-        {
-            distanceToBall = (this.transform.position - localPlayer.transform.position).magnitude;
-        }
+      if (!localCamera) return;
 
-        if (isClickable)
+      if (localPlayer)
+      {
+          distanceToBall = (this.transform.position - localPlayer.transform.position).magnitude;
+      }
+
+      DetermineShortestDistance();
+
+/*         if (isClickable)
         {
             if (Input.GetMouseButtonDown(0) && distanceToBall < 15f)
             {
@@ -90,9 +131,50 @@ public class BallScript : NetworkBehaviour
                     }
                 }
             }
-        }
+        } */
     }
 
+    public List <float> distancesToBall = new List<float>();
+    public float minFloat;
+    public GameObject closestCharacter;
+    public GameObject closestCharacterSaved;
+
+    void DetermineShortestDistance()
+    {
+      if (overlappingItems.Length>0)
+      {
+        // distancesToBallArray = new List<float>();
+        // distancesToBall.Add()
+        distancesToBall = new List<float>();
+
+        for (int i = 0; i < overlappingItems.Length; i++)
+        {
+          distancesToBall.Add((this.transform.position - overlappingItems[i].transform.position).magnitude);
+        }
+
+        minFloat = distancesToBall.Min();
+        closestCharacter = overlappingItems[distancesToBall.IndexOf(minFloat)].gameObject;  // waaaaa!?!?!?!?
+
+
+          if((closestCharacter != closestCharacterSaved))
+          {
+            closestCharacterSaved = closestCharacter;
+            CmdMoveIntoSphere(closestCharacter.GetComponent<NetworkIdentity>());
+            print("Setting new network id for..." + closestCharacter.name);
+          }
+        }
+      
+      
+      if (overlappingItems.Length == 0)
+      {
+        distancesToBall.Clear();
+      }
+
+
+    }
+ 
+    // don't need this
+/* 
     [Command(ignoreAuthority = true)]
     void CmdKickBall(Vector3 kickDirection)
     {
@@ -110,7 +192,8 @@ public class BallScript : NetworkBehaviour
             contactSound.Play();
         }
 
-    }
+    } */
+
 
     [Command(ignoreAuthority = true)]
     public void CmdAudioHit() => RpcAudioHit();
@@ -126,13 +209,9 @@ public class BallScript : NetworkBehaviour
         }
     }
 
-    [Command(ignoreAuthority = true)]
-    void CmdContactBall(Vector3 contactDirection) => RpcContactBall(contactDirection);
-
-    [ClientRpc]
-    void RpcContactBall(Vector3 contactDirection)
+    void BasicKick(Vector3 contactDirection)
     {
-        print("CLICKING!!");
+        print("kicking in a direction!!");
         thisRigidbody.AddForce((contactDirection + new Vector3(0, upAngle, 0)) * punchForce, ForceMode.Impulse);
         if (!contactSound.isPlaying || contactSound.time > .4f)
         {
@@ -141,4 +220,5 @@ public class BallScript : NetworkBehaviour
         }
 
     }
+    
 }

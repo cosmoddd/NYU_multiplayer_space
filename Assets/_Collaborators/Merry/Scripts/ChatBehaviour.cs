@@ -30,7 +30,9 @@ public class ChatBehaviour : NetworkBehaviour
 
     public static event Func<string> RetrievePlayerList;
 
+    public ScrollRect myScrollRect;
 
+    // public Canvas mainCanvas;
 
     public GameObject playerCamera;
     [Header("Chat UI")]
@@ -72,8 +74,7 @@ public class ChatBehaviour : NetworkBehaviour
         //check if player is a mod and grant it
 
         //add player name & mod status to participants list in UI_ParticipantsList.cs
-        //  GameObject player = GetComponent<SavedAvatarInfoScript>().GameObject;
-        
+
         //retrieve the participants list
         participantsText.text = RetrievePlayerList?.Invoke();
 
@@ -85,14 +86,9 @@ public class ChatBehaviour : NetworkBehaviour
 
                 inputField.gameObject.SetActive(false);
             chatBackground.gameObject.SetActive(false);
-            emoteList.SetActive(false);
+            if (emoteList) emoteList.SetActive(false);
             // sendButton.gameObject.SetActive(false);
         }
-
-        // if (participantsListActive.Value == false)
-        // {
-        //     participantsList.gameObject.SetActive(false);
-        // }
 
         avatarName.text = GetComponent<MeshAssigner>().userName;
     }
@@ -125,7 +121,7 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.gameObject.SetActive(false);
                 chatBackground.gameObject.SetActive(false);
                 participantsListCanvas.enabled = false;
-                emoteList.SetActive(false);
+                if (emoteList) emoteList.SetActive(false);
                 // sendButton.gameObject.SetActive(false);
             }
             if (inChatMode.Value == true)
@@ -133,25 +129,12 @@ public class ChatBehaviour : NetworkBehaviour
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
                 participantsListCanvas.enabled = true;
-                emoteList.SetActive(false);
+                if (emoteList) emoteList.SetActive(false);
                 // sendButton.gameObject.SetActive(true);
                 inputField.Select();
                 inputField.ActivateInputField();
                 // inputField.MoveTextStart(true);
             }
-
-            // participantsListActive.Value = !participantsListActive.Value;
-
-            // if (participantsListActive.Value == false)
-            // {
-            //     participantsList.gameObject.SetActive(false);
-
-            // }
-            // if (participantsListActive.Value == true)
-            // {
-            //     participantsList.gameObject.SetActive(true);
-
-            // }
 
         }
 
@@ -164,7 +147,7 @@ public class ChatBehaviour : NetworkBehaviour
             {
                 inputField.gameObject.SetActive(false);
                 chatBackground.gameObject.SetActive(false);
-                emoteList.SetActive(false);
+                if (emoteList) emoteList.SetActive(false);
                 participantsListCanvas.enabled = false;
                 // sendButton.gameObject.SetActive(false);
             }
@@ -172,7 +155,7 @@ public class ChatBehaviour : NetworkBehaviour
             {
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
-                emoteList.SetActive(true); //panel with all emotes
+                if (emoteList) emoteList.SetActive(true); //panel with all emotes
                 participantsListCanvas.enabled = false;
 
                 inputField.Select();
@@ -185,25 +168,6 @@ public class ChatBehaviour : NetworkBehaviour
                 StartCoroutine(MoveTextEnd_NextFrame());
             }
         }
-        // not functional yet!
-        /*
-        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Escape)) //activate participants list
-        {
-            participantsListActive.Value = !participantsListActive.Value;
-
-            if (participantsListActive.Value == false)
-            {
-                participantsList.gameObject.SetActive(false);
- 
-            }
-            if (participantsListActive.Value == true)
-            {
-                participantsList.gameObject.SetActive(true);
-
-            }
-        }
-        */
-
         // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
@@ -221,7 +185,13 @@ public class ChatBehaviour : NetworkBehaviour
     // need to do this in a coroutine to avoid simultaneous frame conflict with enabling/disabling
     IEnumerator EnterChatToggle()
     {
-        // yield return null;
+        if (inChatMode.Value == true && string.IsNullOrWhiteSpace(inputField.text))
+        {
+          yield return null;
+          print("I'm outta here");
+          DisableChatMode();
+          yield break;
+        }
 
         // enable chat mode if disabled
         if (!inputField.gameObject.activeInHierarchy && inChatMode.Value == false)
@@ -236,12 +206,6 @@ public class ChatBehaviour : NetworkBehaviour
         yield break;
         }
 
-        if (inChatMode.Value == true && string.IsNullOrWhiteSpace(inputField.text))
-        {
-        print("I'm outta here");
-        DisableChatMode();
-        yield break;
-        }
 
         if (inChatMode.Value == true && inputField.gameObject.activeInHierarchy)
         {
@@ -256,7 +220,7 @@ public class ChatBehaviour : NetworkBehaviour
         inputField.gameObject.SetActive(false);
         chatBackground.gameObject.SetActive(false);
         inChatMode.Value = false;
-        emoteList.SetActive(false);
+        if (emoteList) emoteList.SetActive(false);
         participantsListCanvas.enabled = false;
     }
 
@@ -281,7 +245,12 @@ public class ChatBehaviour : NetworkBehaviour
     public void HandleNewMessage(string message)
     {
         chatText.text += message;
-        // Debug.Log(chatText.text);
+        
+        // this should work???  GH 12-2-2020
+        if(isLocalPlayer)
+        {
+          Canvas.ForceUpdateCanvases();
+        }
     }
 
     [Client]
@@ -296,9 +265,17 @@ public class ChatBehaviour : NetworkBehaviour
             CmdSendMessage(message);  // if the message is not consumed, send it to chat
         }
 
+        // automatically scroll down every time text is inserted
+        myScrollRect.verticalNormalizedPosition = 0.0f;
+
         inputField.text = string.Empty; //clear text input field 
         inputField.Select();
         inputField.ActivateInputField();
+
+        if(isLocalPlayer)
+        {
+          Canvas.ForceUpdateCanvases();
+        }
         // inputField.MoveTextStart(true);
     }
 

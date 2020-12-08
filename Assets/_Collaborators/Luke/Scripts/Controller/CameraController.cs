@@ -67,10 +67,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        // if in chat mode, don't do this
-        if (inChatMode.Value == true) return;
- 
-        if(Input.GetKeyDown(KeyCode.Y))
+        if (Input.GetKeyDown(KeyCode.Y))
         {
             clickToMove = !clickToMove;
         }
@@ -84,6 +81,12 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        // if in chat mode (or menu) return
+        if (inChatMode.Value)
+        {
+            return;
+        }         
+
         if (!clickToMove || Input.GetKey(KeyCode.Mouse1))
         {
             Cursor.lockState = CursorLockMode.Locked;

@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 public class VideoPlayerCommandListener : NetworkBehaviour
 {
     public StringReference alias;
-    [Header("The command receives a string of the format: `alias y(outube)?|t(witch) 'id'|'url'`")]
+    [Header("The command receives a string of the format: `alias 'id'|'url'`")]
     public StringEvent videoCommandEvent;
     public UnityEvent<string> youtubeCallback;
     public UnityEvent<string> twitchCallback;
@@ -36,12 +36,8 @@ public class VideoPlayerCommandListener : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcChangeVideo(string s)
+    public void RpcChangeVideo(string videoId)
     {
-        var parameters = s.Split();
-        var callback = parameters[0].StartsWith("y") ? youtubeCallback : twitchCallback;
-        print(s);
-        var videoId = parameters[1];
-        callback?.Invoke(videoId);
+        youtubeCallback?.Invoke(videoId);
     }
 }

@@ -35,7 +35,7 @@ public class ParticipantsReceiver : NetworkBehaviour
 
     public void OnDestroy()
     {
-        print("I'm outta here.");
+        // print("I'm outta here.");
         LeavingServer?.Invoke(thisUserName);
     }
     

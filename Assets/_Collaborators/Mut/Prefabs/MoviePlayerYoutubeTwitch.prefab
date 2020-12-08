@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 4127826459489806080}
   - component: {fileID: 5296571158349775668}
   - component: {fileID: 6522581976921643957}
+  - component: {fileID: 3809221859195598577}
+  - component: {fileID: 6094463372704096565}
   m_Layer: 0
-  m_Name: MovieChooser
+  m_Name: MoviePlayerYoutubeTwitch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,6 +103,82 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!114 &3809221859195598577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6627951354408405192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95935324f16ba6346ad3eca682866b17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  serverTimeToLoadNextVideo:
+    _usage: 0
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  requestNextVideo:
+    m_PersistentCalls:
+      m_Calls: []
+  serverURL: 
+  serverYoutubeURL: 
+  serverPlaybackSeconds: 0
+  youtubePlayer: {fileID: 8471982775544474266}
+--- !u!114 &6094463372704096565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6627951354408405192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401b5f9d802c2884e89cf129fa85cd00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  serverTimeToLoadNextVideo:
+    _usage: 1
+    _value: 0
+    _constant: {fileID: 11400000, guid: 08b596b2d00eae649abc2f99cc3ce421, type: 2}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  currentIndex: 0
+  queue: []
+  youtubePlayer: {fileID: 8471982775544474266}
+  alias:
+    _usage: 0
+    _value: 
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  playVideoEvent: {fileID: 11400000, guid: e531d196fb909544f8ae0cfab233ae7a, type: 2}
+  playlistEvent: {fileID: 11400000, guid: 160d753a971237940ad817496505e239, type: 2}
+  addCommandString:
+    _usage: 0
+    _value: add
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  removeCommandString:
+    _usage: 0
+    _value: remove
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  skipCommandString:
+    _usage: 0
+    _value: 
+    _constant: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
 --- !u!1001 &1782965945646609504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -249,12 +327,56 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 44.113003
       objectReference: {fileID: 0}
+    - target: {fileID: 23557287780770044, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 476bcdc2c1ed21542ac9931f38f76830, type: 3}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114034793618705588, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114179375918869224, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
       propertyPath: autoPlayOnStart
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114179375918869224, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
       propertyPath: showPlayerControls
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114222573715148508, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_Text
+      value: Please Stand By...
+      objectReference: {fileID: 0}
+    - target: {fileID: 114222573715148508, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 10da334e9b7b23845a0b88ee941c7634, type: 3}
+    - target: {fileID: 114222573715148508, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_FontData.m_MinSize
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114287909359393746, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
@@ -264,6 +386,38 @@ PrefabInstance:
     - target: {fileID: 114465580197935198, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: YoutubePlayer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 224760859499433788, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224760859499433788, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224760859499433788, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 16.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224760859499433788, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 295.8072
+      objectReference: {fileID: 0}
+    - target: {fileID: 224907842417703490, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 224907842417703490, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 224907842417703490, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 224907842417703490, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 392.78586
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d410f561f4a06c4f93067d94dc545ce, type: 3}

@@ -80,7 +80,7 @@ public class OnlineJukebox : NetworkBehaviour
         // If it should be playing but it's not
         if ((!paused && !audioSource.isPlaying))
         {
-            print("Song is over");
+            // print("Song is over");
             // Song is over call for next in queue;
             if (isServer)
             {

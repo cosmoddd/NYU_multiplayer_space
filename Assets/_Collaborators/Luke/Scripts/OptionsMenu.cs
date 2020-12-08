@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using UnityAtoms.BaseAtoms;
 
 public class OptionsMenu : MonoBehaviour
 {
     public Dropdown resolutionDropdown;
     public Slider mouseSenseSlider;
+    public Slider masterVolumeSlider;
     public NetworkManagerGC manager;
     public GameObject mainPanel;
     public GameObject confirmQuitPanel;
     public GameObject mouseSettingPanel;
     public GameObject videoSettingPanel;
+    public GameObject audioSettingPanel;
 
     public Text mouseSenseText;
+    public Text volumeText;
     CameraController camController;
+
+    [Header("In Chat Mode")]
+    public BoolVariable inChatMode;
 
     Resolution[] resolutions;
 
@@ -35,17 +42,26 @@ public class OptionsMenu : MonoBehaviour
         resolutionDropdown.ClearOptions();
         List<string> options = new List<string>();
         resolutions = Screen.resolutions;
+        int initialScreenIndex = 0;
 
         for(int i = 0; i < resolutions.Length; i++)
         {
             string option = resolutions[i].width + " x " + resolutions[i].height;
 
-            options.Add(option);   
+            if(Screen.currentResolution.width == resolutions[i].width
+                && Screen.currentResolution.height == resolutions[i].height)
+            {
+                initialScreenIndex = i;
+            }
+
+            options.Add(option);
         }
 
         resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = initialScreenIndex;
         resolutionDropdown.RefreshShownValue();
 
+        masterVolumeSlider.maxValue = AudioListener.volume;
         mouseSenseSlider.value = camController.mouseSensitivity;
     }
 
@@ -101,12 +117,25 @@ public class OptionsMenu : MonoBehaviour
         mainPanel.SetActive(true);
     }
 
+    public void ShowAudioPanel()
+    {
+        audioSettingPanel.SetActive(true);
+        mainPanel.SetActive(false);
+    }
+
+    public void HideAudioPanel()
+    {
+        audioSettingPanel.SetActive(false);
+        mainPanel.SetActive(true);
+    }
+
     public void CloseOptionsMenu()
     {
         gameObject.SetActive(false);
         mouseSettingPanel.SetActive(false);
         videoSettingPanel.SetActive(false);
         mainPanel.SetActive(true);
+        inChatMode.SetValue(false);
     }
 
     public void ChangeMouseSense(float newSense)
@@ -115,6 +144,14 @@ public class OptionsMenu : MonoBehaviour
 
         // also update mouse sense text in menu
         mouseSenseText.text = newSense.ToString("G2");
+    }
+
+    public void AdjustMasterVolume(float newVolume)
+    {
+        AudioListener.volume = newVolume;
+
+        int textVal = (int)((newVolume / masterVolumeSlider.maxValue) * 100.0f);
+        volumeText.text = textVal.ToString("D");
     }
 
 }

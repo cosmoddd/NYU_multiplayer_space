@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using Mirror;
 
-public class AudioMixSnapshotController : MonoBehaviour
+public class AudioMixSnapshotController : NetworkBehaviour
 {
     public AudioMixer MainMix;
 
@@ -11,25 +12,21 @@ public class AudioMixSnapshotController : MonoBehaviour
     public AudioMixerSnapshot RoomSnapshot;
 
     public float transitionTime;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     void OnTriggerEnter()
     {
-        RoomSnapshot.TransitionTo(transitionTime);
+        if (isLocalPlayer)
+        {
+          RoomSnapshot.TransitionTo(transitionTime);
+        }
     }
 
     void OnTriggerExit()
     {
+      if (isLocalPlayer)
+      {
         HallwaySnapshot.TransitionTo(transitionTime);
+      }
     }
 }
