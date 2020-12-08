@@ -161,7 +161,7 @@ public class MeshAssigner : NetworkBehaviour
         // update new body trait IDs and call AssignAvatarTraits
         // to apply new change on all clients
         Debug.Log(bodyTraits[0].bodyID);
-        bodyTraits[0].bodyID = bodyTraits[0].bodyID + 1;
+        bodyTraits[0].bodyID = (bodyTraits[0].bodyID + 1) % meshData.bodyMeshes[0].meshes.Length;
 
         Debug.Log("Assigned new trait");
         Debug.Log(bodyTraits[0].bodyID);

@@ -49,7 +49,7 @@ public class Z_Interactor : MonoBehaviour {
                 if (Physics.Raycast(ray, out RaycastHit Hit, MaxDistance, Mask))
                 {
                     MouseInput = true;
-                    // print(Hit.transform.gameObject.name);
+
                     if (Hit.collider.transform.GetComponent<Z_Interactee>())
                         interactee = Hit.collider.transform.GetComponent<Z_Interactee>();
                     else if (Hit.transform.GetComponent<Z_Interactee>())

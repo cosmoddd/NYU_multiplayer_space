@@ -21,6 +21,7 @@ public class BallScript : NetworkBehaviour
     public Collider[] overlappingItems;
     public LayerMask overlappingTargetLayer;
 
+    public GameObject particlePrefab;
 
     public override void OnStartClient()
     {
@@ -51,6 +52,10 @@ public class BallScript : NetworkBehaviour
             print("KICK!!");
             Vector3 kickDirection = (other.transform.position - transform.position).normalized;
             BasicKick(kickDirection);
+            foreach (ContactPoint c in other.contacts)
+            {
+                Instantiate(particlePrefab, c.point, Quaternion.identity);
+            }
         }
 
         if (other.gameObject.CompareTag("Fall Zone"))

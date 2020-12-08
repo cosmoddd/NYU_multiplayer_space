@@ -8,7 +8,7 @@ public class LoadSceneAdditive : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SceneManager.LoadScene("RonAudioScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("RonParticleScene", LoadSceneMode.Additive);
     }
 
     // Update is called once per frame
