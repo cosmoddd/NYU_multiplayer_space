@@ -36,7 +36,7 @@ public class CameraController : MonoBehaviour
 
     private float pitch, yaw;
 
-    private float currentCamDist;
+    public float currentCamDist;
     // The distance from the target we are currently lerping towards
     private float targetCamDist;
 
@@ -137,9 +137,9 @@ public class CameraController : MonoBehaviour
         viewCamera.localPosition = cameraBoomOffset;
 
         // SmoothDamp for camera lag
-        Vector3 newPosition = target.position + cameraOffset;
         if (target)
         {
+            Vector3 newPosition = target.position + cameraOffset;
             transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref targetSmoothVelocity, targetSmoothTime);
         }
     }
