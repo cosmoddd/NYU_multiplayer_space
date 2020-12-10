@@ -18,6 +18,7 @@ public class AudioMixSnapshotController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+          print("entered");
           RoomSnapshot.TransitionTo(transitionTime);
         }
     }

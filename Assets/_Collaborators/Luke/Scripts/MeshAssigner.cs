@@ -35,6 +35,58 @@ public class MeshAssigner : NetworkBehaviour
         }
     };
 
+    public struct LoginData
+    {
+      public string[] tags;
+      public string nameTag;
+      public string password;
+
+      public bool PlayerIs(string tag)
+      {
+        foreach(string _tag in tags)  if(_tag == tag ) return true;
+        return false;
+      }
+      
+
+      public LoginData(string e, string p, string[] t)
+      {
+        tags = t;
+        nameTag = e;
+        password = p;
+        addEmojisAndColor();
+      }
+
+      void addEmojisAndColor()
+      {
+        //go by order of importance
+
+        //Moderator Emoji
+        if(PlayerIs("Moderator"))
+        {
+          nameTag = "<sprite index=0>"   + " " + nameTag;
+        }
+
+        //colors
+        if(PlayerIs("MFA"))
+        {
+          nameTag = "<#33E9FF>" + nameTag; //TEAL-BLUE
+        }
+        else if(PlayerIs("BFA"))
+        {
+          nameTag = "<#33FF83>"  + nameTag; //TEAL-GREEN
+        }else if(PlayerIs("Professor"))
+        {
+          nameTag =  "<#B833FF>"  + nameTag; //PURPLE
+        }else if(PlayerIs("Staff"))
+        {
+          nameTag =  "<#FF338A>"  + nameTag; //PINK
+        }
+
+
+
+      }
+    }
+
 
     // custom class
     public class SyncTrait : SyncList<TraitData> {}
@@ -47,8 +99,8 @@ public class MeshAssigner : NetworkBehaviour
     [SyncVar]
     public string userName;
 
-    [SyncVar]
-    public bool bIsModerator;
+    public LoginData loginInfo;
+
 
     // body meshes stored in a scriptable object
     public CharacterMeshData meshData;
@@ -79,9 +131,27 @@ public class MeshAssigner : NetworkBehaviour
             return;
         }
 
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            CmdChangeName();
+        }
+
         if (Input.GetKeyDown(KeyCode.J))
         {
             CmdChangeTrait();
+        }
+    }
+
+    [Command(ignoreAuthority = true)]
+    void CmdChangeName()
+    {
+        if(userName == "Bob")
+        {
+            userName = "Joe";
+        }
+        else if(userName == "Joe")
+        {
+            userName = "Bob";
         }
     }
 
@@ -90,7 +160,11 @@ public class MeshAssigner : NetworkBehaviour
     {
         // update new body trait IDs and call AssignAvatarTraits
         // to apply new change on all clients
-        bodyTraits[0].bodyID = bodyTraits[0].bodyID + 1;
+        Debug.Log(bodyTraits[0].bodyID);
+        bodyTraits[0].bodyID = (bodyTraits[0].bodyID + 1) % meshData.bodyMeshes[0].meshes.Length;
+
+        Debug.Log("Assigned new trait");
+        Debug.Log(bodyTraits[0].bodyID);
 
         AssignAvatarTraits();
     }
@@ -105,7 +179,8 @@ public class MeshAssigner : NetworkBehaviour
     public void LoadData(CustomizerData customData)
     {
         userName = customData.userName;
-        bIsModerator = customData.bIsModerator;
+        loginInfo = new LoginData(customData.userName,customData.password,customData.tags);
+
 
         for(int i = 0; i < customData.bodyIDs.Length; i++)
         {
@@ -118,7 +193,10 @@ public class MeshAssigner : NetworkBehaviour
             TorsoData torsoData = new TorsoData(customData.torsoScales[i]);
             torsoScales.Add(torsoData);
         }
+
+        userName = loginInfo.nameTag;
     }
+
 
     public void AssignAvatarTraits()
     {

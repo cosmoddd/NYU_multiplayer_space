@@ -17,6 +17,8 @@ public class CustomizerUITabs : MonoBehaviour
     public TMP_InputField emailField;
     public TMP_InputField passwordField;
 
+    public TMP_InputField displayName;
+
     public Sprite[] headSprites;
     public Sprite[] torsoSprites;
     public Sprite[] feetSprites;
@@ -61,6 +63,8 @@ public class CustomizerUITabs : MonoBehaviour
         customizePanel.SetActive(false);
         loginPanel.SetActive(true);
         colorPicker.gameObject.SetActive(false);
+        clientLoginPanel.SetActive(false);
+
     }
 
 
@@ -82,7 +86,8 @@ public class CustomizerUITabs : MonoBehaviour
             return;
         }
 
-        //check for saved data, load the saved character if it exsits. 
+        //save login info
+        customizerScript.loginInfo = authentication.GetLoginInfo(emailField.text);
         
 
         //back button
@@ -119,6 +124,10 @@ public class CustomizerUITabs : MonoBehaviour
         clientLoginPanel.SetActive(true);
 
         //SET USERNAME HERE?
+        if(customizerScript.userName != "") //if the player has a username, set it in the text feild
+        {
+            displayName.SetTextWithoutNotify(customizerScript.userName);
+        }
 
     }
 
@@ -273,9 +282,24 @@ public class CustomizerUITabs : MonoBehaviour
     {
         float clampDif = customizerScript.torsoScaleClamps[slider].y - customizerScript.torsoScaleClamps[slider].x; //the range between the two clamp values
 
-        float currentValue = clampDif -  (value * clampDif); //the real value from the percentage value
+        float currentValue = clampDif  +  ((value - 1) * clampDif); //the real value from the percentage value
 
         customizerScript.torsoNodeScales[slider] = currentValue;
+
+    }
+
+    public void BackButton()
+    {
+      customizePanel.SetActive(true);
+        colorPicker.gameObject.SetActive(true);
+        customizePanel.SetActive(true);
+        slidersPanel.SetActive(true);
+        scrollPanel.SetActive(false);
+        SetSliderValues();
+
+        SetCustomizationTab(currentTab);
+
+        clientLoginPanel.SetActive(false);
 
     }
 
