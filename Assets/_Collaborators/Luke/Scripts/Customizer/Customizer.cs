@@ -129,7 +129,7 @@ public class Customizer : MonoBehaviour
         for (int i = 0; i < TorsoNodes.Length; i++)
         {
             float newScale = Mathf.Clamp(torsoNodeScales[i], torsoScaleClamps[i].x, torsoScaleClamps[i].y);
-
+            
             TorsoNodes[i].localScale = Vector3.Lerp(TorsoNodes[i].localScale, Vector3.one * newScale,
                 Time.deltaTime * 10);
         }
