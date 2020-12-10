@@ -25,7 +25,7 @@ public class OptionsMenu : MonoBehaviour
     CameraController camController;
 
     [Header("In Chat Mode")]
-    public BoolVariable inChatMode;
+    public BoolVariable inOptionsMode;
 
     Resolution[] resolutions;
 
@@ -159,7 +159,7 @@ public class OptionsMenu : MonoBehaviour
         mouseSettingPanel.SetActive(false);
         videoSettingPanel.SetActive(false);
         mainPanel.SetActive(true);
-        inChatMode.SetValue(false);
+        inOptionsMode.SetValue(false);
         saveScript.SaveData();
     }
 
