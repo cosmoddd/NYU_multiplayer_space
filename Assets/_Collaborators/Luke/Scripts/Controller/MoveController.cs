@@ -40,6 +40,8 @@ public class MoveController : NetworkBehaviour
     [Header("In Chat Mode")]
     public BoolVariable inChatMode;
 
+    [Header("In Options Mode")]
+    public BoolVariable inOptionsMode;
     
 
     [Header("Sitting")]
@@ -87,7 +89,7 @@ public class MoveController : NetworkBehaviour
 
             bool isSprinting = Input.GetAxisRaw("Sprint") > 0;
 
-            if(inChatMode.Value)
+            if(inChatMode.Value == true || inOptionsMode.Value == true)
             {
                 inputDirection = Vector2.zero;
             }
@@ -100,14 +102,15 @@ public class MoveController : NetworkBehaviour
                 Jump();
             }
 
-            // you can enter the options screen any time
+            // you can only enter the options screen when chat is closed
             if(Input.GetKeyDown(KeyCode.Escape))
             {
-                if(!optionsUI.activeSelf)
+                if(!optionsUI.activeSelf && inOptionsMode.Value == false && inChatMode.Value == false)
                 {
                     optionsUI.SetActive(true);
-                    inChatMode.SetValue(true);
+                    inOptionsMode.SetValue(true);
                     Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
                 }
                 else
                 {
