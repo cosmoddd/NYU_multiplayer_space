@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using TMPro;
 using Mirror;
@@ -12,6 +13,8 @@ using System.Linq;
 
 public class ChatBehaviour : NetworkBehaviour
 {
+    public string[] userNameSub;
+
     [SerializeField]
     private GameObject chatUI = null; //ui chat is contained to
 
@@ -24,13 +27,17 @@ public class ChatBehaviour : NetworkBehaviour
 
     [SerializeField]
     private Image chatBackground = null; //chat background + goes with slider
-    public GameObject scrollBar;
+    [Header("Scrollbar Control")]
+    public Image scrollBar;
+    public Sprite activeScrollBarSprite;
+    public Sprite invisibleScrollBarSprite;
 
     private static event Action<string> OnMessage;
     public static event Action LoggedIn;
 
     public static event Func<string> RetrievePlayerList;
 
+    [Space(10)]
     public ScrollRect myScrollRect;
 
     // public Canvas mainCanvas;
@@ -88,9 +95,11 @@ public class ChatBehaviour : NetworkBehaviour
 
                 inputField.gameObject.SetActive(false);
             chatBackground.gameObject.SetActive(false);
-            scrollBar.SetActive(false);
+
+            scrollBar.sprite = invisibleScrollBarSprite;
+
+
             if (emoteList) emoteList.SetActive(false);
-            // sendButton.gameObject.SetActive(false);
             _slashChat = false;
         }
 
@@ -124,23 +133,27 @@ public class ChatBehaviour : NetworkBehaviour
             {
                 inputField.gameObject.SetActive(false);
                 chatBackground.gameObject.SetActive(false);
-                scrollBar.SetActive(false);
+
+                scrollBar.sprite = invisibleScrollBarSprite;
+
+
                 participantsListCanvas.enabled = false;
                 if (emoteList) emoteList.SetActive(false);
                 _slashChat = false;
-                // sendButton.gameObject.SetActive(false);
+
             }
             if (inChatMode.Value == true)
             {
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
-                scrollBar.SetActive(true);
+
+                scrollBar.sprite = activeScrollBarSprite;
+
                 participantsListCanvas.enabled = true;
                 if (emoteList) emoteList.SetActive(false);
-                // sendButton.gameObject.SetActive(true);
                 inputField.Select();
                 inputField.ActivateInputField();
-                // inputField.MoveTextStart(true);
+
             }
 
         }
@@ -150,26 +163,20 @@ public class ChatBehaviour : NetworkBehaviour
         {
             inChatMode.Value = !inChatMode.Value;
 
-            /*if (inChatMode.Value == false)
-            {
-                inputField.gameObject.SetActive(false);
-                chatBackground.gameObject.SetActive(false);
-                if (emoteList) emoteList.SetActive(false);
-                participantsListCanvas.enabled = false;
-                // sendButton.gameObject.SetActive(false);
-            }*/
             if (inChatMode.Value == true)
             {
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
-                scrollBar.SetActive(true);
+
+                scrollBar.sprite = activeScrollBarSprite;
+
                 if (emoteList) emoteList.SetActive(true); //panel with all emotes
                 participantsListCanvas.enabled = false;
 
                 inputField.Select();
                 inputField.text = "/";
                 inputField.ActivateInputField();
-                // inputField.MoveTextStart(true);
+
                 _slashChat = true; //make sure you don't open chat a bunch
 
                 // Start a coroutine to deselect text and move caret to end. 
@@ -214,7 +221,9 @@ public class ChatBehaviour : NetworkBehaviour
         inChatMode.Value = true;
         inputField.gameObject.SetActive(true);
         chatBackground.gameObject.SetActive(true);
-        scrollBar.SetActive(true);
+
+        scrollBar.sprite = activeScrollBarSprite;
+
         inputField.Select();
         inputField.ActivateInputField();
         yield break;
@@ -233,7 +242,9 @@ public class ChatBehaviour : NetworkBehaviour
     {
         inputField.gameObject.SetActive(false);
         chatBackground.gameObject.SetActive(false);
-        scrollBar.SetActive(false);
+
+        scrollBar.sprite = invisibleScrollBarSprite;
+
         inChatMode.Value = false;
         if (emoteList) emoteList.SetActive(false);
         participantsListCanvas.enabled = false;
@@ -322,7 +333,24 @@ public class ChatBehaviour : NetworkBehaviour
         RpcShowAvatarMessage(message);
 
         string userName = GetComponent<MeshAssigner>().userName;
-        RpcHandleMessage($"<color=white>[{userName}]</color>: {message}");
+
+        // split the string by ">"
+        userNameSub  = Regex.Split(userName, "(>)");
+
+        // rebuild the character string to encompass color
+        string newUserName = "";
+
+        for (int i=0; i < userNameSub.Length; i++)
+        {
+          newUserName += userNameSub[i];
+          if (i == 1)
+          {
+            newUserName += "[";
+          }
+
+        }
+
+        RpcHandleMessage($"{newUserName}]</color>  {message}");
     }
 
     [ClientRpc]

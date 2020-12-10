@@ -3369,7 +3369,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: 309fb66739677f342869f1dc603a11a6, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
@@ -5473,7 +5473,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: 309fb66739677f342869f1dc603a11a6, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
@@ -5675,7 +5675,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: 309fb66739677f342869f1dc603a11a6, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
@@ -7043,12 +7043,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  userNameSub: []
   chatUI: {fileID: 1994261558414298952}
   chatText: {fileID: 7509650163649715904}
   inputField: {fileID: 6424696456841017153}
   sendButton: {fileID: 4332882658082971383}
   chatBackground: {fileID: 8548336591236218587}
-  scrollBar: {fileID: 6389633760132936689}
+  scrollBar: {fileID: 2509737921756623862}
+  activeScrollBarSprite: {fileID: 21300000, guid: 8248e10ac2404f447a0cac9ba6df51d7, type: 3}
+  invisibleScrollBarSprite: {fileID: 21300000, guid: f72dcb887f141ad44bd88198d10712c3, type: 3}
   myScrollRect: {fileID: 9119455580010824654}
   playerCamera: {fileID: 0}
   avatarTransform: {fileID: 2471437610692028880}
@@ -7464,7 +7467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 118
+      value: 176.3
       objectReference: {fileID: 0}
     - target: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -7472,7 +7475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 158.32596
       objectReference: {fileID: 0}
     - target: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7530,6 +7533,10 @@ PrefabInstance:
       propertyPath: customizerScript
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1433498794830893779, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
+      propertyPath: m_Color.a
+      value: 0.6117647
+      objectReference: {fileID: 0}
     - target: {fileID: 3497931531355317497, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -7585,6 +7592,14 @@ PrefabInstance:
     - target: {fileID: 7790767568518471296, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
       propertyPath: m_margin.x
       value: 6.845203
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790767568518471296, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
+      propertyPath: m_spriteAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 309fb66739677f342869f1dc603a11a6, type: 2}
+    - target: {fileID: 7790767568518471296, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
+      propertyPath: m_Maskable
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}

@@ -39,7 +39,9 @@ public class NetworkManagerGC : NetworkManager
 
         MeshAssigner assigner = character.GetComponent<MeshAssigner>();
         if (assigner)
+          {
             assigner.LoadData(dataMessage);
+          }
         else
             Debug.Log("Could not find assigner");
 

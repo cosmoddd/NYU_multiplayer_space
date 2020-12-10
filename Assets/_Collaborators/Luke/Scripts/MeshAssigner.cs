@@ -63,8 +63,10 @@ public class MeshAssigner : NetworkBehaviour
         //Moderator Emoji
         if(PlayerIs("Moderator"))
         {
-          nameTag = "<sprite index=0>"   + " " + nameTag;
+          nameTag = "<sprite index=0>"   + " " + nameTag;  // space between sprite and name? -gh
         }
+
+
 
         //colors
         if(PlayerIs("MFA"))
@@ -81,8 +83,6 @@ public class MeshAssigner : NetworkBehaviour
         {
           nameTag =  "<#FF338A>"  + nameTag; //PINK
         }
-
-
 
       }
     }
@@ -179,6 +179,7 @@ public class MeshAssigner : NetworkBehaviour
     public void LoadData(CustomizerData customData)
     {
         userName = customData.userName;
+        gameObject.name = $"__AV__{userName}";
         loginInfo = new LoginData(customData.userName,customData.password,customData.tags);
 
 
@@ -195,6 +196,7 @@ public class MeshAssigner : NetworkBehaviour
         }
 
         userName = loginInfo.nameTag;
+        customData.userName = userName;
     }
 
 
