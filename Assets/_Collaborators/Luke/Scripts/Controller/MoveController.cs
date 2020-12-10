@@ -107,6 +107,7 @@ public class MoveController : NetworkBehaviour
                     optionsUI.SetActive(true);
                     inChatMode.SetValue(true);
                     Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
                 }
                 else
                 {

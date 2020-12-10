@@ -79,27 +79,9 @@ public class MeshAssigner : NetworkBehaviour
             return;
         }
 
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            CmdChangeName();
-        }
-
         if (Input.GetKeyDown(KeyCode.J))
         {
             CmdChangeTrait();
-        }
-    }
-
-    [Command(ignoreAuthority = true)]
-    void CmdChangeName()
-    {
-        if(userName == "Bob")
-        {
-            userName = "Joe";
-        }
-        else if(userName == "Joe")
-        {
-            userName = "Bob";
         }
     }
 
@@ -108,11 +90,7 @@ public class MeshAssigner : NetworkBehaviour
     {
         // update new body trait IDs and call AssignAvatarTraits
         // to apply new change on all clients
-        Debug.Log(bodyTraits[0].bodyID);
         bodyTraits[0].bodyID = bodyTraits[0].bodyID + 1;
-
-        Debug.Log("Assigned new trait");
-        Debug.Log(bodyTraits[0].bodyID);
 
         AssignAvatarTraits();
     }

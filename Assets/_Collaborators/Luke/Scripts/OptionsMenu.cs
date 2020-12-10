@@ -11,6 +11,8 @@ public class OptionsMenu : MonoBehaviour
     public Dropdown resolutionDropdown;
     public Slider mouseSenseSlider;
     public Slider masterVolumeSlider;
+    public Toggle invertToggle;
+    public Toggle fullscreenToggle;
     public NetworkManagerGC manager;
     public GameObject mainPanel;
     public GameObject confirmQuitPanel;
@@ -65,6 +67,7 @@ public class OptionsMenu : MonoBehaviour
         // after loading save data disable menu
         saveScript.LoadSave();
         SetSliders();
+        SetToggles();
         gameObject.SetActive(false);
     }
 
@@ -180,6 +183,12 @@ public class OptionsMenu : MonoBehaviour
     {
         masterVolumeSlider.value = AudioListener.volume;
         mouseSenseSlider.value = camController.mouseSensitivity;
+    }
+
+    public void SetToggles()
+    {
+        invertToggle.isOn = camController.bInvertY.Value;
+        fullscreenToggle.isOn = Screen.fullScreen;
     }
 
     public CameraController GetCamControl()
