@@ -108,9 +108,16 @@ public class CustomizerUITabs : MonoBehaviour
         {
             float clampDif = customizerScript.torsoScaleClamps[i].y - customizerScript.torsoScaleClamps[i].x; //the range between the two clamp values
             float currentValue = customizerScript.torsoNodeScales[i]; //the current scale of that node, set by the load data script
+            currentValue = currentValue - customizerScript.torsoScaleClamps[i].x;
 
-            float percentageValue = (clampDif - currentValue) / clampDif; //the percentage the current value is, from 0-1
+            float percentageValue = (currentValue) / clampDif; //the percentage the current value is, from 0-1
+           // float percentageValue = ((currentValue - clampDif) * clampDif) + 1;
 
+            //float currentValue = clampDif  +  ((value - 1) * clampDif); //the real value from the percentage value
+            //current value - clampdiff = (value - 1) / clamp diff
+            //(current value - clampdiff ) * clamp diff = value - 1
+
+            Debug.Log(percentageValue);
             torsoSliders[i].SetValueWithoutNotify(percentageValue); //set the torso sliders inital value to this value
         }
     }
@@ -284,7 +291,7 @@ public class CustomizerUITabs : MonoBehaviour
 
         float currentValue = clampDif  +  ((value - 1) * clampDif); //the real value from the percentage value
 
-        customizerScript.torsoNodeScales[slider] = currentValue;
+        customizerScript.torsoNodeScales[slider] = currentValue + customizerScript.torsoScaleClamps[slider].x;
 
     }
 
