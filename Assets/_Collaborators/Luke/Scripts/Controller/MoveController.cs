@@ -149,6 +149,10 @@ public class MoveController : NetworkBehaviour
 
             previousInputDir = inputDir;
         }
+        else
+        {
+            moveSpeed = turnAroundSpeed;
+        }
 
         // decide which speed to use based on bool parameter input
         float targetSpeed = (isSprinting ? runSpeed : walkSpeed) * inputDir.magnitude;

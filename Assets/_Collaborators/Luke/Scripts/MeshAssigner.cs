@@ -131,27 +131,9 @@ public class MeshAssigner : NetworkBehaviour
             return;
         }
 
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            CmdChangeName();
-        }
-
         if (Input.GetKeyDown(KeyCode.J))
         {
             CmdChangeTrait();
-        }
-    }
-
-    [Command(ignoreAuthority = true)]
-    void CmdChangeName()
-    {
-        if(userName == "Bob")
-        {
-            userName = "Joe";
-        }
-        else if(userName == "Joe")
-        {
-            userName = "Bob";
         }
     }
 
@@ -172,8 +154,22 @@ public class MeshAssigner : NetworkBehaviour
     [Command(ignoreAuthority = true)]
     void CmdChangeTrait()
     {
-        // Send a request to run ChangeTrait RPC on the server
+        // Send a request to run ChangeTrait RPC on the server     
         RpcChangeTrait();
+    }
+
+    [Command(ignoreAuthority = true)]
+    void CmdChangeTraitID(int traitIndex, int newID)
+    {
+        // must call changes on server
+        RpcChangeTraitID(traitIndex, newID);
+        AssignAvatarTraits();
+    }
+
+    [ClientRpc]
+    void RpcChangeTraitID(int traitIndex, int newID)
+    {
+        bodyTraits[traitIndex].bodyID = newID;
     }
 
     public void LoadData(CustomizerData customData)
