@@ -14,17 +14,21 @@ public class AudioMixSnapshotController : NetworkBehaviour
     public float transitionTime;
 
 
-    void OnTriggerEnter()
+    void OnTriggerEnter(Collider other)
     {
-        if (isLocalPlayer)
+      // print(other.name+" entered the mix joint.");
+
+        if (other.GetComponent<NetworkBehaviour>() && other.GetComponent<NetworkBehaviour>().isLocalPlayer)
         {
           RoomSnapshot.TransitionTo(transitionTime);
         }
     }
 
-    void OnTriggerExit()
+    void OnTriggerExit(Collider other)
     {
-      if (isLocalPlayer)
+      // print(other.name+" left the mix joint.");
+
+      if (other.GetComponent<NetworkBehaviour>() && other.GetComponent<NetworkBehaviour>().isLocalPlayer)
       {
         HallwaySnapshot.TransitionTo(transitionTime);
       }

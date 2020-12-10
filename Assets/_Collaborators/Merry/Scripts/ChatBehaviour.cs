@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using TMPro;
 using Mirror;
@@ -12,6 +13,8 @@ using System.Linq;
 
 public class ChatBehaviour : NetworkBehaviour
 {
+    public string[] userNameSub;
+
     [SerializeField]
     private GameObject chatUI = null; //ui chat is contained to
 
@@ -24,12 +27,17 @@ public class ChatBehaviour : NetworkBehaviour
 
     [SerializeField]
     private Image chatBackground = null; //chat background + goes with slider
+    [Header("Scrollbar Control")]
+    public Image scrollBar;
+    public Sprite activeScrollBarSprite;
+    public Sprite invisibleScrollBarSprite;
 
     private static event Action<string> OnMessage;
     public static event Action LoggedIn;
 
     public static event Func<string> RetrievePlayerList;
 
+    [Space(10)]
     public ScrollRect myScrollRect;
 
     // public Canvas mainCanvas;
@@ -66,6 +74,7 @@ public class ChatBehaviour : NetworkBehaviour
     [SerializeField]
     public GameObject emoteList = null; //participants list
     public BoolVariable emoteListActive;
+    private bool _slashChat;
 
     public override void OnStartClient()
     {
@@ -86,8 +95,12 @@ public class ChatBehaviour : NetworkBehaviour
 
                 inputField.gameObject.SetActive(false);
             chatBackground.gameObject.SetActive(false);
+
+            scrollBar.sprite = invisibleScrollBarSprite;
+
+
             if (emoteList) emoteList.SetActive(false);
-            // sendButton.gameObject.SetActive(false);
+            _slashChat = false;
         }
 
         avatarName.text = GetComponent<MeshAssigner>().userName;
@@ -120,48 +133,51 @@ public class ChatBehaviour : NetworkBehaviour
             {
                 inputField.gameObject.SetActive(false);
                 chatBackground.gameObject.SetActive(false);
+
+                scrollBar.sprite = invisibleScrollBarSprite;
+
+
                 participantsListCanvas.enabled = false;
                 if (emoteList) emoteList.SetActive(false);
-                // sendButton.gameObject.SetActive(false);
+                _slashChat = false;
+
             }
             if (inChatMode.Value == true)
             {
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
+
+                scrollBar.sprite = activeScrollBarSprite;
+
                 participantsListCanvas.enabled = true;
                 if (emoteList) emoteList.SetActive(false);
-                // sendButton.gameObject.SetActive(true);
                 inputField.Select();
                 inputField.ActivateInputField();
-                // inputField.MoveTextStart(true);
+
             }
 
         }
 
         //EMOTE STUFF
-        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Slash))
+        if (isLocalPlayer && Input.GetKeyDown(KeyCode.Slash) && _slashChat == false)
         {
             inChatMode.Value = !inChatMode.Value;
 
-            if (inChatMode.Value == false)
-            {
-                inputField.gameObject.SetActive(false);
-                chatBackground.gameObject.SetActive(false);
-                if (emoteList) emoteList.SetActive(false);
-                participantsListCanvas.enabled = false;
-                // sendButton.gameObject.SetActive(false);
-            }
             if (inChatMode.Value == true)
             {
                 inputField.gameObject.SetActive(true);
                 chatBackground.gameObject.SetActive(true);
+
+                scrollBar.sprite = activeScrollBarSprite;
+
                 if (emoteList) emoteList.SetActive(true); //panel with all emotes
                 participantsListCanvas.enabled = false;
 
                 inputField.Select();
                 inputField.text = "/";
                 inputField.ActivateInputField();
-                // inputField.MoveTextStart(true);
+
+                _slashChat = true; //make sure you don't open chat a bunch
 
                 // Start a coroutine to deselect text and move caret to end. 
                 // This can't be done now, must be done in the next frame.
@@ -171,6 +187,10 @@ public class ChatBehaviour : NetworkBehaviour
         // return enables chat box if it's disabled
         if (isLocalPlayer && Input.GetKeyDown(KeyCode.Return))
         {
+            if (_slashChat == true) //if was openned with slash chat, can be closed
+            {
+                _slashChat = false;
+            }
             StartCoroutine(EnterChatToggle());
         }
 
@@ -201,6 +221,9 @@ public class ChatBehaviour : NetworkBehaviour
         inChatMode.Value = true;
         inputField.gameObject.SetActive(true);
         chatBackground.gameObject.SetActive(true);
+
+        scrollBar.sprite = activeScrollBarSprite;
+
         inputField.Select();
         inputField.ActivateInputField();
         yield break;
@@ -219,6 +242,9 @@ public class ChatBehaviour : NetworkBehaviour
     {
         inputField.gameObject.SetActive(false);
         chatBackground.gameObject.SetActive(false);
+
+        scrollBar.sprite = invisibleScrollBarSprite;
+
         inChatMode.Value = false;
         if (emoteList) emoteList.SetActive(false);
         participantsListCanvas.enabled = false;
@@ -244,16 +270,27 @@ public class ChatBehaviour : NetworkBehaviour
 
     public void HandleNewMessage(string message)
     {
+        StartCoroutine(WaitAFrame(message));
+    }
+
+
+    IEnumerator WaitAFrame(string message)
+    {
+        //returning 0 will make it wait 1 frame
+        yield return 0;
+        //yield return new WaitForSeconds(1);
+
+        //code goes here
         chatText.text += message;
-        
+
         // this should work???  GH 12-2-2020
-        if(isLocalPlayer)
+        if (isLocalPlayer)
         {
-          Canvas.ForceUpdateCanvases();
+            Canvas.ForceUpdateCanvases();
         }
     }
 
-    [Client]
+[Client]
     public void Send(string message)
     {
         if (!Input.GetKeyDown(KeyCode.Return)) { return; }
@@ -296,7 +333,24 @@ public class ChatBehaviour : NetworkBehaviour
         RpcShowAvatarMessage(message);
 
         string userName = GetComponent<MeshAssigner>().userName;
-        RpcHandleMessage($"<color=white>[{userName}]</color>: {message}");
+
+        // split the string by ">"
+        userNameSub  = Regex.Split(userName, "(>)");
+
+        // rebuild the character string to encompass color
+        string newUserName = "";
+
+        for (int i=0; i < userNameSub.Length; i++)
+        {
+          newUserName += userNameSub[i];
+          if (i == 1)
+          {
+            newUserName += "[";
+          }
+
+        }
+
+        RpcHandleMessage($"{newUserName}]</color>  {message}");
     }
 
     [ClientRpc]

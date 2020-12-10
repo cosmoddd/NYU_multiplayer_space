@@ -6,11 +6,17 @@ using UnityEngine;
 public class MeshAssigner : NetworkBehaviour
 {
     // custom struct and class to allow syncing of trait lists
-    public struct TraitData
+    public class TraitData
     {
         public Vector3 color;
         public int bodyID;
 
+        public TraitData()
+        {
+            color = Vector3.zero;
+            bodyID = 0;
+        }
+        
         public TraitData(Vector3 inColor, int ID)
         {
             color = inColor;
@@ -29,6 +35,58 @@ public class MeshAssigner : NetworkBehaviour
         }
     };
 
+    public struct LoginData
+    {
+      public string[] tags;
+      public string nameTag;
+      public string password;
+
+      public bool PlayerIs(string tag)
+      {
+        foreach(string _tag in tags)  if(_tag == tag ) return true;
+        return false;
+      }
+      
+
+      public LoginData(string e, string p, string[] t)
+      {
+        tags = t;
+        nameTag = e;
+        password = p;
+        addEmojisAndColor();
+      }
+
+      void addEmojisAndColor()
+      {
+        //go by order of importance
+
+        //Moderator Emoji
+        if(PlayerIs("Moderator"))
+        {
+          nameTag = "<sprite index=0>"   + " " + nameTag;  // space between sprite and name? -gh
+        }
+
+
+
+        //colors
+        if(PlayerIs("MFA"))
+        {
+          nameTag = "<#33E9FF>" + nameTag; //TEAL-BLUE
+        }
+        else if(PlayerIs("BFA"))
+        {
+          nameTag = "<#33FF83>"  + nameTag; //TEAL-GREEN
+        }else if(PlayerIs("Professor"))
+        {
+          nameTag =  "<#B833FF>"  + nameTag; //PURPLE
+        }else if(PlayerIs("Staff"))
+        {
+          nameTag =  "<#FF338A>"  + nameTag; //PINK
+        }
+
+      }
+    }
+
 
     // custom class
     public class SyncTrait : SyncList<TraitData> {}
@@ -41,8 +99,8 @@ public class MeshAssigner : NetworkBehaviour
     [SyncVar]
     public string userName;
 
-    [SyncVar]
-    public bool bIsModerator;
+    public LoginData loginInfo;
+
 
     // body meshes stored in a scriptable object
     public CharacterMeshData meshData;
@@ -66,10 +124,64 @@ public class MeshAssigner : NetworkBehaviour
         manager = FindObjectOfType<NetworkManagerGC>();
     }
 
+    public void Update()
+    {
+        if(!isLocalPlayer)
+        {
+            return;
+        }
+
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            CmdChangeName();
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            CmdChangeTrait();
+        }
+    }
+
+    [Command(ignoreAuthority = true)]
+    void CmdChangeName()
+    {
+        if(userName == "Bob")
+        {
+            userName = "Joe";
+        }
+        else if(userName == "Joe")
+        {
+            userName = "Bob";
+        }
+    }
+
+    [ClientRpc]
+    void RpcChangeTrait()
+    {
+        // update new body trait IDs and call AssignAvatarTraits
+        // to apply new change on all clients
+        Debug.Log(bodyTraits[0].bodyID);
+        bodyTraits[0].bodyID = (bodyTraits[0].bodyID + 1) % meshData.bodyMeshes[0].meshes.Length;
+
+        Debug.Log("Assigned new trait");
+        Debug.Log(bodyTraits[0].bodyID);
+
+        AssignAvatarTraits();
+    }
+
+    [Command(ignoreAuthority = true)]
+    void CmdChangeTrait()
+    {
+        // Send a request to run ChangeTrait RPC on the server
+        RpcChangeTrait();
+    }
+
     public void LoadData(CustomizerData customData)
     {
         userName = customData.userName;
-        bIsModerator = customData.bIsModerator;
+        gameObject.name = $"__AV__{userName}";
+        loginInfo = new LoginData(customData.userName,customData.password,customData.tags);
+
 
         for(int i = 0; i < customData.bodyIDs.Length; i++)
         {
@@ -82,7 +194,11 @@ public class MeshAssigner : NetworkBehaviour
             TorsoData torsoData = new TorsoData(customData.torsoScales[i]);
             torsoScales.Add(torsoData);
         }
+
+        userName = loginInfo.nameTag;
+        customData.userName = userName;
     }
+
 
     public void AssignAvatarTraits()
     {

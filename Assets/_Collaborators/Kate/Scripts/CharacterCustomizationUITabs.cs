@@ -11,6 +11,7 @@ using TMPro;
 */
 public class CharacterCustomizationUITabs : MonoBehaviour
 {
+  /*
     //public UI elements to be set in inspector
     //---Panels--
     public GameObject loginPanel;
@@ -96,6 +97,8 @@ public class CharacterCustomizationUITabs : MonoBehaviour
             print("login failed");
             return;
         }
+
+        
 
         customizePanel.SetActive(true);
         loginPanel.SetActive(false);
@@ -233,6 +236,6 @@ public class CharacterCustomizationUITabs : MonoBehaviour
 
 
 
-
+    /*/
 
 }
