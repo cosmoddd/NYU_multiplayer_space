@@ -9,7 +9,6 @@ public class MoveController : NetworkBehaviour
 {
     // high-level bool to check if we're in chat mode or not 
 
-
     public float turnAroundSpeed = 0.2f;
     public float walkSpeed = 20.0f;
     public float runSpeed = 40.0f;
@@ -29,6 +28,7 @@ public class MoveController : NetworkBehaviour
 
     public GameObject cameraPrefab;
     public GameObject optionsUI;
+    
 
     CharacterController cc;
     Transform cameraTransform;
@@ -55,6 +55,9 @@ public class MoveController : NetworkBehaviour
         // only spawn and assign camera if we are the owning player
         if(isLocalPlayer)
         {
+            inChatMode.SetValue(false);
+            inOptionsMode.SetValue(false);
+
             cc = GetComponent<CharacterController>();
             GameObject cameraObject = Instantiate(cameraPrefab, transform.position, transform.rotation);
             CameraController camController = cameraObject.GetComponent<CameraController>();
@@ -116,7 +119,7 @@ public class MoveController : NetworkBehaviour
                 {
                     optionsUI.GetComponent<OptionsMenu>().CloseOptionsMenu();
                 }
-            }
+            }           
 
             // you can only rotate if you're in chat mode
             if (inChatMode.Value == false)
@@ -150,6 +153,10 @@ public class MoveController : NetworkBehaviour
             }
 
             previousInputDir = inputDir;
+        }
+        else
+        {
+            moveSpeed = turnAroundSpeed;
         }
 
         // decide which speed to use based on bool parameter input
