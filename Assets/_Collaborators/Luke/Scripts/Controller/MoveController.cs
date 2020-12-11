@@ -9,9 +9,6 @@ public class MoveController : NetworkBehaviour
 {
     // high-level bool to check if we're in chat mode or not 
 
-    [HideInInspector]
-    public bool bInChangeRoom;
-
     public float turnAroundSpeed = 0.2f;
     public float walkSpeed = 20.0f;
     public float runSpeed = 40.0f;
@@ -31,7 +28,7 @@ public class MoveController : NetworkBehaviour
 
     public GameObject cameraPrefab;
     public GameObject optionsUI;
-    public GameObject customizerUI;
+    
 
     CharacterController cc;
     Transform cameraTransform;
@@ -119,12 +116,7 @@ public class MoveController : NetworkBehaviour
                 {
                     optionsUI.GetComponent<OptionsMenu>().CloseOptionsMenu();
                 }
-            }
-
-            if(bInChangeRoom && Input.GetKeyDown(KeyCode.F))
-            {
-                ToggleChangeRoomUI();
-            }
+            }           
 
             // you can only rotate if you're in chat mode
             if (inChatMode.Value == false)
@@ -138,23 +130,6 @@ public class MoveController : NetworkBehaviour
                     ManualRotate(1);
                 }
             }
-        }
-    }
-
-    public void ToggleChangeRoomUI()
-    {
-        if (!customizerUI.GetComponent<CustomizerUITabs>().customizePanel.activeSelf && inOptionsMode.Value == false && inChatMode.Value == false)
-        {
-            customizerUI.GetComponent<CustomizerUITabs>().ShowCustomizePanel();
-            customizerUI.GetComponent<CustomizerUITabs>().SkipLogin();
-            inOptionsMode.SetValue(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            customizerUI.GetComponent<CustomizerUITabs>().HideCustomizePanel();
-            inOptionsMode.SetValue(false);
         }
     }
 
