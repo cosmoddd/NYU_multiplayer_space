@@ -64,6 +64,7 @@ public class ChatBehaviour : NetworkBehaviour
   [Header("Participants Control")]
   [SerializeField]
   public Canvas participantsListCanvas = null; //participants list
+  public GameObject participantsObject = null;
   public BoolVariable participantsListActive;
   [SerializeField]
   private TMP_Text participantsText = null;
@@ -96,6 +97,7 @@ public class ChatBehaviour : NetworkBehaviour
 
       inputField.gameObject.SetActive(false);
       chatBackground.gameObject.SetActive(false);
+      participantsObject.SetActive(false);
 
       scrollBar.sprite = invisibleScrollBarSprite;
 
@@ -134,11 +136,12 @@ public class ChatBehaviour : NetworkBehaviour
       {
         inputField.gameObject.SetActive(false);
         chatBackground.gameObject.SetActive(false);
-
+                
         scrollBar.sprite = invisibleScrollBarSprite;
 
 
         participantsListCanvas.enabled = false;
+        participantsObject.SetActive(false);
         if (emoteList) emoteList.SetActive(false);
         _slashChat = false;
 
@@ -147,10 +150,12 @@ public class ChatBehaviour : NetworkBehaviour
       {
         inputField.gameObject.SetActive(true);
         chatBackground.gameObject.SetActive(true);
+        //       
 
         scrollBar.sprite = activeScrollBarSprite;
 
         participantsListCanvas.enabled = true;
+        participantsObject.SetActive(true);
         if (emoteList) emoteList.SetActive(false);
         inputField.Select();
         inputField.ActivateInputField();
@@ -181,6 +186,7 @@ public class ChatBehaviour : NetworkBehaviour
 
         if (emoteList) emoteList.SetActive(true); //panel with all emotes
         participantsListCanvas.enabled = false;
+        participantsObject.SetActive(false);
 
         inputField.Select();
         inputField.text = "/";
