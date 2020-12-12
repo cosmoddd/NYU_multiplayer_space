@@ -41,6 +41,8 @@ public class CustomizerUITabs : MonoBehaviour
 
 
     public Customizer customizerScript;
+
+    public MeshAssigner meshAssigner;
     //--ColorValues--   these are used to make new colors when the sliders change
 
     Vector3 hatColorValues;
@@ -61,10 +63,21 @@ public class CustomizerUITabs : MonoBehaviour
 
         //start in login panel
         customizePanel.SetActive(false);
-        loginPanel.SetActive(true);
-        colorPicker.gameObject.SetActive(false);
-        clientLoginPanel.SetActive(false);
 
+        if(loginPanel)
+        {
+            loginPanel.SetActive(true);
+        }
+        
+        if(colorPicker)
+        {
+            colorPicker.gameObject.SetActive(false);
+        }
+        
+        if(clientLoginPanel)
+        {
+            clientLoginPanel.SetActive(false);
+        }
     }
 
 
@@ -108,9 +121,16 @@ public class CustomizerUITabs : MonoBehaviour
         {
             float clampDif = customizerScript.torsoScaleClamps[i].y - customizerScript.torsoScaleClamps[i].x; //the range between the two clamp values
             float currentValue = customizerScript.torsoNodeScales[i]; //the current scale of that node, set by the load data script
+            currentValue = currentValue - customizerScript.torsoScaleClamps[i].x;
 
-            float percentageValue = (clampDif - currentValue) / clampDif; //the percentage the current value is, from 0-1
+            float percentageValue = (currentValue) / clampDif; //the percentage the current value is, from 0-1
+           // float percentageValue = ((currentValue - clampDif) * clampDif) + 1;
 
+            //float currentValue = clampDif  +  ((value - 1) * clampDif); //the real value from the percentage value
+            //current value - clampdiff = (value - 1) / clamp diff
+            //(current value - clampdiff ) * clamp diff = value - 1
+
+            Debug.Log(percentageValue);
             torsoSliders[i].SetValueWithoutNotify(percentageValue); //set the torso sliders inital value to this value
         }
     }
@@ -220,11 +240,56 @@ public class CustomizerUITabs : MonoBehaviour
         }
     }
 
+    public void NetworkPickOption(int optionID)
+    {
+        switch (currentTab)
+        {
+            case 0:
+                meshAssigner.CmdChangeTraitID(1, optionID);
+                break;
+            case 1:
+                meshAssigner.CmdChangeTraitID(4, optionID);
+                break;
+            case 2:
+                meshAssigner.CmdChangeTraitID(2, optionID);
+                meshAssigner.CmdChangeTraitID(3, optionID);
+                break;
+            case 3:
+                meshAssigner.CmdChangeTraitID(0, optionID);
+                break;
+        }
+    }
+
+    public void ShowCustomizePanel()
+    {
+        if(customizePanel)
+        {
+            customizePanel.SetActive(true);
+        }
+    }
+
+    public void HideCustomizePanel()
+    {
+        if (customizePanel)
+        {
+            customizePanel.SetActive(false);
+        }
+    }
+
+    public void SkipLogin()
+    {
+        customizePanel.SetActive(true);
+        SetCustomizationTab(0);
+    }
+
     //Tab BUTTONS
     public void SelectHeadTab()
     {
         SetCustomizationTab(0);
-        slidersPanel.SetActive(false);
+
+        if(slidersPanel)
+            slidersPanel.SetActive(false);
+
         scrollPanel.SetActive(true);
         
     }
@@ -232,21 +297,30 @@ public class CustomizerUITabs : MonoBehaviour
     public void SelectTorsoTab()
     {
         SetCustomizationTab(1);
-        slidersPanel.SetActive(true);
+
+        if (slidersPanel)
+            slidersPanel.SetActive(true);
+
         scrollPanel.SetActive(false);
     }
 
     public void SelectFeetTab()
     {
         SetCustomizationTab(2);
-        slidersPanel.SetActive(false);
+
+        if (slidersPanel)
+            slidersPanel.SetActive(false);
+
         scrollPanel.SetActive(true);
     }
 
     public void SelectHatTab()
     {
         SetCustomizationTab(3);
-        slidersPanel.SetActive(false);
+
+        if (slidersPanel)
+            slidersPanel.SetActive(false);
+
         scrollPanel.SetActive(true);
     }
 
@@ -284,7 +358,7 @@ public class CustomizerUITabs : MonoBehaviour
 
         float currentValue = clampDif  +  ((value - 1) * clampDif); //the real value from the percentage value
 
-        customizerScript.torsoNodeScales[slider] = currentValue;
+        customizerScript.torsoNodeScales[slider] = currentValue + customizerScript.torsoScaleClamps[slider].x;
 
     }
 

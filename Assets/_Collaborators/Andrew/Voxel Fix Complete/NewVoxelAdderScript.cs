@@ -72,7 +72,7 @@ public class NewVoxelAdderScript : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer) { boxOutline.GetComponent<Renderer>().enabled = false; return; }
 
         while(cameraRayCam == null)
         {
@@ -99,13 +99,15 @@ public class NewVoxelAdderScript : NetworkBehaviour
             {
                 if (boxOutline) boxOutline.localScale = new Vector3(1, 1, 1) * .001f;
             }
-            if(hit.collider.gameObject.layer != 16)
+            if (hit.collider != null)
             {
-                if (boxOutline) boxOutline.localScale = new Vector3(1, 1, 1) * .001f;
+                if (hit.collider.gameObject.layer != 16)
+                {
+                    if (boxOutline) boxOutline.localScale = new Vector3(1, 1, 1) * .001f;
+                }
             }
-
             if (boxOutline) boxOutline.rotation = Quaternion.Euler(0,0,0);
-            if (hit.collider != null && Input.GetKeyDown(KeyCode.Mouse0) && hit.collider.gameObject.layer==16) // add a block
+            if (hit.collider != null && Input.GetKeyDown(KeyCode.Mouse0) && hit.collider.gameObject.layer== 16 && hit.distance < 30) // add a block
             {
                 //AddCubeToMesh(placePosition);
                 if (MH.MF.mesh.vertices.Length / 25 > chunkSize)
@@ -123,7 +125,7 @@ public class NewVoxelAdderScript : NetworkBehaviour
                 CmdAddCubeToMesh(placePosition, currentID);
             }
 
-            if (hit.collider != null && hit.collider.tag == "cubes" && Input.GetKeyDown(KeyCode.Mouse1) && hit.collider.gameObject.layer==16) // remove a block
+            if (hit.collider != null && hit.collider.tag == "cubes" && Input.GetKeyDown(KeyCode.Mouse1) && hit.collider.gameObject.layer==16 && hit.distance<30) // remove a block
             {
                 MH = hit.collider.GetComponent<newMeshHolderScript>();
                 //delCubefromMesh(digPosition);
@@ -222,9 +224,11 @@ public class NewVoxelAdderScript : NetworkBehaviour
         }
 
         //Debug.Log(vertices.IndexOf(pos));
-        int centerIndex = vertices.IndexOf(pos);
-        vertices.RemoveRange(centerIndex - 8, 25);
-
+        if (vertices.IndexOf(pos) != -1)
+        {
+            int centerIndex = vertices.IndexOf(pos);
+            vertices.RemoveRange(centerIndex - 8, 25);
+        }
         List<int> triangles = new List<int>();
         for (int i = cubeMesh.triangles.Length; i < MH.MF.mesh.triangles.Length; i++)
         {

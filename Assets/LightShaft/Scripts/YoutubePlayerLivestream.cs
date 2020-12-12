@@ -55,6 +55,9 @@ public class YoutubePlayerLivestream : MonoBehaviour {
     IEnumerator DownloadYoutubeUrl(string url, System.Action<string> callback)
     {
         downloadYoutubeUrlResponse = new DownloadUrlResponse();
+        var videoId = url.Replace("https://youtube.com/watch?v=", "");
+
+        var newUrl = "https://www.youtube.com/watch?v=" + videoId + "&gl=US&hl=en&has_verified=1&bpctr=9999999999";
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.SetRequestHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0 (Chrome)");
         yield return request.SendWebRequest();
@@ -78,21 +81,74 @@ public class YoutubePlayerLivestream : MonoBehaviour {
         else
         { Debug.Log("Youtube UnityWebRequest responseCode:" + request.responseCode); }
 
-        GetUrlFromJson(callback);
+        StartCoroutine(GetUrlFromJson(callback, videoId, request.downloadHandler.text));
     }
 
-    void GetUrlFromJson(System.Action<string> callback)
+    IEnumerator GetUrlFromJson(System.Action<string> callback, string _videoID, string pageSource)
     {
-        var dataRegex = new Regex(@"ytplayer\.config\s*=\s*(\{.+?\});", RegexOptions.Multiline);
-        string extractedJson = dataRegex.Match(downloadYoutubeUrlResponse.data).Result("$1");
-        JObject json = JObject.Parse(extractedJson);
-        string playerResponseRaw = json["args"]["player_response"].ToString();
-        JObject playerResponseJson = JObject.Parse(playerResponseRaw);
-        bool isLive = playerResponseJson["videoDetails"]["isLive"].Value<bool>();
+        //var dataRegex = new Regex(@"ytplayer\.config\s*=\s*(\{.+?\});", RegexOptions.Multiline);
+        //string extractedJson = dataRegex.Match(downloadYoutubeUrlResponse.data).Result("$1");
+
+        var videoId = _videoID;
+        //jsonforHtml
+        var player_response = string.Empty;
+        if (Regex.IsMatch(pageSource, @"[""\']status[""\']\s*:\s*[""\']LOGIN_REQUIRED"))
+        {
+            Debug.Log("MM");
+            var url = "https://www.youtube.com/get_video_info?video_id=" + videoId + "&eurl=https://youtube.googleapis.com/v/" + videoId;
+            UnityWebRequest request = UnityWebRequest.Get(url);
+            request.SetRequestHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0 (Chrome)");
+            yield return request.SendWebRequest();
+            if (request.isNetworkError) { Debug.Log("Youtube UnityWebRequest isNetworkError!"); }
+            else if (request.isHttpError) { Debug.Log("Youtube UnityWebRequest isHttpError!"); }
+            else if (request.responseCode == 200)
+            {
+                //ok;
+            }
+            else
+            { Debug.Log("Youtube UnityWebRequest responseCode:" + request.responseCode); }
+
+            player_response = UnityWebRequest.UnEscapeURL(YoutubeLight.HTTPHelperYoutube.ParseQueryString(request.downloadHandler.text)["player_response"]);
+        }
+        else
+        {
+            var dataRegexOption = new Regex(@"ytplayer\.config\s*=\s*(\{.+?\});", RegexOptions.Multiline);
+            var dataMatch = dataRegexOption.Match(pageSource);
+            if (dataMatch.Success)
+            {
+                string extractedJson = dataMatch.Result("$1");
+                if (!extractedJson.Contains("raw_player_response:ytInitialPlayerResponse"))
+                {
+                    player_response = JObject.Parse(extractedJson)["args"]["player_response"].ToString();
+
+                }
+            }
+
+            dataRegexOption = new Regex(@"ytInitialPlayerResponse\s*=\s*({.+?})\s*;\s*(?:var\s+meta|</script|\n)", RegexOptions.Multiline);
+            dataMatch = dataRegexOption.Match(pageSource);
+            if (dataMatch.Success)
+            {
+                player_response = dataMatch.Result("$1");
+            }
+
+            dataRegexOption = new Regex(@"ytInitialPlayerResponse\s*=\s*({.+?})\s*;", RegexOptions.Multiline);
+            dataMatch = dataRegexOption.Match(pageSource);
+            if (dataMatch.Success)
+            {
+                player_response = dataMatch.Result("$1");
+            }
+        }
+
+
+
+        JObject json = JObject.Parse(player_response);
+        //string playerResponseRaw = json["args"]["player_response"].ToString();
+        //JObject playerResponseJson = JObject.Parse(playerResponseRaw);
+        bool isLive = json["videoDetails"]["isLive"].Value<bool>();
 
         if (isLive)
         {
-            string liveUrl = playerResponseJson["streamingData"]["hlsManifestUrl"].ToString();
+            string liveUrl = json["streamingData"]["hlsManifestUrl"].ToString();
             callback.Invoke(liveUrl);
         }
         else
