@@ -48,6 +48,9 @@ public class CameraController : MonoBehaviour
     [Header("Atoms")]
     public BoolVariable inChatMode;
 
+    [Header("In Options Mode")]
+    public BoolVariable inOptionsMode;
+
     public BoolVariable bInvertY;
 
     // Start is called before the first frame update
@@ -82,7 +85,7 @@ public class CameraController : MonoBehaviour
     void LateUpdate()
     {
         // if in chat mode (or menu) return
-        if (inChatMode.Value)
+        if (inChatMode.Value || inOptionsMode.Value)
         {
             return;
         }         

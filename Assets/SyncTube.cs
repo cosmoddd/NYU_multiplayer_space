@@ -61,7 +61,7 @@ public class SyncTube : NetworkBehaviour
     void CheckVideoOverAndUpdate(string updatedUrl)
     {
         // if video is over
-        if (youtubePlayer.percentageOver >= 1 || youtubePlayer.percentageOver == 0 || !youtubePlayer.videoPlayer.isPlaying)
+        if (/* youtubePlayer.percentageOver >= 1 || youtubePlayer.percentageOver == 0 || */ !youtubePlayer.videoPlayer.isPlaying)
         {
             // if serverURL is different than the current video playing
             if (youtubePlayer.videoUrl != updatedUrl)

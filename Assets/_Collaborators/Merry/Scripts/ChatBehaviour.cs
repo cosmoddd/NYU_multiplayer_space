@@ -275,10 +275,10 @@ public class ChatBehaviour : NetworkBehaviour
     // print(GetComponent<CharacterCustomizerScript>().characterName);
   }
 
-  [ClientCallback]
+  // [ClientCallback]
   private void OnDestroy()
   {
-    if (!hasAuthority) { return; }
+    // if (!hasAuthority) { return; }
     OnMessage -= HandleNewMessage;
   }
 

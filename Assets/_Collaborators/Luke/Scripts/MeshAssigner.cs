@@ -124,56 +124,18 @@ public class MeshAssigner : NetworkBehaviour
         manager = FindObjectOfType<NetworkManagerGC>();
     }
 
-    public void Update()
-    {
-        if(!isLocalPlayer)
-        {
-            return;
-        }
-
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            CmdChangeName();
-        }
-
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            CmdChangeTrait();
-        }
-    }
-
     [Command(ignoreAuthority = true)]
-    void CmdChangeName()
+    public void CmdChangeTraitID(int traitIndex, int newID)
     {
-        if(userName == "Bob")
-        {
-            userName = "Joe";
-        }
-        else if(userName == "Joe")
-        {
-            userName = "Bob";
-        }
+        // must call changes on server
+        RpcChangeTraitID(traitIndex, newID);       
     }
 
     [ClientRpc]
-    void RpcChangeTrait()
+    void RpcChangeTraitID(int traitIndex, int newID)
     {
-        // update new body trait IDs and call AssignAvatarTraits
-        // to apply new change on all clients
-        Debug.Log(bodyTraits[0].bodyID);
-        bodyTraits[0].bodyID = (bodyTraits[0].bodyID + 1) % meshData.bodyMeshes[0].meshes.Length;
-
-        Debug.Log("Assigned new trait");
-        Debug.Log(bodyTraits[0].bodyID);
-
+        bodyTraits[traitIndex].bodyID = newID;
         AssignAvatarTraits();
-    }
-
-    [Command(ignoreAuthority = true)]
-    void CmdChangeTrait()
-    {
-        // Send a request to run ChangeTrait RPC on the server
-        RpcChangeTrait();
     }
 
     public void LoadData(CustomizerData customData)

@@ -41,6 +41,8 @@ public class CustomizerUITabs : MonoBehaviour
 
 
     public Customizer customizerScript;
+
+    public MeshAssigner meshAssigner;
     //--ColorValues--   these are used to make new colors when the sliders change
 
     Vector3 hatColorValues;
@@ -61,10 +63,21 @@ public class CustomizerUITabs : MonoBehaviour
 
         //start in login panel
         customizePanel.SetActive(false);
-        loginPanel.SetActive(true);
-        colorPicker.gameObject.SetActive(false);
-        clientLoginPanel.SetActive(false);
 
+        if(loginPanel)
+        {
+            loginPanel.SetActive(true);
+        }
+        
+        if(colorPicker)
+        {
+            colorPicker.gameObject.SetActive(false);
+        }
+        
+        if(clientLoginPanel)
+        {
+            clientLoginPanel.SetActive(false);
+        }
     }
 
 
@@ -227,11 +240,56 @@ public class CustomizerUITabs : MonoBehaviour
         }
     }
 
+    public void NetworkPickOption(int optionID)
+    {
+        switch (currentTab)
+        {
+            case 0:
+                meshAssigner.CmdChangeTraitID(1, optionID);
+                break;
+            case 1:
+                meshAssigner.CmdChangeTraitID(4, optionID);
+                break;
+            case 2:
+                meshAssigner.CmdChangeTraitID(2, optionID);
+                meshAssigner.CmdChangeTraitID(3, optionID);
+                break;
+            case 3:
+                meshAssigner.CmdChangeTraitID(0, optionID);
+                break;
+        }
+    }
+
+    public void ShowCustomizePanel()
+    {
+        if(customizePanel)
+        {
+            customizePanel.SetActive(true);
+        }
+    }
+
+    public void HideCustomizePanel()
+    {
+        if (customizePanel)
+        {
+            customizePanel.SetActive(false);
+        }
+    }
+
+    public void SkipLogin()
+    {
+        customizePanel.SetActive(true);
+        SetCustomizationTab(0);
+    }
+
     //Tab BUTTONS
     public void SelectHeadTab()
     {
         SetCustomizationTab(0);
-        slidersPanel.SetActive(false);
+
+        if(slidersPanel)
+            slidersPanel.SetActive(false);
+
         scrollPanel.SetActive(true);
         
     }
@@ -239,21 +297,30 @@ public class CustomizerUITabs : MonoBehaviour
     public void SelectTorsoTab()
     {
         SetCustomizationTab(1);
-        slidersPanel.SetActive(true);
+
+        if (slidersPanel)
+            slidersPanel.SetActive(true);
+
         scrollPanel.SetActive(false);
     }
 
     public void SelectFeetTab()
     {
         SetCustomizationTab(2);
-        slidersPanel.SetActive(false);
+
+        if (slidersPanel)
+            slidersPanel.SetActive(false);
+
         scrollPanel.SetActive(true);
     }
 
     public void SelectHatTab()
     {
         SetCustomizationTab(3);
-        slidersPanel.SetActive(false);
+
+        if (slidersPanel)
+            slidersPanel.SetActive(false);
+
         scrollPanel.SetActive(true);
     }
 
