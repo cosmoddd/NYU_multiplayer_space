@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class CustomizerData : MessageBase
+public class CustomizerData : NetworkMessage
 {
     public string userName;
     public string email;

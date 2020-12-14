@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class SendPlayerMessage : MessageBase
+public class SendPlayerMessage : NetworkMessage
 {
     public string userName;
 
