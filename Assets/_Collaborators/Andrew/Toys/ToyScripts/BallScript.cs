@@ -15,10 +15,10 @@ public class BallScript : NetworkBehaviour
 
     public GameObject localPlayer;
     public Camera localCamera;
-    public float distanceToBall;
+    float distanceToBall;
     public float upAngle = 1.5f;
 
-    public Collider[] overlappingItems;
+    Collider[] overlappingItems;
     public LayerMask overlappingTargetLayer;
 
     public GameObject particlePrefab;
@@ -45,8 +45,7 @@ public class BallScript : NetworkBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        print(netIdentity.connectionToClient.identity.transform.name);
-        
+
         if (other.gameObject.transform.parent && other.gameObject.transform.parent.CompareTag("Player"))
         {   
 
@@ -54,23 +53,31 @@ public class BallScript : NetworkBehaviour
             // change authority if it's you
             if (other.gameObject.transform.parent.GetComponent<NetworkIdentity>() 
                 && other.gameObject.transform.parent.GetComponent<NetworkIdentity>().isLocalPlayer)
-            {
-              if (!netIdentity.hasAuthority)
-              {
-                print("KICK WITHOUT AUTHORITY AND ADD IT!!");
-                CmdMoveIntoSphere(other.gameObject.transform.parent.GetComponent<NetworkIdentity>());
-                Vector3 kickDirection = (other.transform.position - transform.position).normalized;
-                BasicKick(kickDirection);
-              }
-              
-              
-              if (netIdentity.hasAuthority)
-              {
-                print("KICK WITH AUTHORITY!!");
-                Vector3 kickDirection = (other.transform.position - transform.position).normalized;
-                BasicKick(kickDirection);
-              }
-            }
+                {
+                  if (!netIdentity.hasAuthority && isClientOnly)
+                  {
+                    print("KICK WITHOUT AUTHORITY AND ADD IT!!");
+                    CmdMoveIntoSphere(other.gameObject.transform.parent.GetComponent<NetworkIdentity>());
+                    Vector3 kickDirection = (other.transform.position - transform.position).normalized;
+                    BasicKick(kickDirection);
+                  }
+                  
+                  
+                  if (netIdentity.hasAuthority)
+                  {
+                    print("KICK WITH AUTHORITY!!");
+                    Vector3 kickDirection = (other.transform.position - transform.position).normalized;
+                    BasicKick(kickDirection);
+                  }
+
+                  if (isServer)
+                  {
+                    print("KICK SERVER POWER!!");
+                    netIdentity.RemoveClientAuthority();
+                    Vector3 kickDirection = (other.transform.position - transform.position).normalized;
+                    BasicKick(kickDirection);
+                  }
+                }
             
           // play sound in any case
           if (!contactSound.isPlaying || contactSound.time > .4f)
@@ -106,7 +113,7 @@ public class BallScript : NetworkBehaviour
         }
     }
 
-    public float drawRadius = 10f;
+    float drawRadius = 10f;
     
     void OnDrawGizmosSelected()
     {
@@ -147,8 +154,6 @@ public class BallScript : NetworkBehaviour
           distanceToBall = (this.transform.position - localPlayer.transform.position).magnitude;
       }
 
-      // DetermineShortestDistance();
-
       /*         
         if (isClickable)
         {
@@ -168,13 +173,13 @@ public class BallScript : NetworkBehaviour
       */
     }
 
-    public List <float> distancesToBall = new List<float>();
-    public float minFloat;
-    public GameObject closestCharacter;
-    public GameObject closestCharacterSaved;
+    List <float> distancesToBall = new List<float>();
+    float minFloat;
+    GameObject closestCharacter;
+    GameObject closestCharacterSaved;
 
 
-
+  // no longer need this
     void DetermineShortestDistance()
     {
       if (overlappingItems.Length>0)
