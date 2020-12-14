@@ -55,6 +55,9 @@ public class MoveController : NetworkBehaviour
         // only spawn and assign camera if we are the owning player
         if(isLocalPlayer)
         {
+            inChatMode.SetValue(false);
+            inOptionsMode.SetValue(false);
+
             cc = GetComponent<CharacterController>();
             GameObject cameraObject = Instantiate(cameraPrefab, transform.position, transform.rotation);
             CameraController camController = cameraObject.GetComponent<CameraController>();

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityAtoms.BaseAtoms;
+using Mirror;
 
-public class ChangeRoomScript : MonoBehaviour
+public class ChangeRoomScript : NetworkBehaviour
 {
     public GameObject customizerUI;
     public GameObject interactText;
@@ -25,6 +26,8 @@ public class ChangeRoomScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+      if (!isLocalPlayer) return;
+
         if(other.gameObject.CompareTag("ChangeRoom"))
         {
             bInChangeRoom = true;
@@ -34,6 +37,8 @@ public class ChangeRoomScript : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+      if (!isLocalPlayer) return;
+      
         if (other.gameObject.CompareTag("ChangeRoom"))
         {
             bInChangeRoom = false;
@@ -62,6 +67,7 @@ public class ChangeRoomScript : MonoBehaviour
 
     public void HideInteractText()
     {
+
         interactText.SetActive(false);
     }
 
