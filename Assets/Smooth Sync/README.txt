@@ -1,4 +1,4 @@
-Plugin Version: 3.30
+Plugin Version: 3.31
 Unity Version: 5.6.* - 2020.1.*
 
 # Smooth Sync
@@ -10,7 +10,12 @@ The full source code is provided so you can see everything with detailed comment
 
 Supports Windows, OSX, Linux, iOS, Android, Windows Phone, Xbox, PlayStation, Nintendo. If Unity runs it, it'll run!
 
-## UNet / Mirror
+## Installation
+After importing Smooth Sync, extract the included package for your networking system.
+For example if you're using Mirror, extract the SmoothSyncMirror.unitypackage
+If you update Smooth Sync, remember to re-extract the package as well.
+
+## UNet / Mirror / MLAPI
 ## Step 1 - Drag and Drop
 
 1. Put the SmoothSync script onto any parent networked object that you want to be smoother. 
