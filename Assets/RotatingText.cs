@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
@@ -13,7 +14,8 @@ public class RotatingText : MonoBehaviour
     public FloatReference TimeForNewLetter;
     public StringVariable PartialText;
 
-    private string repeatString => $"{FullText.Value}{RepetitionDivider.Value}";
+    private string safeFullText => String.IsNullOrWhiteSpace(FullText.Value) ? "loading" : FullText.Value;
+    private string repeatString => $"{safeFullText}{RepetitionDivider.Value}";
     public string currentSubstring =>
         $"{repeatString}{repeatString}{repeatString}".Substring(
                 currentIndex,
