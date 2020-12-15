@@ -85,6 +85,21 @@ public class LoginInfo
 
     }
 
+    public void AddTag(string _tag)
+    {
+      foreach(string tag in tags)
+        if(tag == _tag) return; //dont add duplicates
+
+      List<string> tagList = new List<string>(); //make tmp list 
+
+      foreach(string tag in tags) //add all curent tags to list
+        tagList.Add(tag);
+
+      tagList.Add(_tag); //add new tag to list
+
+      tags = tagList.ToArray(); //tags is equal to new list
+    }
+
     public LoginInfo(string _u, string _p, string[] _tagString)
     {
         email = _u;
@@ -94,6 +109,13 @@ public class LoginInfo
 
         //string[] Ttags = _tagString.Split(' ');
         tags = _tagString;
+    }
+
+    public LoginInfo()
+    {
+      email = "";
+      password = "";
+      tags = new List<string>().ToArray();
     }
 
 }

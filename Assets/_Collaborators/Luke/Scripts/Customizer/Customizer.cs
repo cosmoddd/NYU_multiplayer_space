@@ -12,6 +12,8 @@ public class Customizer : MonoBehaviour
 
     public LoginInfo loginInfo;
 
+    public Role nyuRole;
+
     public string userName;
 
     // 0 Hat, 1 Head, 2 right foot, 3 left foot, 4 body
