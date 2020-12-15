@@ -23,15 +23,22 @@ public class LocalSaveData : MonoBehaviour
 
     public Customizer localCustomizer;
 
+    public MeshAssigner localAssigner;
+
     void Start()
     {
-      if (ES3.FileExists("saveInfo.es3"))
+      if (localCustomizer && ES3.FileExists("saveInfo.es3"))
       {
         print("file exists.  loading data");
         LoadData();
         SetCustomizer();
         return;
       }
+      else if(localAssigner && ES3.FileExists("saveInfo.es3"))
+        {
+            LoadData();
+        }
+
       print("file doesn't exist");
     }
 
@@ -90,6 +97,16 @@ public class LocalSaveData : MonoBehaviour
     public void SaveUsername()
     {
         ES3.Save("username", localCustomizer.userName, "saveInfo.es3");
+    }
+
+    public void AssignerSaveData()
+    {
+        //headID footID hatID torsoID bodyColor headColor hatColor footColor
+        // ES3.Save("username", localCustomizer.userName, "saveInfo.es3");  *NEED TO DO THIS SOMEWHERE ELSE*
+        ES3.Save("headID", localAssigner.bodyTraits[1].bodyID, "saveInfo.es3");
+        ES3.Save("footID", localAssigner.bodyTraits[2].bodyID, "saveInfo.es3");
+        ES3.Save("hatID", localAssigner.bodyTraits[0].bodyID, "saveInfo.es3");
+        //ES3.Save("torsoID", localCustomizer.bodyIDs[4], "saveInfo.es3");  **NO Torso ID*
     }
 
     public void SaveData()

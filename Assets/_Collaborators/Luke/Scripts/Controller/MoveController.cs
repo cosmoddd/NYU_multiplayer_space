@@ -9,7 +9,6 @@ public class MoveController : NetworkBehaviour
 {
     // high-level bool to check if we're in chat mode or not 
 
-
     public float turnAroundSpeed = 0.2f;
     public float walkSpeed = 20.0f;
     public float runSpeed = 40.0f;
@@ -29,6 +28,7 @@ public class MoveController : NetworkBehaviour
 
     public GameObject cameraPrefab;
     public GameObject optionsUI;
+    
 
     CharacterController cc;
     Transform cameraTransform;
@@ -40,6 +40,8 @@ public class MoveController : NetworkBehaviour
     [Header("In Chat Mode")]
     public BoolVariable inChatMode;
 
+    [Header("In Options Mode")]
+    public BoolVariable inOptionsMode;
     
 
     [Header("Sitting")]
@@ -53,6 +55,9 @@ public class MoveController : NetworkBehaviour
         // only spawn and assign camera if we are the owning player
         if(isLocalPlayer)
         {
+            inChatMode.SetValue(false);
+            inOptionsMode.SetValue(false);
+
             cc = GetComponent<CharacterController>();
             GameObject cameraObject = Instantiate(cameraPrefab, transform.position, transform.rotation);
             CameraController camController = cameraObject.GetComponent<CameraController>();
@@ -65,6 +70,7 @@ public class MoveController : NetworkBehaviour
 
             controllerAndCameraInit?.Invoke(this.gameObject, cameraObject);
 
+            optionsUI.SetActive(true);
             // pass a reference of our camera script to the options menu
             optionsUI.GetComponent<OptionsMenu>().Initialize(camController);
         }     
@@ -86,7 +92,7 @@ public class MoveController : NetworkBehaviour
 
             bool isSprinting = Input.GetAxisRaw("Sprint") > 0;
 
-            if(inChatMode.Value)
+            if(inChatMode.Value == true || inOptionsMode.Value == true)
             {
                 inputDirection = Vector2.zero;
             }
@@ -99,20 +105,21 @@ public class MoveController : NetworkBehaviour
                 Jump();
             }
 
-            // you can enter the options screen any time
+            // you can only enter the options screen when chat is closed
             if(Input.GetKeyDown(KeyCode.Escape))
             {
-                if(!optionsUI.activeSelf)
+                if(!optionsUI.activeSelf && inOptionsMode.Value == false && inChatMode.Value == false)
                 {
                     optionsUI.SetActive(true);
-                    inChatMode.SetValue(true);
+                    inOptionsMode.SetValue(true);
                     Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
                 }
                 else
                 {
                     optionsUI.GetComponent<OptionsMenu>().CloseOptionsMenu();
                 }
-            }
+            }           
 
             // you can only rotate if you're in chat mode
             if (inChatMode.Value == false)
@@ -146,6 +153,10 @@ public class MoveController : NetworkBehaviour
             }
 
             previousInputDir = inputDir;
+        }
+        else
+        {
+            moveSpeed = turnAroundSpeed;
         }
 
         // decide which speed to use based on bool parameter input

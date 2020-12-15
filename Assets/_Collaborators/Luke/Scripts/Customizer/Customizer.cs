@@ -10,7 +10,7 @@ public class Customizer : MonoBehaviour
     float rot;
     float lerpRot;
 
-    public bool bIsModerator = false;
+    public LoginInfo loginInfo;
 
     public string userName;
 
@@ -42,8 +42,6 @@ public class Customizer : MonoBehaviour
     [HideInInspector]
     public NetworkManagerGC manager;
 
-  [HideInInspector]
-    public LoginInfo loginInfo;
     
     // Start is called before the first frame update
     void Start()
@@ -64,7 +62,9 @@ public class Customizer : MonoBehaviour
     {
         manager.dataMessage.bodyIDs = bodyIDs;
         manager.dataMessage.userName = userName;
-        manager.dataMessage.bIsModerator = bIsModerator;
+        manager.dataMessage.email = loginInfo.email;
+        manager.dataMessage.password = loginInfo.password;
+        manager.dataMessage.tags = loginInfo.tags;
 
         for (int i = 0; i < torsoNodeScales.Length; i++)
         {
@@ -129,7 +129,7 @@ public class Customizer : MonoBehaviour
         for (int i = 0; i < TorsoNodes.Length; i++)
         {
             float newScale = Mathf.Clamp(torsoNodeScales[i], torsoScaleClamps[i].x, torsoScaleClamps[i].y);
-
+            
             TorsoNodes[i].localScale = Vector3.Lerp(TorsoNodes[i].localScale, Vector3.one * newScale,
                 Time.deltaTime * 10);
         }

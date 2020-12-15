@@ -36,7 +36,7 @@ public class CameraController : MonoBehaviour
 
     private float pitch, yaw;
 
-    private float currentCamDist;
+    public float currentCamDist;
     // The distance from the target we are currently lerping towards
     private float targetCamDist;
 
@@ -47,6 +47,9 @@ public class CameraController : MonoBehaviour
 
     [Header("Atoms")]
     public BoolVariable inChatMode;
+
+    [Header("In Options Mode")]
+    public BoolVariable inOptionsMode;
 
     public BoolVariable bInvertY;
 
@@ -82,7 +85,7 @@ public class CameraController : MonoBehaviour
     void LateUpdate()
     {
         // if in chat mode (or menu) return
-        if (inChatMode.Value)
+        if (inChatMode.Value || inOptionsMode.Value)
         {
             return;
         }         
@@ -137,9 +140,9 @@ public class CameraController : MonoBehaviour
         viewCamera.localPosition = cameraBoomOffset;
 
         // SmoothDamp for camera lag
-        Vector3 newPosition = target.position + cameraOffset;
         if (target)
         {
+            Vector3 newPosition = target.position + cameraOffset;
             transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref targetSmoothVelocity, targetSmoothTime);
         }
     }

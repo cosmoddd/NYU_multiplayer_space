@@ -49,7 +49,7 @@ public class Z_Interactor : MonoBehaviour {
                 if (Physics.Raycast(ray, out RaycastHit Hit, MaxDistance, Mask))
                 {
                     MouseInput = true;
-                    // print(Hit.transform.gameObject.name);
+
                     if (Hit.collider.transform.GetComponent<Z_Interactee>())
                         interactee = Hit.collider.transform.GetComponent<Z_Interactee>();
                     else if (Hit.transform.GetComponent<Z_Interactee>())
@@ -70,9 +70,21 @@ public class Z_Interactor : MonoBehaviour {
 
                 if (interactee)
                 {
+                    if (HoveredObject && HoveredObject != interactee)
+                    {
+                      if (HoveredObject.GetComponent<Outline>()) HoveredObject.GetComponent<Outline>().enabled=false;
+                    }
+
+                    if (HoveredObject && HoveredObject == interactee)
+                    {
+                      if (HoveredObject.GetComponent<Outline>()) HoveredObject.GetComponent<Outline>().enabled=true;
+                    }
+
                     if (Input.GetKeyDown(InteractKey) || Input.GetMouseButtonDown(0))
                         interactee.Process();
                     HoveredObject = interactee;
+
+
                 }
                 else
                 {
@@ -111,6 +123,8 @@ public class Z_Interactor : MonoBehaviour {
             }
         }
     }
+
+    //  no longer need this  --v
 
     public bool StartOutline(Z_Interactee Target)
     {

@@ -6,11 +6,17 @@ using UnityEngine;
 public class MeshAssigner : NetworkBehaviour
 {
     // custom struct and class to allow syncing of trait lists
-    public struct TraitData
+    public class TraitData
     {
         public Vector3 color;
         public int bodyID;
 
+        public TraitData()
+        {
+            color = Vector3.zero;
+            bodyID = 0;
+        }
+        
         public TraitData(Vector3 inColor, int ID)
         {
             color = inColor;
@@ -29,6 +35,58 @@ public class MeshAssigner : NetworkBehaviour
         }
     };
 
+    public struct LoginData
+    {
+      public string[] tags;
+      public string nameTag;
+      public string password;
+
+      public bool PlayerIs(string tag)
+      {
+        foreach(string _tag in tags)  if(_tag == tag ) return true;
+        return false;
+      }
+      
+
+      public LoginData(string e, string p, string[] t)
+      {
+        tags = t;
+        nameTag = e;
+        password = p;
+        addEmojisAndColor();
+      }
+
+      void addEmojisAndColor()
+      {
+        //go by order of importance
+
+        //Moderator Emoji
+        if(PlayerIs("Moderator"))
+        {
+          nameTag = "<sprite index=0>"   + " " + nameTag;  // space between sprite and name? -gh
+        }
+
+
+
+        //colors
+        if(PlayerIs("MFA"))
+        {
+          nameTag = "<#33E9FF>" + nameTag; //TEAL-BLUE
+        }
+        else if(PlayerIs("BFA"))
+        {
+          nameTag = "<#33FF83>"  + nameTag; //TEAL-GREEN
+        }else if(PlayerIs("Professor"))
+        {
+          nameTag =  "<#B833FF>"  + nameTag; //PURPLE
+        }else if(PlayerIs("Staff"))
+        {
+          nameTag =  "<#FF338A>"  + nameTag; //PINK
+        }
+
+      }
+    }
+
 
     // custom class
     public class SyncTrait : SyncList<TraitData> {}
@@ -41,8 +99,8 @@ public class MeshAssigner : NetworkBehaviour
     [SyncVar]
     public string userName;
 
-    [SyncVar]
-    public bool bIsModerator;
+    public LoginData loginInfo;
+
 
     // body meshes stored in a scriptable object
     public CharacterMeshData meshData;
@@ -66,10 +124,26 @@ public class MeshAssigner : NetworkBehaviour
         manager = FindObjectOfType<NetworkManagerGC>();
     }
 
+    [Command(ignoreAuthority = true)]
+    public void CmdChangeTraitID(int traitIndex, int newID)
+    {
+        // must call changes on server
+        RpcChangeTraitID(traitIndex, newID);       
+    }
+
+    [ClientRpc]
+    void RpcChangeTraitID(int traitIndex, int newID)
+    {
+        bodyTraits[traitIndex].bodyID = newID;
+        AssignAvatarTraits();
+    }
+
     public void LoadData(CustomizerData customData)
     {
         userName = customData.userName;
-        bIsModerator = customData.bIsModerator;
+        gameObject.name = $"__AV__{userName}";
+        loginInfo = new LoginData(customData.userName,customData.password,customData.tags);
+
 
         for(int i = 0; i < customData.bodyIDs.Length; i++)
         {
@@ -82,7 +156,11 @@ public class MeshAssigner : NetworkBehaviour
             TorsoData torsoData = new TorsoData(customData.torsoScales[i]);
             torsoScales.Add(torsoData);
         }
+
+        userName = loginInfo.nameTag;
+        customData.userName = userName;
     }
+
 
     public void AssignAvatarTraits()
     {

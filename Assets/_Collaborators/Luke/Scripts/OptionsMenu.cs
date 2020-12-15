@@ -7,9 +7,12 @@ using UnityAtoms.BaseAtoms;
 
 public class OptionsMenu : MonoBehaviour
 {
+    public OptionsSave saveScript;
     public Dropdown resolutionDropdown;
     public Slider mouseSenseSlider;
     public Slider masterVolumeSlider;
+    public Toggle invertToggle;
+    public Toggle fullscreenToggle;
     public NetworkManagerGC manager;
     public GameObject mainPanel;
     public GameObject confirmQuitPanel;
@@ -22,7 +25,7 @@ public class OptionsMenu : MonoBehaviour
     CameraController camController;
 
     [Header("In Chat Mode")]
-    public BoolVariable inChatMode;
+    public BoolVariable inOptionsMode;
 
     Resolution[] resolutions;
 
@@ -61,8 +64,11 @@ public class OptionsMenu : MonoBehaviour
         resolutionDropdown.value = initialScreenIndex;
         resolutionDropdown.RefreshShownValue();
 
-        masterVolumeSlider.maxValue = AudioListener.volume;
-        mouseSenseSlider.value = camController.mouseSensitivity;
+        // after loading save data disable menu
+        saveScript.LoadSave();
+        SetSliders();
+        SetToggles();
+        gameObject.SetActive(false);
     }
 
     public void SetResolution(int resolutionIndex)
@@ -72,6 +78,24 @@ public class OptionsMenu : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
+    public void SetResolution(Vector2 resolution)
+    {
+        int initialScreenIndex = 0;
+
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            if ((int)resolution.x == resolutions[i].width
+                && (int)resolution.y == resolutions[i].height)
+            {
+                initialScreenIndex = i;
+            }
+        }
+
+        resolutionDropdown.value = initialScreenIndex;
+        resolutionDropdown.RefreshShownValue();
+        Screen.SetResolution((int)resolution.x, (int)resolution.y, Screen.fullScreen);
+    }
+
     public void SetFullScreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
@@ -79,8 +103,8 @@ public class OptionsMenu : MonoBehaviour
 
     public void LeaveSession()
     {
+        saveScript.SaveData();
         manager.StopClient();
-        Application.Quit();
     }
 
     public void ConfirmQuit()
@@ -135,7 +159,8 @@ public class OptionsMenu : MonoBehaviour
         mouseSettingPanel.SetActive(false);
         videoSettingPanel.SetActive(false);
         mainPanel.SetActive(true);
-        inChatMode.SetValue(false);
+        inOptionsMode.SetValue(false);
+        saveScript.SaveData();
     }
 
     public void ChangeMouseSense(float newSense)
@@ -154,4 +179,20 @@ public class OptionsMenu : MonoBehaviour
         volumeText.text = textVal.ToString("D");
     }
 
+    public void SetSliders()
+    {
+        masterVolumeSlider.value = AudioListener.volume;
+        mouseSenseSlider.value = camController.mouseSensitivity;
+    }
+
+    public void SetToggles()
+    {
+        invertToggle.isOn = camController.bInvertY.Value;
+        fullscreenToggle.isOn = Screen.fullScreen;
+    }
+
+    public CameraController GetCamControl()
+    {
+        return camController;
+    }
 }
