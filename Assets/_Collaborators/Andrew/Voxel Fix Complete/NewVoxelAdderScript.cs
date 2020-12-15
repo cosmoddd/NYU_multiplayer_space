@@ -30,6 +30,7 @@ public class NewVoxelAdderScript : NetworkBehaviour
         MH = holders[0];
         if (!isLocalPlayer)
         {
+            boxOutline.gameObject.SetActive(false);
             GetComponent<NewVoxelAdderScript>().enabled = false;
         }
         if (isLocalPlayer && netId!=1)// if this is not the server / host
@@ -107,7 +108,7 @@ public class NewVoxelAdderScript : NetworkBehaviour
                 }
             }
             if (boxOutline) boxOutline.rotation = Quaternion.Euler(0,0,0);
-            if (hit.collider != null && Input.GetKeyDown(KeyCode.Mouse0) && hit.collider.gameObject.layer== 16 && hit.distance < 30) // add a block
+            if (hit.collider != null && Input.GetKeyDown(KeyCode.Mouse0) && hit.collider.gameObject.layer== 16 && hit.distance < 60) // add a block
             {
                 //AddCubeToMesh(placePosition);
                 if (MH.MF.mesh.vertices.Length / 25 > chunkSize)
@@ -125,7 +126,7 @@ public class NewVoxelAdderScript : NetworkBehaviour
                 CmdAddCubeToMesh(placePosition, currentID);
             }
 
-            if (hit.collider != null && hit.collider.tag == "cubes" && Input.GetKeyDown(KeyCode.Mouse1) && hit.collider.gameObject.layer==16 && hit.distance<30) // remove a block
+            if (hit.collider != null && hit.collider.tag == "cubes" && Input.GetKeyDown(KeyCode.Mouse1) && hit.collider.gameObject.layer==16 && hit.distance<60) // remove a block
             {
                 MH = hit.collider.GetComponent<newMeshHolderScript>();
                 //delCubefromMesh(digPosition);
@@ -153,8 +154,10 @@ public class NewVoxelAdderScript : NetworkBehaviour
     {
         //print("before");
         //Debug.Log(id);
-
-        MH = holders[id];       
+        if (holders[id])
+        {
+            MH = holders[id];
+        }
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
 
