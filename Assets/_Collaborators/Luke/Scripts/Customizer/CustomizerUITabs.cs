@@ -17,7 +17,7 @@ public class CustomizerUITabs : MonoBehaviour
     public TMP_InputField emailField;
     public TMP_InputField passwordField;
 
-    public TMP_InputField displayName;
+    //public TMP_InputField displayName;
 
     public Sprite[] headSprites;
     public Sprite[] torsoSprites;
@@ -50,6 +50,12 @@ public class CustomizerUITabs : MonoBehaviour
     Vector3 torsoColorValues;
     Vector3 feetColorValues;
 
+    public Toggle toggleOne;
+    public Toggle toggleTwo;
+    public Toggle toggleThree;
+    public Toggle toggleFour;
+    public Toggle toggleFive;
+
     void Start()
     {
         // customizerScript = this.GetComponent<CharacterCustomizerScript>();
@@ -78,7 +84,47 @@ public class CustomizerUITabs : MonoBehaviour
         {
             clientLoginPanel.SetActive(false);
         }
-    }
+        
+        if (toggleFive) toggleFive.SetIsOnWithoutNotify(true);
+        StartCoroutine(CheckDelay());
+       
+      }
+
+      public IEnumerator CheckDelay()
+      {
+         yield return new WaitForSeconds(.1f);
+        CheckRole(); //check the role after the save data has been loaded
+
+        if(customizerScript && customizerScript.userName != "") //set the on screen username after data has been loaded
+        {
+            emailField.SetTextWithoutNotify(customizerScript.userName);
+        }
+
+      }
+
+      void CheckRole()
+      {
+        if (!customizerScript) return;
+
+        switch(customizerScript.nyuRole)
+        {
+          case Role.NON:
+             if (toggleFive) toggleFive.SetIsOnWithoutNotify(true);
+             break;
+          case Role.Professor:
+              if (toggleOne) toggleOne.SetIsOnWithoutNotify(true);
+              break;
+          case Role.Staff:
+            if (toggleTwo) toggleTwo.SetIsOnWithoutNotify(true);
+              break;
+          case Role.MFA:
+            if(toggleThree) toggleThree.SetIsOnWithoutNotify(true);
+              break;
+          case Role.BFA:
+              if(toggleFour) toggleFour.SetIsOnWithoutNotify(true);
+              break;
+        }
+      }
 
 
 
@@ -87,23 +133,24 @@ public class CustomizerUITabs : MonoBehaviour
     /// </summary>
     public void Login()
     {
-        if(emailField == null) Debug.Log("no emial feild");
-        if(passwordField == null) Debug.Log("no password feild");
+        //if(emailField == null) Debug.Log("no emial feild");
+        //if(passwordField == null) Debug.Log("no password feild");
         //print("username: " + username);
         //customizerScript.userName = email;
-         bool login = authentication.Login(emailField.text, passwordField.text);
-        if(!login)
-        {
-            //what to do if a login fails, let them try again
-            print("login failed");
-            return;
-        }
+        // bool login = authentication.Login(emailField.text, passwordField.text);
+        // if(!login)
+        // {
+        //     //what to do if a login fails, let them try again
+        //     print("login failed");
+        //     return;
+        // }
 
-        //save login info
-        customizerScript.loginInfo = authentication.GetLoginInfo(emailField.text);
+        //make a new login info
+        customizerScript.loginInfo = new LoginInfo();
+        addTag(); //add tags based on role selection
+
+        SetDisplayName(emailField.text);
         
-
-        //back button
 
         customizePanel.SetActive(true);
         slidersPanel.SetActive(true);
@@ -113,6 +160,27 @@ public class CustomizerUITabs : MonoBehaviour
 
         SetCustomizationTab(currentTab);
         colorPicker.gameObject.SetActive(true);
+    }
+
+    void addTag()
+    {
+      switch(customizerScript.nyuRole)
+      {
+        case Role.Professor:
+            customizerScript.loginInfo.AddTag("Professor");
+        break;
+        case Role.Staff:
+            customizerScript.loginInfo.AddTag("Staff");
+        break;
+        case Role.MFA:
+            customizerScript.loginInfo.AddTag("MFA");
+        break;
+        case Role.BFA: 
+            customizerScript.loginInfo.AddTag("BFA");
+        break;
+        case Role.NON: 
+        break;
+      }
     }
 
     void SetSliderValues()
@@ -146,7 +214,7 @@ public class CustomizerUITabs : MonoBehaviour
         //SET USERNAME HERE?
         if(customizerScript.userName != "") //if the player has a username, set it in the text feild
         {
-            displayName.SetTextWithoutNotify(customizerScript.userName);
+            emailField.SetTextWithoutNotify(customizerScript.userName);
         }
 
     }
@@ -386,5 +454,35 @@ public class CustomizerUITabs : MonoBehaviour
     public void SliderSixSetValue(float value){  SliderSetValue(value,6); }
     public void SliderSevenSetValue(float value){  SliderSetValue(value,7); }
 
+    //TOGGLE MANAGEMENT
 
+    public void ToggleOne(bool value)
+    {
+      if(value)
+        customizerScript.nyuRole = Role.Professor;
+    }
+
+    public void ToggleTwo(bool value)
+    {
+      if(value)
+        customizerScript.nyuRole = Role.Staff;
+    }
+
+    public void ToggleThird(bool value)
+    {
+      if(value)
+        customizerScript.nyuRole = Role.MFA;
+    }
+
+    public void ToggleFour(bool value)
+    {
+      if(value)
+        customizerScript.nyuRole = Role.BFA;
+    }
+
+    public void ToggleFive(bool value)
+    {
+      if(value)
+      customizerScript.nyuRole = Role.NON;
+    }
 }

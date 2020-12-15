@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ES3Internal;
 
+public enum Role  {Professor, Staff, MFA, BFA, NON}
 public class LocalSaveData : MonoBehaviour
 {
     string local_userName;
@@ -24,6 +25,8 @@ public class LocalSaveData : MonoBehaviour
     public Customizer localCustomizer;
 
     public MeshAssigner localAssigner;
+
+    int local_role;
 
     void Start()
     {
@@ -66,6 +69,8 @@ public class LocalSaveData : MonoBehaviour
         local_FootColor = ES3.Load("footColor", "saveInfo.es3", Vector4.zero ); //key, filepath, default value
         //headID footID hatID torsoID bodyColor headColor hatColor footColor
 
+        local_role = ES3.Load("roleID", "saveInfo.es3", (int) Role.NON); //load  role ID, set to none as default
+
     }
 
     void SetCustomizer()
@@ -91,14 +96,14 @@ public class LocalSaveData : MonoBehaviour
 
         localCustomizer.userName = local_userName;
 
-
+        localCustomizer.nyuRole = (Role)local_role;
     }
 
     public void SaveUsername()
     {
         ES3.Save("username", localCustomizer.userName, "saveInfo.es3");
     }
-
+/*
     public void AssignerSaveData()
     {
         //headID footID hatID torsoID bodyColor headColor hatColor footColor
@@ -108,6 +113,7 @@ public class LocalSaveData : MonoBehaviour
         ES3.Save("hatID", localAssigner.bodyTraits[0].bodyID, "saveInfo.es3");
         //ES3.Save("torsoID", localCustomizer.bodyIDs[4], "saveInfo.es3");  **NO Torso ID*
     }
+    */
 
     public void SaveData()
     {
@@ -132,6 +138,8 @@ public class LocalSaveData : MonoBehaviour
 
         //local_TorsoIDs = ES3.Load("torsoIDs", "saveInfo.es3", tmpTorsoIDs);
         ES3.Save("torsoIDs",localCustomizer.torsoNodeScales, "saveInfo.es3");
+
+         ES3.Save("roleID", (int)localCustomizer.nyuRole, "saveInfo.es3");
     }
 
     // Update is called once per frame
