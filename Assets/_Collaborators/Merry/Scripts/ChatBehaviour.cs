@@ -134,7 +134,7 @@ public class ChatBehaviour : NetworkBehaviour
       {
         inputField.gameObject.SetActive(false);
         chatBackground.gameObject.SetActive(false);
-
+                
         scrollBar.sprite = invisibleScrollBarSprite;
 
 
@@ -147,6 +147,7 @@ public class ChatBehaviour : NetworkBehaviour
       {
         inputField.gameObject.SetActive(true);
         chatBackground.gameObject.SetActive(true);
+        //       
 
         scrollBar.sprite = activeScrollBarSprite;
 

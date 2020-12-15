@@ -101,6 +101,16 @@ public class BallScript : NetworkBehaviour
         }
     }
 
+    [Command(ignoreAuthority=true)]
+    void CmdMoveIntoSphere(NetworkIdentity playerConn)
+    {
+          
+      netIdentity.RemoveClientAuthority();
+      netIdentity.AssignClientAuthority(playerConn.connectionToClient);
+    }  
+
+
+    
     private void OnTriggerEnter(Collider other)
     {
         print($"{other.name} hit it!");
@@ -134,13 +144,6 @@ public class BallScript : NetworkBehaviour
 
   }
   
-    [Command(ignoreAuthority=true)]
-    void CmdMoveIntoSphere(NetworkIdentity playerConn)
-    {
-          
-      netIdentity.RemoveClientAuthority();
-      netIdentity.AssignClientAuthority(playerConn.connectionToClient);
-    }  
 
 
     public void Update()

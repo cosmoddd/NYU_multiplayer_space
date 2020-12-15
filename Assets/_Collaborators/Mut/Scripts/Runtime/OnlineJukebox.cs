@@ -13,7 +13,7 @@ public class OnlineJukebox : NetworkBehaviour
     [SyncVar(hook = nameof(OnServerTrackChanged))]
     [SerializeField] private string currentTrackInServerName;
 
-    [SyncVar]
+    [SyncVar(hook = nameof(OnServerTimeChanged))]
     [SerializeField] private float serverPlaytime;
 
     [SerializeField] private float clientPlaytime;
@@ -63,9 +63,12 @@ public class OnlineJukebox : NetworkBehaviour
         // if (paused) return;
 
         currentTrackNameVariable.Value = currentTrackInServerName;
-        clientPlaytime = audioSource.time;
 
-        if (isServer) serverPlaytime = clientPlaytime;
+        if (audioSource.isPlaying)
+        {
+            clientPlaytime = audioSource.time;
+            if (isServer) serverPlaytime = clientPlaytime;
+        }
 
         // Update local current track elapsed time
         if (audioSource.clip != null)
@@ -93,6 +96,7 @@ public class OnlineJukebox : NetworkBehaviour
                 print("Playing next thing" + currentTrack);
                 audioSource.Stop();
                 audioSource.clip = currentTrack;
+                audioSource.time = serverPlaytime;
                 audioSource.Play();
                 clientPlaytime = 0;
             }
@@ -108,7 +112,7 @@ public class OnlineJukebox : NetworkBehaviour
         {
             audioSource.Play();
         }
-
+        isWaitingForServerTimeChange = true;
         audioSource.time = serverPlaytime;
     }
 
@@ -121,6 +125,18 @@ public class OnlineJukebox : NetworkBehaviour
             isWaitingForServerTrackChange = false;
         }
     }
+    private bool isWaitingForServerTimeChange;
+    private void OnServerTimeChanged(float oldTime, float newTime)
+    {
+        if (isWaitingForServerTimeChange)
+        {
+            audioSource.time = newTime;
+            isWaitingForServerTimeChange = false;
+        }
+
+    }
+
+
 
     // Runs server queue
     private void ServerDequeueSong()
@@ -155,6 +171,7 @@ public class OnlineJukebox : NetworkBehaviour
         audioSource.Stop();
         audioSource.clip = currentTrack;
         audioSource.Play();
+        audioSource.time = 0;
         serverPlaytime = 0;
         clientPlaytime = 0;
     }
