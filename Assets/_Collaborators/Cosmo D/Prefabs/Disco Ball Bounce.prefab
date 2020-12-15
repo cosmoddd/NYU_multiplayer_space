@@ -170,7 +170,7 @@ MonoBehaviour:
   localPlayer: {fileID: 0}
   localCamera: {fileID: 0}
   distanceToBall: 0
-  upAngle: 0.1
+  upAngle: 0.05
   overlappingItems: []
   overlappingTargetLayer:
     serializedVersion: 2
@@ -320,7 +320,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   interpolationBackTime: 0.1
-  extrapolationMode: 1
+  extrapolationMode: 0
   useExtrapolationTimeLimit: 1
   extrapolationTimeLimit: 5
   useExtrapolationDistanceLimit: 0
@@ -343,16 +343,17 @@ MonoBehaviour:
   syncPosition: 0
   syncRotation: 0
   syncScale: 7
-  syncVelocity: 0
-  syncAngularVelocity: 0
+  syncVelocity: 7
+  syncAngularVelocity: 7
   isPositionCompressed: 0
   isRotationCompressed: 0
   isScaleCompressed: 0
   isVelocityCompressed: 0
   isAngularVelocityCompressed: 0
+  automaticallyResetTime: 1
   isSmoothingAuthorityChanges: 1
   transformSource: 0
-  whenToUpdateTransform: 1
+  whenToUpdateTransform: 0
   sendRate: 60
   networkChannel: 1
   childObjectToSync: {fileID: 0}

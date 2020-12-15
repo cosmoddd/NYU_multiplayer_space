@@ -15,9 +15,9 @@ public class NewNetworkAuthenticator : NetworkAuthenticator
 
     #region Messages
 
-    public class AuthRequestMessage : MessageBase { }
+    public class AuthRequestMessage : NetworkMessage { }
 
-    public class AuthResponseMessage : MessageBase { }
+    public class AuthResponseMessage : NetworkMessage { }
 
     #endregion
 
