@@ -11,11 +11,14 @@ public class CustomizerUITabs : MonoBehaviour
     public GameObject loginPanel;
     public GameObject customizePanel;
     public GameObject clientLoginPanel;
+    public GameObject moderatorPanel;
 
     //--InputFields--
 
     public TMP_InputField emailField;
-    public TMP_InputField passwordField;
+
+    public TMP_InputField ModemailField;
+    public TMP_InputField ModpasswordField;
 
     //public TMP_InputField displayName;
 
@@ -84,6 +87,11 @@ public class CustomizerUITabs : MonoBehaviour
         {
             clientLoginPanel.SetActive(false);
         }
+
+        if(moderatorPanel)
+        {
+          moderatorPanel.SetActive(false);
+        }
         
         if (toggleFive) toggleFive.SetIsOnWithoutNotify(true);
         StartCoroutine(CheckDelay());
@@ -97,7 +105,7 @@ public class CustomizerUITabs : MonoBehaviour
 
         if(customizerScript && customizerScript.userName != "") //set the on screen username after data has been loaded
         {
-            emailField.SetTextWithoutNotify(customizerScript.userName);
+            if(emailField) emailField.SetTextWithoutNotify(customizerScript.userName);
         }
 
       }
@@ -145,6 +153,8 @@ public class CustomizerUITabs : MonoBehaviour
         //     return;
         // }
 
+        if(emailField.text == "") return; //dont allow a null username
+
         //make a new login info
         customizerScript.loginInfo = new LoginInfo();
         addTag(); //add tags based on role selection
@@ -160,6 +170,41 @@ public class CustomizerUITabs : MonoBehaviour
 
         SetCustomizationTab(currentTab);
         colorPicker.gameObject.SetActive(true);
+    }
+
+    public void ModeratorLogin()
+    {
+      //check login is correct
+      bool login = authentication.Login(ModemailField.text, ModpasswordField.text);
+      if(!login)
+        return;
+
+      customizerScript.loginInfo.AddTag("Moderator");
+
+      //load customizer tab
+      customizePanel.SetActive(true);
+      slidersPanel.SetActive(true);
+      scrollPanel.SetActive(false);
+      moderatorPanel.SetActive(false);
+      SetSliderValues();
+
+      SetCustomizationTab(currentTab);
+      colorPicker.gameObject.SetActive(true);
+    }
+
+    public void EnterModeratorPanel()
+    {
+      
+      if(emailField.text == "") return; //dont allow a null username
+
+          //make a new login info
+        customizerScript.loginInfo = new LoginInfo();
+        addTag(); //add tags based on role selection
+
+        SetDisplayName(emailField.text);
+
+        loginPanel.SetActive(false); //turn off current login panel
+        moderatorPanel.SetActive(true); //turn on moderator panel
     }
 
     void addTag()
