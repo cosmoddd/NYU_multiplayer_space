@@ -170,8 +170,9 @@ public class OnlineJukebox : NetworkBehaviour
 
         audioSource.Stop();
         audioSource.clip = currentTrack;
-        audioSource.Play();
         audioSource.time = 0;
+        
+        audioSource.Play();
         serverPlaytime = 0;
         clientPlaytime = 0;
     }
