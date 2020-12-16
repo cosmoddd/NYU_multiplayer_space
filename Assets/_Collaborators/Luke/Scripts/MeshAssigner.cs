@@ -63,7 +63,7 @@ public class MeshAssigner : NetworkBehaviour
         //Moderator Emoji
         if(PlayerIs("Moderator"))
         {
-          nameTag = "<sprite index=0>"   + " " + nameTag;  // space between sprite and name? -gh
+          nameTag = "<sprite index=0>"   + "" + nameTag;  // space between sprite and name? -gh
         }
 
 
