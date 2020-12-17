@@ -164,15 +164,15 @@ MonoBehaviour:
   syncInterval: 0.1
   thisRigidbody: {fileID: 5830323987655864739}
   kickForce: 15
-  punchForce: 10
+  punchForce: 15
   contactSound: {fileID: 4818365980469493344}
   isClickable: 1
   localPlayer: {fileID: 0}
   localCamera: {fileID: 0}
   upAngle: 0.05
-  overlappingTargetLayer:
+  clickMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 512
   particlePrefab: {fileID: 3461582592051104013, guid: 01e0da021e5a26e4f99ac829dc72edb6, type: 3}
 --- !u!82 &4818365980469493344
 AudioSource:
@@ -186,7 +186,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -7720505244512675373, guid: 33757b55a68572e47af7c766506f006f, type: 2}
   m_audioClip: {fileID: 8300000, guid: 496ec8e643cfcfb43b64b9f0d73d721c, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.8
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0

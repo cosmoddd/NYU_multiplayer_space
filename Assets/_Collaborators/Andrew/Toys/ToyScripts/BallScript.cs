@@ -18,8 +18,7 @@ public class BallScript : NetworkBehaviour
     float distanceToBall;
     public float upAngle = 1.5f;
 
-    Collider[] overlappingItems;
-    public LayerMask overlappingTargetLayer;
+    public LayerMask clickMask;
 
     public GameObject particlePrefab;
 
@@ -113,7 +112,7 @@ public class BallScript : NetworkBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        print($"{other.name} hit it!");
+        // print($"{other.name} hit it!");
 
         if (other.tag == "Goal")
         {
@@ -144,79 +143,34 @@ public class BallScript : NetworkBehaviour
 
   }
   
-
-
+    // if you don't feel like kicking the ball you can also just click on it.
     public void Update()
     {
-      overlappingItems = Physics.OverlapSphere(transform.position, drawRadius, overlappingTargetLayer);
-
       if (!localCamera) return;
 
       if (localPlayer)
       {
           distanceToBall = (this.transform.position - localPlayer.transform.position).magnitude;
-      }
 
-      /*         
-        if (isClickable)
-        {
-            if (Input.GetMouseButtonDown(0) && distanceToBall < 15f)
-            {
-                Ray thisRay = localCamera.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(thisRay.origin, thisRay.direction, out RaycastHit hitInfo, 100f))
-                {
-                    if (hitInfo.transform.gameObject == this.gameObject)
-                    {
-                        CmdContactBall(thisRay.direction);
-                    }
-                }
-            }
-        } 
-      */
-    }
-
-    List <float> distancesToBall = new List<float>();
-    float minFloat;
-    GameObject closestCharacter;
-    GameObject closestCharacterSaved;
-
-
-  // no longer need this
-    void DetermineShortestDistance()
-    {
-      if (overlappingItems.Length>0)
-      {
-        // distancesToBallArray = new List<float>();
-        // distancesToBall.Add()
-        distancesToBall = new List<float>();
-
-        for (int i = 0; i < overlappingItems.Length; i++)
-        {
-          distancesToBall.Add((this.transform.position - overlappingItems[i].transform.position).magnitude);
-        }
-
-        minFloat = distancesToBall.Min();
-        closestCharacter = overlappingItems[distancesToBall.IndexOf(minFloat)].gameObject;  // waaaaa!?!?!?!?
-
-
-          if((closestCharacter != closestCharacterSaved))
+          if (isClickable)
           {
-            closestCharacterSaved = closestCharacter;
-            CmdMoveIntoSphere(closestCharacter.GetComponent<NetworkIdentity>());
-            print("Setting new network id for..." + closestCharacter.name);
-          }
-        }
-      
-      
-      if (overlappingItems.Length == 0)
-      {
-        distancesToBall.Clear();
+              if (Input.GetMouseButtonDown(0) && distanceToBall < 15f)
+              {
+                  Ray thisRay = localCamera.ScreenPointToRay(Input.mousePosition);
+
+                  if (Physics.Raycast(thisRay.origin, thisRay.direction, out RaycastHit hitInfo, 100f, clickMask) 
+                      && hitInfo.transform.CompareTag("Ball"))
+                  { 
+                        Instantiate(particlePrefab, hitInfo.point, Quaternion.identity);
+                        AudioClick();
+                        CmdClickBall(thisRay.direction);
+                  }
+              }
+          } 
       }
 
-
     }
- 
+
     [Command(ignoreAuthority = true)]
     public void CmdAudioHit() => RpcAudioHit();
 
@@ -231,11 +185,34 @@ public class BallScript : NetworkBehaviour
         }
     }
 
+   void AudioClick()
+    {
+        if (!contactSound.isPlaying || contactSound.time > .4f)
+        {
+            contactSound.pitch = UnityEngine.Random.Range(.8f, 1.3f);
+            contactSound.Play();
+        }
+    }
+
+
+    [Command(ignoreAuthority = true)]
+    void CmdClickBall(Vector3 _contactDirection)
+    {
+      
+        RpcClickKick(_contactDirection);
+        // RpcAudioHit();
+    }
+
+    [ClientRpc]
+    void RpcClickKick(Vector3 _contactDirection)
+    {
+      thisRigidbody.AddForce((_contactDirection + new Vector3(0, upAngle, 0)) * (punchForce*.66f), ForceMode.Impulse);
+    }
+
     void BasicKick(Vector3 contactDirection)
     {
         print("kicking in a direction!!");
         thisRigidbody.AddForce((contactDirection + new Vector3(0, upAngle, 0)) * punchForce, ForceMode.Impulse);
-
     }
     
 }

@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 2717668470090430111}
   - component: {fileID: 2717668470090430107}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: CameraPrefab
   m_TagString: PlayerCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,9 +299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15fd1a355eede9d4db630df3c471ddac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInChat: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
   target: {fileID: 0}
   viewCamera: {fileID: 0}
   mouseSensitivity: 2
+  maxSensitivity: 5
   distFromTargetChangeSensitivity: 0.5
   cursorVisible: 1
   clickToMove: 1
@@ -312,6 +314,8 @@ MonoBehaviour:
   maxCamDist: 60
   camDistSmoothRate: 0.6
   targetSmoothTime: 0.1
+  currentCamDist: 0
   cameraOffset: {x: 0, y: 7, z: -2}
   inChatMode: {fileID: 0}
+  inOptionsMode: {fileID: 0}
   bInvertY: {fileID: 11400000, guid: 384d67d844578f2449e5a18173e0ae43, type: 2}

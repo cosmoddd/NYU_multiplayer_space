@@ -6,6 +6,8 @@ using UnityAtoms.BaseAtoms;
 
 public class CameraController : MonoBehaviour
 {
+    public BoolVariable isInChat;
+
     [HideInInspector]
     public Transform target;
 
@@ -70,7 +72,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (Input.GetKeyDown(KeyCode.Y) && inChatMode.Value == false)
         {
             clickToMove = !clickToMove;
         }
