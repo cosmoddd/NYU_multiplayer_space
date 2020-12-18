@@ -7,16 +7,18 @@ public class ScrollTexture : MonoBehaviour
 	public Vector2 scrollRate;
 
     private Renderer _renderer;
+    public Material thisMaterial;
     // Start is called before the first frame update
     void Start()
     {
         _renderer = GetComponent<Renderer>();
+        thisMaterial = _renderer.material;
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector2 offset = Time.time * scrollRate;
-        _renderer.material.SetTextureOffset("_MainTex", offset);
+        thisMaterial.SetTextureOffset("_BaseMap", offset);
     }
 }

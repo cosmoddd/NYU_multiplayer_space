@@ -18,7 +18,7 @@ public class ChangeRoomScript : NetworkBehaviour
 
     private void Update()
     {
-        if (bInChangeRoom && Input.GetKeyDown(KeyCode.F))
+        if (bInChangeRoom && Input.GetKeyDown(KeyCode.F)&&Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleChangeRoomUI();
         }

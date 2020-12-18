@@ -9359,9 +9359,10 @@ MonoBehaviour:
   loginPanel: {fileID: 0}
   customizePanel: {fileID: 5994793748923818845}
   clientLoginPanel: {fileID: 0}
+  moderatorPanel: {fileID: 0}
   emailField: {fileID: 0}
-  passwordField: {fileID: 0}
-  displayName: {fileID: 0}
+  ModemailField: {fileID: 0}
+  ModpasswordField: {fileID: 0}
   headSprites:
   - {fileID: 0}
   - {fileID: 21300000, guid: ec9a6f19605bbae48a796d1b80d2b461, type: 3}
@@ -9425,6 +9426,11 @@ MonoBehaviour:
   scrollPanel: {fileID: 8978113685758183522}
   customizerScript: {fileID: 0}
   meshAssigner: {fileID: 7202849672736660093}
+  toggleOne: {fileID: 0}
+  toggleTwo: {fileID: 0}
+  toggleThree: {fileID: 0}
+  toggleFour: {fileID: 0}
+  toggleFive: {fileID: 0}
 --- !u!1 &7782896665667371881
 GameObject:
   m_ObjectHideFlags: 0
@@ -11068,7 +11074,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   interpolationBackTime: 0.1
-  extrapolationMode: 1
+  extrapolationMode: 0
   useExtrapolationTimeLimit: 1
   extrapolationTimeLimit: 5
   useExtrapolationDistanceLimit: 0
@@ -11098,6 +11104,7 @@ MonoBehaviour:
   isScaleCompressed: 0
   isVelocityCompressed: 0
   isAngularVelocityCompressed: 0
+  automaticallyResetTime: 1
   isSmoothingAuthorityChanges: 0
   transformSource: 0
   whenToUpdateTransform: 0
