@@ -121,8 +121,7 @@ public class UITweener : MonoBehaviour
         _tweenObject = LeanTween.scale(objectToAnimate, to, duration);
     }
 
-    //fix later
-    /*
+
     public void SwapDirection()
     {
         var temp = from;
@@ -141,10 +140,10 @@ public class UITweener : MonoBehaviour
         _tweenObject.setOnComplete(() =>
         {
             SwapDirection();
-            gameObject.SetActive(false);
+            // gameObject.SetActive(false);
         });
         _disabling = false;
-    }*/
+    }
 
 
 }

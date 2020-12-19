@@ -8,6 +8,7 @@ using System;
 using UnityEngine.UI;
 using UnityAtoms.BaseAtoms;
 using System.Linq;
+using DentedPixel;
 
 //based on code by Dapper Dino https://www.youtube.com/watch?v=p-2QFmCMBt8&ab_channel=DapperDino
 
@@ -77,6 +78,8 @@ public class ChatBehaviour : NetworkBehaviour
   public BoolVariable emoteListActive;
   private bool _slashChat;
 
+  public UITweener[] uITweeners;
+
   public override void OnStartClient()
   {
     base.OnStartClient();
@@ -111,7 +114,6 @@ public class ChatBehaviour : NetworkBehaviour
   void LateUpdate()
   {
 
-
     if (!playerCamera)
     {
       playerCamera = GameObject.FindGameObjectWithTag("PlayerCamera");
@@ -128,22 +130,25 @@ public class ChatBehaviour : NetworkBehaviour
   {
     if (isLocalPlayer && Input.GetKeyDown(KeyCode.Tab) && inMenuMode.Value == false)
     {
-      inChatMode.Value = !inChatMode.Value;
 
-      if (inChatMode.Value == false)
+      if (inChatMode.Value == true)
       {
-        inputField.gameObject.SetActive(false);
-        chatBackground.gameObject.SetActive(false);
+          StopAllCoroutines();
+         StartCoroutine(DisableChatModeCoroutine());
+
+        inChatMode.Value = !inChatMode.Value;
+        // inputField.gameObject.SetActive(false);
+        // chatBackground.gameObject.SetActive(false);
                 
-        scrollBar.sprite = invisibleScrollBarSprite;
+        // scrollBar.sprite = invisibleScrollBarSprite;
 
 
-        participantsListCanvas.enabled = false;
-        if (emoteList) emoteList.SetActive(false);
-        _slashChat = false;
+        // participantsListCanvas.enabled = false;
+        // if (emoteList) emoteList.SetActive(false);
+        // _slashChat = false;
 
       }
-      if (inChatMode.Value == true)
+      if (inChatMode.Value == false)
       {
         inputField.gameObject.SetActive(true);
         chatBackground.gameObject.SetActive(true);
@@ -156,6 +161,7 @@ public class ChatBehaviour : NetworkBehaviour
         inputField.Select();
         inputField.ActivateInputField();
 
+        inChatMode.Value = !inChatMode.Value;
       }
 
     }
@@ -164,7 +170,11 @@ public class ChatBehaviour : NetworkBehaviour
     if(isLocalPlayer && Input.GetKeyDown(KeyCode.Escape))
     {
       if (inChatMode.Value == true)
-          DisableChatMode();
+          // DisableChatMode();
+          {
+            StopAllCoroutines();
+            StartCoroutine(DisableChatModeCoroutine());
+          }
     }
 
     
@@ -219,7 +229,10 @@ public class ChatBehaviour : NetworkBehaviour
     {
       yield return null;
       print("I'm outta here");
-      DisableChatMode();
+      // DisableChatMode();
+      StopAllCoroutines();
+      StartCoroutine(DisableChatModeCoroutine());
+
       yield break;
     }
 
@@ -248,6 +261,19 @@ public class ChatBehaviour : NetworkBehaviour
     }
   }
 
+  IEnumerator DisableChatModeCoroutine()
+  {
+    foreach(UITweener t in uITweeners)
+    {
+      LeanTween.cancelAll(); 
+      t.Disable();
+    }
+
+    yield return new WaitForSeconds (.12f);   
+
+    DisableChatMode();
+  }
+
   void DisableChatMode()
   {
     inputField.gameObject.SetActive(false);
@@ -255,8 +281,7 @@ public class ChatBehaviour : NetworkBehaviour
     scrollBar.sprite = invisibleScrollBarSprite;
     inChatMode.Value = false;
     if (emoteList) emoteList.SetActive(false);
-    participantsListCanvas.enabled = false;
-  
+    participantsListCanvas.enabled = false; 
   }
 
   public override void OnStartAuthority()
