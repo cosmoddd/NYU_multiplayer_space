@@ -65,7 +65,6 @@ public class ChatBehaviour : NetworkBehaviour
   [Header("Participants Control")]
   [SerializeField]
   public Canvas participantsListCanvas = null; //participants list
-  public BoolVariable participantsListActive;
   [SerializeField]
   private TMP_Text participantsText = null;
   private String participantID;
@@ -74,8 +73,7 @@ public class ChatBehaviour : NetworkBehaviour
 
   [Header("Emote Control")]
   [SerializeField]
-  public GameObject emoteList = null; //participants list
-  public BoolVariable emoteListActive;
+  public Canvas emoteListCanvas = null; //participants list
   private bool _slashChat;
 
   public UITweener[] uITweeners;
@@ -84,10 +82,6 @@ public class ChatBehaviour : NetworkBehaviour
   {
     base.OnStartClient();
 
-    //check if player is a mod and grant it
-
-    //add player name & mod status to participants list in UI_ParticipantsList.cs
-
     //retrieve the participants list
     participantsText.text = RetrievePlayerList?.Invoke();
 
@@ -95,15 +89,12 @@ public class ChatBehaviour : NetworkBehaviour
 
     if (inChatMode.Value == false)
     {
-      // print("DISABLE YOU!");
-
-      inputField.gameObject.SetActive(false);
-      chatBackground.gameObject.SetActive(false);
-
       scrollBar.sprite = invisibleScrollBarSprite;
+      if (emoteListCanvas) emoteListCanvas.enabled = false;
 
+      StopAllCoroutines();
+      StartCoroutine(DisableChatTweenCoroutine());
 
-      if (emoteList) emoteList.SetActive(false);
       _slashChat = false;
     }
 
@@ -130,38 +121,27 @@ public class ChatBehaviour : NetworkBehaviour
   {
     if (isLocalPlayer && Input.GetKeyDown(KeyCode.Tab) && inMenuMode.Value == false)
     {
+      emoteListCanvas.enabled = false;
 
       if (inChatMode.Value == true)
       {
-          StopAllCoroutines();
-         StartCoroutine(DisableChatModeCoroutine());
-
-        inChatMode.Value = !inChatMode.Value;
-        // inputField.gameObject.SetActive(false);
-        // chatBackground.gameObject.SetActive(false);
-                
-        // scrollBar.sprite = invisibleScrollBarSprite;
-
-
-        // participantsListCanvas.enabled = false;
-        // if (emoteList) emoteList.SetActive(false);
-        // _slashChat = false;
-
+        print("we are in chat mode - disable!");
+        StopAllCoroutines();
+        StartCoroutine(DisableChatTweenCoroutine());
       }
       if (inChatMode.Value == false)
       {
-        inputField.gameObject.SetActive(true);
-        chatBackground.gameObject.SetActive(true);
-        //       
+    
+        participantsListCanvas.enabled = true;
+
+        print("we are NOT chat mode - enable!");
+        StopAllCoroutines();
+        StartCoroutine(ShowTweenChatUI());
 
         scrollBar.sprite = activeScrollBarSprite;
 
-        participantsListCanvas.enabled = true;
-        if (emoteList) emoteList.SetActive(false);
         inputField.Select();
         inputField.ActivateInputField();
-
-        inChatMode.Value = !inChatMode.Value;
       }
 
     }
@@ -170,16 +150,15 @@ public class ChatBehaviour : NetworkBehaviour
     if(isLocalPlayer && Input.GetKeyDown(KeyCode.Escape))
     {
       if (inChatMode.Value == true)
-          // DisableChatMode();
           {
             StopAllCoroutines();
-            StartCoroutine(DisableChatModeCoroutine());
+            StartCoroutine(DisableChatTweenCoroutine());
           }
     }
 
     
     //EMOTE STUFF
-    if ( isLocalPlayer && Input.GetKeyDown(KeyCode.Slash) && _slashChat == false)
+    if ( isLocalPlayer && Input.GetKeyDown(KeyCode.Slash) && _slashChat == false && inMenuMode.Value == false && inChatMode.Value == false)
     {
 
       if (inChatMode.Value == false)
@@ -190,15 +169,15 @@ public class ChatBehaviour : NetworkBehaviour
 
         scrollBar.sprite = activeScrollBarSprite;
 
-        if (emoteList) emoteList.SetActive(true); //panel with all emotes
+        if (emoteListCanvas) emoteListCanvas.enabled = true; //panel with all emotes
         participantsListCanvas.enabled = false;
 
         inputField.Select();
         inputField.text = "/";
         inputField.ActivateInputField();
-
         _slashChat = true; //make sure you don't open chat a bunch
 
+        StartCoroutine(ShowTweenChatUI());
         // Start a coroutine to deselect text and move caret to end. 
         // This can't be done now, must be done in the next frame.
         StartCoroutine(MoveTextEnd_NextFrame());
@@ -210,6 +189,7 @@ public class ChatBehaviour : NetworkBehaviour
       if (_slashChat == true) //if was openned with slash chat, can be closed
       {
         _slashChat = false;
+        emoteListCanvas.enabled = false;
       }
       StartCoroutine(EnterChatToggle());
     }
@@ -229,21 +209,25 @@ public class ChatBehaviour : NetworkBehaviour
     {
       yield return null;
       print("I'm outta here");
-      // DisableChatMode();
+
       StopAllCoroutines();
-      StartCoroutine(DisableChatModeCoroutine());
+      StartCoroutine(DisableChatTweenCoroutine());
 
       yield break;
     }
 
     // enable chat mode if disabled
-    if (!inputField.gameObject.activeInHierarchy && inChatMode.Value == false && inMenuMode.Value == false)
+    if (inChatMode.Value == false && inMenuMode.Value == false)
     {
       print("ENABLE You!");
 
       inChatMode.Value = true;
       inputField.gameObject.SetActive(true);
       chatBackground.gameObject.SetActive(true);
+      participantsListCanvas.enabled = true;
+
+      StopAllCoroutines();
+      StartCoroutine(ShowTweenChatUI());
 
       scrollBar.sprite = activeScrollBarSprite;
 
@@ -261,12 +245,25 @@ public class ChatBehaviour : NetworkBehaviour
     }
   }
 
-  IEnumerator DisableChatModeCoroutine()
+  IEnumerator ShowTweenChatUI()
   {
+
+    LeanTween.cancelAll(); 
     foreach(UITweener t in uITweeners)
     {
-      LeanTween.cancelAll(); 
-      t.Disable();
+      t.Show();
+    }
+    yield return new WaitForSeconds (.12f);   
+    inChatMode.Value = true;
+  }
+
+  IEnumerator DisableChatTweenCoroutine()
+  {
+    LeanTween.cancelAll(); 
+
+    foreach(UITweener t in uITweeners)
+    {
+      t.Hide();
     }
 
     yield return new WaitForSeconds (.12f);   
@@ -276,12 +273,9 @@ public class ChatBehaviour : NetworkBehaviour
 
   void DisableChatMode()
   {
-    inputField.gameObject.SetActive(false);
-    chatBackground.gameObject.SetActive(false);
+    participantsListCanvas.enabled = false;
     scrollBar.sprite = invisibleScrollBarSprite;
     inChatMode.Value = false;
-    if (emoteList) emoteList.SetActive(false);
-    participantsListCanvas.enabled = false; 
   }
 
   public override void OnStartAuthority()
@@ -291,14 +285,11 @@ public class ChatBehaviour : NetworkBehaviour
     OnMessage += HandleNewMessage;
 
     LoggedIn?.Invoke();
-
-    // print(GetComponent<CharacterCustomizerScript>().characterName);
   }
 
   // [ClientCallback]
   private void OnDestroy()
   {
-    // if (!hasAuthority) { return; }
     OnMessage -= HandleNewMessage;
   }
 
@@ -312,12 +303,8 @@ public class ChatBehaviour : NetworkBehaviour
   {
     //returning 0 will make it wait 1 frame
     yield return 0;
-    //yield return new WaitForSeconds(1);
-
-    //code goes here
     chatText.text += message;
 
-    // this should work???  GH 12-2-2020
     if (isLocalPlayer)
     {
       Canvas.ForceUpdateCanvases();
@@ -347,7 +334,6 @@ public class ChatBehaviour : NetworkBehaviour
     {
       Canvas.ForceUpdateCanvases();
     }
-    // inputField.MoveTextStart(true);
   }
 
   [Client]

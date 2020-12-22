@@ -5137,9 +5137,10 @@ MonoBehaviour:
   loginPanel: {fileID: 546598113}
   customizePanel: {fileID: 1025529198}
   clientLoginPanel: {fileID: 594517391}
+  moderatorPanel: {fileID: 0}
   emailField: {fileID: 6778343}
-  passwordField: {fileID: 231458408}
-  displayName: {fileID: 792170160}
+  ModemailField: {fileID: 0}
+  ModpasswordField: {fileID: 0}
   headSprites:
   - {fileID: 0}
   - {fileID: 21300000, guid: ec9a6f19605bbae48a796d1b80d2b461, type: 3}
@@ -5202,6 +5203,12 @@ MonoBehaviour:
   slidersPanel: {fileID: 404026143}
   scrollPanel: {fileID: 720920704}
   customizerScript: {fileID: 763978452}
+  meshAssigner: {fileID: 0}
+  toggleOne: {fileID: 0}
+  toggleTwo: {fileID: 0}
+  toggleThree: {fileID: 0}
+  toggleFour: {fileID: 0}
+  toggleFive: {fileID: 0}
 --- !u!1 &682717637
 GameObject:
   m_ObjectHideFlags: 0
@@ -5292,7 +5299,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 16
+  m_fontStyle: 32
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -5844,6 +5851,7 @@ MonoBehaviour:
     email: 
     password: 
     tags: []
+  nyuRole: 0
   userName: 
   bodyColors:
   - {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
@@ -7673,11 +7681,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7e5dd66ab2a3f43b9211943e257ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToAnimate: {fileID: 1025529198}
+  objectToAnimate: {fileID: 546598113}
   animationType: 4
   easeType: 35
-  duration: 0.2
-  delay: 0.1
+  duration: 0.5
+  delay: 0.5
   loop: 0
   pingPong: 0
   startPositionOffset: 1
@@ -8990,6 +8998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localCustomizer: {fileID: 763978452}
+  localAssigner: {fileID: 0}
 --- !u!4 &1378030010
 Transform:
   m_ObjectHideFlags: 0

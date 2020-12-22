@@ -13,6 +13,11 @@ public enum UIAnimationTypes
     Fade
 }
 
+public enum TweenState
+{
+  Showing, Hiding
+}
+
 public class UITweener : MonoBehaviour
 {
     public GameObject objectToAnimate;
@@ -26,9 +31,11 @@ public class UITweener : MonoBehaviour
     public Vector3 from, to;
 
     private LTDescr _tweenObject;
-    private bool _disabling;
+    public bool _disabling;
 
-    public bool showOnEnable, workOnDisable;
+    public bool fadeOnEnable;
+
+    public TweenState tweenState;
 
     public void Start()
     {
@@ -39,7 +46,7 @@ public class UITweener : MonoBehaviour
     {
         if (_disabling == false)
         {
-            if (showOnEnable)
+            if (fadeOnEnable)
             {
                 Show();
             }
@@ -48,6 +55,7 @@ public class UITweener : MonoBehaviour
 
     public void Show()
     {
+      SetDirection(TweenState.Showing);
         HandleTween();
     }
 
@@ -107,9 +115,19 @@ public class UITweener : MonoBehaviour
 
     public void MoveAbsolute()
     {
-        objectToAnimate.GetComponent<RectTransform>().anchoredPosition = from;
-
-        _tweenObject = LeanTween.move(objectToAnimate.GetComponent<RectTransform>(), to, duration);
+      print(tweenState.ToString());
+      if (tweenState == TweenState.Showing)
+      {
+        print("Showing!");
+          objectToAnimate.GetComponent<RectTransform>().anchoredPosition = from;
+          _tweenObject = LeanTween.move(objectToAnimate.GetComponent<RectTransform>(), to, duration);
+      }
+      if (tweenState == TweenState.Hiding)
+      {
+         print("Hiding!");
+          objectToAnimate.GetComponent<RectTransform>().anchoredPosition = to;
+          _tweenObject = LeanTween.move(objectToAnimate.GetComponent<RectTransform>(), from, duration);
+      }
     }
 
     public void Scale()
@@ -122,27 +140,30 @@ public class UITweener : MonoBehaviour
     }
 
 
-    public void SwapDirection()
+    public void SetDirection(TweenState direction)
     {
-        var temp = from;
-        from = to;
-        to = temp;
+        tweenState = direction;
+        // var temp = from;
+        // from = to;
+        // to = temp;
     }
 
 
-    public void Disable()
+    public void Hide()
     {
-        _disabling = true;
-        SwapDirection();
+        // _disabling = true;
+        
+        SetDirection(TweenState.Hiding);
+        print(tweenState.ToString());
         HandleTween();
 
 
         _tweenObject.setOnComplete(() =>
         {
-            SwapDirection();
+          
             // gameObject.SetActive(false);
         });
-        _disabling = false;
+        // _disabling = false;
     }
 
 
