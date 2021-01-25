@@ -2,11 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Mirror;
+using TMPro;
 
-public class MainCameraDisable : MonoBehaviour
+public class MainCameraDisable : NetworkBehaviour
 {
 
     public GameObject loginText;
+    public TextMeshPro loginTextTMP;
+
+    public void Start()
+    {
+        if (isServer)
+        {
+          GetComponent<AudioListener>().enabled= true;
+          loginTextTMP.text = "YOU are the SERVER!";
+        }
+        else
+        {
+          print("you aint the server!");
+        }
+    }
 
     void OnEnable()
     {

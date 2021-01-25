@@ -191,6 +191,7 @@ public class ChatBehaviour : NetworkBehaviour
         _slashChat = false;
         emoteListCanvas.enabled = false;
       }
+
       StartCoroutine(EnterChatToggle());
     }
 
@@ -326,14 +327,24 @@ public class ChatBehaviour : NetworkBehaviour
     // automatically scroll down every time text is inserted
     myScrollRect.verticalNormalizedPosition = 0.0f;
 
-    inputField.text = string.Empty; //clear text input field 
-    inputField.Select();
-    inputField.ActivateInputField();
+    StartCoroutine(ClearText());
+    // inputField.text = string.Empty; //clear text input field 
+    // inputField.Select();
+    // inputField.ActivateInputField();
 
     if (isLocalPlayer)
     {
       Canvas.ForceUpdateCanvases();
     }
+  }
+
+  // sanity check - clears text after two frames
+  IEnumerator ClearText()
+  {
+    yield return null;
+    inputField.text = string.Empty; //clear text input field 
+    inputField.Select();
+    inputField.ActivateInputField();
   }
 
   [Client]

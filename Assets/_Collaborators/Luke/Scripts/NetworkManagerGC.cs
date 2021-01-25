@@ -6,8 +6,24 @@ using System;
 
 public class NetworkManagerGC : NetworkManager
 {
+    public bool serverMode;
+
     public static event Action<string> UserAdded;
     public CustomizerData dataMessage = new CustomizerData();
+
+    public override void Start()
+    {
+      StartCoroutine(StartServerWithDelay());
+    }
+
+    IEnumerator StartServerWithDelay()
+    {
+      yield return new WaitForSeconds(5f);
+      if (serverMode == true)
+      {
+        StartServer();
+      }
+    }
 
     public override void OnStartServer()
     {

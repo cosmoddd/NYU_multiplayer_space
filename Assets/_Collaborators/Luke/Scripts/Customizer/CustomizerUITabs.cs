@@ -6,6 +6,7 @@ using TMPro;
 
 public class CustomizerUITabs : MonoBehaviour
 {
+
     //public UI elements to be set in inspector
     //---Panels--
     public GameObject loginPanel;
@@ -61,6 +62,7 @@ public class CustomizerUITabs : MonoBehaviour
 
     void Start()
     {
+
         // customizerScript = this.GetComponent<CharacterCustomizerScript>();
 
         //start with empty colors
@@ -270,6 +272,12 @@ public class CustomizerUITabs : MonoBehaviour
     //customizerScript.SaveTraitsToScript();
     //TODO - loads into game
     // }
+    public void StartServer()
+    {
+        //SAVE PRESET
+        // customizerScript.SaveData();
+        customizerScript.manager.StartServer();
+    }
 
     public void EnterHost()
     {

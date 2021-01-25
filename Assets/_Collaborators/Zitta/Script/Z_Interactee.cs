@@ -12,6 +12,21 @@ public class Z_Interactee : NetworkBehaviour {
     [HideInInspector] public bool LastActive;
     Outline thisOutlineScript;
 
+  public override void OnStartServer()
+  {
+    base.OnStartServer();
+    if (isServerOnly)
+    {
+      print("Removing Outliner script " + this.gameObject.name);
+      {
+        thisOutlineScript = GetComponent<Outline>();
+        if (thisOutlineScript) Destroy(thisOutlineScript);
+      }
+    }
+  }
+
+
+
     void Start()
     {
       // thisOutlineScript = GetComponent<Outline>();
