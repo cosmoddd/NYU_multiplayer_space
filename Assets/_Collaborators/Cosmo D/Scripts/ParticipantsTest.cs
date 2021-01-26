@@ -44,14 +44,16 @@ public class ParticipantsTest : NetworkBehaviour
     {
         base.OnStartServer();
         NetworkManagerGC.UserAdded += AddUser;
-        ParticipantsReceiver.RemoveUser += RemoveUser;
+        ParticipantsReceiver.LeavingServer += RemoveUser;
+        // ParticipantsReceiver.RemoveUser += RemoveUser;
         BuildLocalList();
     }
 
     void OnDestory()
     {
         NetworkManagerGC.UserAdded -= AddUser;
-        ParticipantsReceiver.RemoveUser -= RemoveUser;     
+        ParticipantsReceiver.LeavingServer -= RemoveUser; 
+        // ParticipantsReceiver.RemoveUser -= RemoveUser;   
     }
 
 
@@ -83,9 +85,6 @@ public class ParticipantsTest : NetworkBehaviour
     void RemoveUser(string userToRemove)
     {
         print("You're done! "+userToRemove);
-        
-        if (isServer) 
-        {
 
             print("You're the server.  Go ahead and remove.");
             foreach (UserID u in UserIDs)
@@ -100,8 +99,7 @@ public class ParticipantsTest : NetworkBehaviour
                 }
             }
 
-            SendUsersToList?.Invoke(players);
-        }        
+            SendUsersToList?.Invoke(players);    
     }
 
     void BuildLocalList()

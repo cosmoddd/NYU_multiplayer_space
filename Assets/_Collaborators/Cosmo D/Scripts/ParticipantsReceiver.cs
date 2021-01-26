@@ -45,7 +45,7 @@ public class ParticipantsReceiver : NetworkBehaviour
         if (isClient)
         {
             print("attempting to remove "+user);
-            RemoveUser?.Invoke(user);
+            // RemoveUser?.Invoke(user);
         }
     }
   
