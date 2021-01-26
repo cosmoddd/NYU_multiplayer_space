@@ -3526,7 +3526,7 @@ MonoBehaviour:
   offlineScene: Assets/_Active Scenes/Main Login 5.unity
   onlineScene: Assets/_Active Scenes/Main Space 4.unity
   transport: {fileID: 320053944}
-  networkAddress: localhost
+  networkAddress: 138.128.247.24
   maxConnections: 64
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 20
@@ -4035,7 +4035,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 264, y: -360.77002}
+  m_AnchoredPosition: {x: 264, y: -389.8}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &386345017
@@ -9018,12 +9018,12 @@ GameObject:
   - component: {fileID: 861624275}
   - component: {fileID: 861624274}
   m_Layer: 5
-  m_Name: SubtitleTxt (1)
+  m_Name: Port forwarding fyi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &861624273
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9063,7 +9063,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Hosting a server requires port forwarding.  \nThe open port is <b>7777</b>"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
   m_sharedMaterial: {fileID: 7295421662424735576, guid: dbf2e617d29734f4caf3b111108c8993, type: 2}
