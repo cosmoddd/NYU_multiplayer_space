@@ -42,7 +42,7 @@ public class LocalSaveData : MonoBehaviour
             LoadData();
         }
 
-      print("file doesn't exist");
+      // print("file doesn't exist");
     }
 
     void LoadData()

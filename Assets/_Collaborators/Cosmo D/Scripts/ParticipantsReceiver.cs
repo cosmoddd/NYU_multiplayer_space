@@ -8,60 +8,67 @@ using Mirror;
 
 public class ParticipantsReceiver : NetworkBehaviour
 {
-    public TextMeshProUGUI tmProtext;
-    public string thisUserName;
+  public TextMeshProUGUI tmProtext;
+  public string thisUserName;
 
-    [TextArea(2,6)]
-    public string userListString;
+  [TextArea(2, 6)]
+  public string userListString;
 
-    public static event Action<string> LeavingServer;
+  public static event Action<string> LeavingServer;
 
-    public static event Action<string> RemoveUser;
+  public static event Action<string> RemoveUser;
 
-    public override void OnStartClient()
+  public override void OnStartServer()
+  {
+    base.OnStartServer();
+    thisUserName = GetComponent<MeshAssigner>().userName;
+  }
+
+  public override void OnStartClient()
+  {
+    thisUserName = GetComponent<MeshAssigner>().userName;
+  }
+
+  public void SendUsersToList(List<string> thisList)
+  {
+    userListString = "<b>Users:</b> \n";
+    foreach (string s in thisList)
     {
-        thisUserName = GetComponent<MeshAssigner>().userName;
+      userListString += (s + "\n");
     }
+    tmProtext.text = userListString;
+  }
 
-    public void SendUsersToList(List<string> thisList)
+  public override void OnStopServer()
+  {
+    // if (isLocalPlayer)
+    // {
+    print("I'm a player and I'm leaving (OnStopServer()).  " + thisUserName);
+    LeavingServer?.Invoke(thisUserName);
+    // }
+  }
+
+  void UserLeft(string user)
+  {
+    if (isClient)
     {
-        userListString = "<b>Users:</b> \n";
-        foreach (string s in thisList)
-        {
-            userListString += (s+"\n");
-        }
-        tmProtext.text = userListString;
+      print("attempting to remove " + user);
     }
+  }
 
-    public void OnDestroy()
-    {
-        // print("I'm outta here.");
-        LeavingServer?.Invoke(thisUserName);
-    }
-    
+  void OnEnable()
+  {
+    ParticipantsTest.SendUsersToList += SendUsersToList;
 
-    void UserLeft(string user)
-    {
-        if (isClient)
-        {
-            print("attempting to remove "+user);
-            // RemoveUser?.Invoke(user);
-        }
-    }
-  
-    void OnEnable()
-    {
-        ParticipantsTest.SendUsersToList += SendUsersToList;
+    ParticipantsReceiver.LeavingServer += UserLeft;
 
-        ParticipantsReceiver.LeavingServer += UserLeft;
+  }
 
-    }
+  void OnDisable()
+  {
+    ParticipantsTest.SendUsersToList -= SendUsersToList;
 
-    void OnDisable()
-    {
-        ParticipantsTest.SendUsersToList -= SendUsersToList;
-
-        ParticipantsReceiver.LeavingServer -= UserLeft;
-    }
+    ParticipantsReceiver.LeavingServer -= UserLeft;
+  }
 
 }

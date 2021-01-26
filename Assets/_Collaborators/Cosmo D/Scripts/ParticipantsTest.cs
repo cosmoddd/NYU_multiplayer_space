@@ -45,7 +45,6 @@ public class ParticipantsTest : NetworkBehaviour
         base.OnStartServer();
         NetworkManagerGC.UserAdded += AddUser;
         ParticipantsReceiver.LeavingServer += RemoveUser;
-        // ParticipantsReceiver.RemoveUser += RemoveUser;
         BuildLocalList();
     }
 
@@ -53,7 +52,6 @@ public class ParticipantsTest : NetworkBehaviour
     {
         NetworkManagerGC.UserAdded -= AddUser;
         ParticipantsReceiver.LeavingServer -= RemoveUser; 
-        // ParticipantsReceiver.RemoveUser -= RemoveUser;   
     }
 
 
@@ -72,7 +70,7 @@ public class ParticipantsTest : NetworkBehaviour
     {
         // if (!isLocalPlayer) return;
 
-        print($"Adding {user}... maybe?");
+        print($"I am the server and I am adding {user} to the list.");
 
         UserID objectToAdd = new UserID(user);
         UserIDs.Add(objectToAdd);
@@ -84,22 +82,23 @@ public class ParticipantsTest : NetworkBehaviour
 
     void RemoveUser(string userToRemove)
     {
-        print("You're done! "+userToRemove);
+        print("You're done! "+userToRemove.ToString());
 
-            print("You're the server.  Go ahead and remove.");
-            foreach (UserID u in UserIDs)
+        print("You're the server.  Go ahead and remove.");
+        foreach (UserID u in UserIDs)
+        {
+            print (u.userID);
+            if (u.userID == userToRemove)
             {
-                if (u.userID == userToRemove)
-                {
-                    print("match! "+userToRemove);
+                print("match! "+userToRemove);
 
-                    // UserID objectToRemove = new UserID(userToRemove);
-                    UserIDs.Remove(u);
-                    players.Remove(userToRemove);
-                }
+                // UserID objectToRemove = new UserID(userToRemove);
+                UserIDs.Remove(u);
+                players.Remove(userToRemove);
             }
+        }
 
-            SendUsersToList?.Invoke(players);    
+        SendUsersToList?.Invoke(players);    
     }
 
     void BuildLocalList()
