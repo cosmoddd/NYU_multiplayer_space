@@ -36,24 +36,24 @@ public class ParticipantsTest : NetworkBehaviour
         }
     };
 
-    void OnEnable()
+    // public override void OnStartClient()
+    // {
+
+    // }
+    public override void OnStartServer()
     {
+        base.OnStartServer();
         NetworkManagerGC.UserAdded += AddUser;
         ParticipantsReceiver.RemoveUser += RemoveUser;
-    }
-
-    void OnDisable()
-    {
-        NetworkManagerGC.UserAdded -= AddUser;
-        ParticipantsReceiver.RemoveUser -= RemoveUser;        
-
-    }
-
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
         BuildLocalList();
     }
+
+    void OnDestory()
+    {
+        NetworkManagerGC.UserAdded -= AddUser;
+        ParticipantsReceiver.RemoveUser -= RemoveUser;     
+    }
+
 
     void Update()
     {
@@ -68,7 +68,10 @@ public class ParticipantsTest : NetworkBehaviour
 
     void AddUser(string user)
     {
-        if (!isClient) return;
+        // if (!isLocalPlayer) return;
+
+        print($"Adding {user}... maybe?");
+
         UserID objectToAdd = new UserID(user);
         UserIDs.Add(objectToAdd);
         players.Add(user);

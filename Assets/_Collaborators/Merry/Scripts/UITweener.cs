@@ -115,16 +115,16 @@ public class UITweener : MonoBehaviour
 
     public void MoveAbsolute()
     {
-      print(tweenState.ToString());
+      // print(tweenState.ToString());
       if (tweenState == TweenState.Showing)
       {
-        print("Showing!");
+        // print("Showing!");
           objectToAnimate.GetComponent<RectTransform>().anchoredPosition = from;
           _tweenObject = LeanTween.move(objectToAnimate.GetComponent<RectTransform>(), to, duration);
       }
       if (tweenState == TweenState.Hiding)
       {
-         print("Hiding!");
+        //  print("Hiding!");
           objectToAnimate.GetComponent<RectTransform>().anchoredPosition = to;
           _tweenObject = LeanTween.move(objectToAnimate.GetComponent<RectTransform>(), from, duration);
       }
@@ -150,20 +150,13 @@ public class UITweener : MonoBehaviour
 
 
     public void Hide()
-    {
-        // _disabling = true;
-        
+    {   
         SetDirection(TweenState.Hiding);
-        print(tweenState.ToString());
         HandleTween();
-
-
         _tweenObject.setOnComplete(() =>
         {
-          
-            // gameObject.SetActive(false);
+         
         });
-        // _disabling = false;
     }
 
 

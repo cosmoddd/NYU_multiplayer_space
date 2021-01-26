@@ -141,9 +141,10 @@ public class MeshAssigner : NetworkBehaviour
     public void LoadData(CustomizerData customData)
     {
         userName = customData.userName;
-        gameObject.name = $"__AV__{userName}";
         loginInfo = new LoginData(customData.userName,customData.password,customData.tags);
 
+        print(userName+ " has arrived on the scene.");
+        gameObject.name = "__AV__"+userName;
 
         for(int i = 0; i < customData.bodyIDs.Length; i++)
         {
@@ -159,11 +160,14 @@ public class MeshAssigner : NetworkBehaviour
 
         userName = loginInfo.nameTag;
         customData.userName = userName;
+
     }
 
 
     public void AssignAvatarTraits()
     {
+      
+        gameObject.name = "__AV__"+userName;
         Color bodyColor = new Color(bodyTraits[4].color.x, bodyTraits[4].color.y, bodyTraits[4].color.z);
 
         foreach (Renderer bodyRenderer in bodyRenderers)//sets the body color

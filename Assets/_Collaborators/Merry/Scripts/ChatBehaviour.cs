@@ -24,7 +24,7 @@ public class ChatBehaviour : NetworkBehaviour
 
   [SerializeField]
   private TMP_InputField inputField = null; //input field
-  public Button sendButton;
+  // public Button sendButton;
 
   [SerializeField]
   private Image chatBackground = null; //chat background + goes with slider
@@ -238,7 +238,7 @@ public class ChatBehaviour : NetworkBehaviour
     }
 
 
-    if (inChatMode.Value == true && inputField.gameObject.activeInHierarchy)
+    if (isLocalPlayer && inChatMode.Value == true && inputField.gameObject.activeInHierarchy)
     {
       print("Send the text");
       Send(inputField.text);
@@ -296,7 +296,13 @@ public class ChatBehaviour : NetworkBehaviour
 
   public void HandleNewMessage(string message)
   {
-    StartCoroutine(WaitAFrame(message));
+    // StartCoroutine(WaitAFrame(message));
+    // print("Receiving... "+message);
+    chatText.text += message;
+    if (isLocalPlayer)
+    {
+        Canvas.ForceUpdateCanvases();
+    }
   }
 
 
@@ -321,6 +327,7 @@ public class ChatBehaviour : NetworkBehaviour
     // Check if the message is a command
     if (!(ParseCommandAndInvoke(message) && !SendCommandsToChat))
     {
+      // print("sending the message CmdSendMessage "+ message + " " + gameObject.name);
       CmdSendMessage(message);  // if the message is not consumed, send it to chat
     }
 
@@ -345,15 +352,6 @@ public class ChatBehaviour : NetworkBehaviour
     inputField.text = string.Empty; //clear text input field 
     inputField.Select();
     inputField.ActivateInputField();
-  }
-
-  [Client]
-  public void SendButton()
-  {
-    if (string.IsNullOrWhiteSpace(inputField.text)) { return; }
-
-    CmdSendMessage(inputField.text);
-    inputField.text = string.Empty; //clear text input field  
   }
 
   [Command]
@@ -381,6 +379,7 @@ public class ChatBehaviour : NetworkBehaviour
 
     }
 
+    // print("sending... "+message);
     RpcHandleMessage($"{newUserName}]</color>  {message}");
   }
 
@@ -399,6 +398,7 @@ public class ChatBehaviour : NetworkBehaviour
   [ClientRpc]
   private void RpcHandleMessage(string message)
   {
+    // print("Handling... "+message);
     OnMessage?.Invoke($"\n{message}");
   }
 
