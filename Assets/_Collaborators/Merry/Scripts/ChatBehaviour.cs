@@ -92,7 +92,7 @@ public class ChatBehaviour : NetworkBehaviour
       scrollBar.sprite = invisibleScrollBarSprite;
       if (emoteListCanvas) emoteListCanvas.enabled = false;
 
-      StopAllCoroutines();
+      StopCoroutine(DisableChatTweenCoroutine());
       StartCoroutine(DisableChatTweenCoroutine());
 
       _slashChat = false;
@@ -126,16 +126,18 @@ public class ChatBehaviour : NetworkBehaviour
       if (inChatMode.Value == true)
       {
         print("we are in chat mode - disable!");
-        StopAllCoroutines();
+        StopCoroutine(DisableChatTweenCoroutine());
         StartCoroutine(DisableChatTweenCoroutine());
+        inputField.DeactivateInputField();
       }
+
       if (inChatMode.Value == false)
       {
     
         participantsListCanvas.enabled = true;
 
         print("we are NOT chat mode - enable!");
-        StopAllCoroutines();
+        StopCoroutine(ShowTweenChatUI());
         StartCoroutine(ShowTweenChatUI());
 
         scrollBar.sprite = activeScrollBarSprite;
@@ -151,7 +153,7 @@ public class ChatBehaviour : NetworkBehaviour
     {
       if (inChatMode.Value == true)
           {
-            StopAllCoroutines();
+            StopCoroutine(DisableChatTweenCoroutine());
             StartCoroutine(DisableChatTweenCoroutine());
           }
     }
@@ -176,6 +178,7 @@ public class ChatBehaviour : NetworkBehaviour
         inputField.text = "/";
         inputField.ActivateInputField();
         _slashChat = true; //make sure you don't open chat a bunch
+
 
         StartCoroutine(ShowTweenChatUI());
         // Start a coroutine to deselect text and move caret to end. 
@@ -211,7 +214,7 @@ public class ChatBehaviour : NetworkBehaviour
       yield return null;
       print("I'm outta here");
 
-      StopAllCoroutines();
+      StopCoroutine(DisableChatTweenCoroutine());
       StartCoroutine(DisableChatTweenCoroutine());
 
       yield break;
@@ -240,7 +243,7 @@ public class ChatBehaviour : NetworkBehaviour
 
     if (isLocalPlayer && inChatMode.Value == true && inputField.gameObject.activeInHierarchy)
     {
-      print("Send the text");
+    //   print("Send the text");
       Send(inputField.text);
       yield break;
     }
@@ -377,10 +380,18 @@ public class ChatBehaviour : NetworkBehaviour
         newUserName += "[";
       }
 
-    }
 
-    // print("sending... "+message);
-    RpcHandleMessage($"{newUserName}]</color>  {message}");
+    }
+    if (userName.Contains("<#"))
+    {
+        RpcHandleMessage($"{newUserName}]</color>  {message}");
+        return;
+    }
+    else
+    {
+        RpcHandleMessage($"[{userName}]  {message}");
+        return;
+    }
   }
 
   [ClientRpc]
@@ -390,7 +401,8 @@ public class ChatBehaviour : NetworkBehaviour
     float randomPitch = UnityEngine.Random.Range(.8f, 1.2f);
     avatarChatAudio.pitch = randomPitch;
     avatarChatAudio.Play();
-    StopAllCoroutines();
+
+    StopCoroutine(ShowTextTimer());
     StartCoroutine(ShowTextTimer());
   }
 

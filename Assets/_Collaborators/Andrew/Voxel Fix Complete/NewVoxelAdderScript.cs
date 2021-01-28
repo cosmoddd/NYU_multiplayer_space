@@ -53,6 +53,7 @@ public class NewVoxelAdderScript : NetworkBehaviour
         }       
     }
 
+    // mirror this on the client as well
     [ClientRpc]
     void RpcInitMesh(Vector3[] verts, int[] tris, int id)
     {
@@ -62,7 +63,6 @@ public class NewVoxelAdderScript : NetworkBehaviour
             holders[id].MF.mesh.triangles = tris;
             holders[id].MF.mesh.RecalculateNormals();
             holders[id].updateMesh();
-            //Debug.Log(verts.Length);
         }
     }
     public Transform boxOutline;
@@ -142,6 +142,10 @@ public class NewVoxelAdderScript : NetworkBehaviour
     [Command(ignoreAuthority = true)]
     void CmdAddCubeToMesh(Vector3 pos, int id)
     {
+        if(isServer)
+        {
+            AddCubeToMesh(pos, id);
+        }
         RpcAddCubeToMesh(pos, id);
     }
     [ClientRpc]
@@ -168,11 +172,6 @@ public class NewVoxelAdderScript : NetworkBehaviour
         {
             newVerts[i] = MH.transform.InverseTransformPoint(pos + newVerts[i]);
             vertices.Add(newVerts[i]);
-            //if (newVerts[i] == pos)
-            //{
-            //    //Debug.Log(cubeMesh.vertices.Length);
-            //    //Debug.Log($"center Detected at index {i}");
-            //}
         }
 
         int triLength = MH.MF.mesh.vertices.Length;
@@ -209,6 +208,11 @@ public class NewVoxelAdderScript : NetworkBehaviour
     [Command(ignoreAuthority = true)]
     void CmddelCubefromMesh(Vector3 pos, int id)
     {
+        if (isServer)
+        {
+            delCubefromMesh(pos,id);
+        }
+        
         RpcdelCubefromMesh(pos, id);
     }
     [ClientRpc]

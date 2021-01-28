@@ -19,6 +19,14 @@ public class LiteScript : NetworkBehaviour
     GetComponent<Renderer>().material = materials[whichMat];  
   }
 
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+
+        GetComponent<Renderer>().material = materials[whichMat];  
+    }
+  
+
     void Interact()
     {
         CmdLightServer();
@@ -26,7 +34,14 @@ public class LiteScript : NetworkBehaviour
 
     [Command(ignoreAuthority = true)]
     public void CmdLightServer()
-    {
+    {   
+        print("Runnin from the cat!");
+        whichMat++;
+        if (whichMat>=materials.Length)
+        {
+            whichMat = 0;
+        }
+        GetComponent<Renderer>().material = materials[whichMat];
         RpcLightToggle();
     }
 
@@ -35,7 +50,6 @@ public class LiteScript : NetworkBehaviour
     [ClientRpc]
     void RpcLightToggle()
     {
-
             whichMat++;
             if (whichMat>=materials.Length)
             {

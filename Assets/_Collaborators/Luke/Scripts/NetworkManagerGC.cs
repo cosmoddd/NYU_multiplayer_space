@@ -10,6 +10,7 @@ public class NetworkManagerGC : NetworkManager
 
     public static event Action<string> UserAdded;
     public CustomizerData dataMessage = new CustomizerData();
+    public string backupNetworkAddress; // notetaking only
 
     public override void Start()
     {

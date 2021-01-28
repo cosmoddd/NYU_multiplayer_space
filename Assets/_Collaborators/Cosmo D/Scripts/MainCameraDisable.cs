@@ -13,7 +13,7 @@ public class MainCameraDisable : NetworkBehaviour
 
     public void Start()
     {
-        if (isServer)
+        if (isServerOnly)
         {
           GetComponent<AudioListener>().enabled= true;
           loginTextTMP.text = "YOU are the SERVER!";

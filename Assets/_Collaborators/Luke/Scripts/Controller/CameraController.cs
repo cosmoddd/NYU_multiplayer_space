@@ -87,7 +87,12 @@ public class CameraController : MonoBehaviour
     void LateUpdate()
     {
         // if in chat mode (or menu) return
-        if (inChatMode.Value || inOptionsMode.Value)
+        // if (inChatMode.Value == true && !clickToMove)
+        // {
+        //     return;
+        // }
+
+        if (inOptionsMode.Value)
         {
             return;
         }         
