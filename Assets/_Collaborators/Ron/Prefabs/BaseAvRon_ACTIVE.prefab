@@ -3198,8 +3198,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5379828484478081498}
   m_HandleRect: {fileID: 7397219385720934672}
   m_Direction: 2
-  m_Value: 0.9996565
-  m_Size: 0.59187967
+  m_Value: 0.9996567
+  m_Size: 0.5918797
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10292,6 +10292,7 @@ GameObject:
   - component: {fileID: 6322210173786064305}
   - component: {fileID: 5443027108161144004}
   - component: {fileID: 1730647699115524620}
+  - component: {fileID: 9192305903249355595}
   m_Layer: 8
   m_Name: BaseAvRon_ACTIVE
   m_TagString: Player
@@ -10801,6 +10802,21 @@ MonoBehaviour:
   interactText: {fileID: 1029052428704077753}
   inOptionsMode: {fileID: 11400000, guid: d10965b9ee169674595c38394e2d4e79, type: 2}
   inChatMode: {fileID: 11400000, guid: e7b3a120e873b294fb6e3c4be1353ff2, type: 2}
+--- !u!114 &9192305903249355595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976586562111085665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59db12cb2bd1fd74198bfc74b03cc52b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  gameVersion: {fileID: 11400000, guid: 474f50811ed240f4594fd5a7e3b961a9, type: 2}
 --- !u!1 &8978113685758183522
 GameObject:
   m_ObjectHideFlags: 0
@@ -11117,11 +11133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4114801007736573967, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
       propertyPath: m_Value
-      value: -0.0000038708877
+      value: -0.0000055912874
       objectReference: {fileID: 0}
     - target: {fileID: 4114801007736573967, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
       propertyPath: m_Size
-      value: 0.8884812
+      value: 0.88848126
       objectReference: {fileID: 0}
     - target: {fileID: 4423752856294390594, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -11225,13 +11241,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9019289907328686898, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
 --- !u!1 &4038157503172513569 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1170132631858921213, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
+  m_PrefabInstance: {fileID: 2897872534607639004}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &3309351845540940447 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
   m_PrefabInstance: {fileID: 2897872534607639004}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &4911477093567262556 stripped
@@ -11245,11 +11266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &3309351845540940447 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 421757607425243971, guid: 8bda90d96b8004149aad5984ae158e2b, type: 3}
-  m_PrefabInstance: {fileID: 2897872534607639004}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4574953823865933068
 PrefabInstance:
   m_ObjectHideFlags: 0

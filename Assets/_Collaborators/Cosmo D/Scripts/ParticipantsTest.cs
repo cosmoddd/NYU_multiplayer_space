@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
-
+using UnityAtoms.BaseAtoms;
 public class ParticipantsTest : NetworkBehaviour
 {
+
+    public IntVariable versionNumberSO;
+    [SyncVar]
+    public int versionNumber;
+
     public static event Action<List<string>> SendUsersToList;
 
 
@@ -43,15 +48,28 @@ public class ParticipantsTest : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
+        
+        // subscribe to events from elsewhere
         NetworkManagerGC.UserAdded += AddUser;
         ParticipantsReceiver.LeavingServer += RemoveUser;
+        VersionChecker.GetVersionFunc += GetVersion;
+
         BuildLocalList();
+    
+        versionNumber = versionNumberSO.Value;
+    }
+
+    int GetVersion ()
+    {
+        return versionNumber;
     }
 
     void OnDestory()
     {
         NetworkManagerGC.UserAdded -= AddUser;
         ParticipantsReceiver.LeavingServer -= RemoveUser; 
+
+        VersionChecker.GetVersionFunc -= GetVersion;
     }
 
 

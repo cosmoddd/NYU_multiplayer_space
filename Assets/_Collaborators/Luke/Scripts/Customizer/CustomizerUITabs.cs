@@ -290,6 +290,7 @@ public class CustomizerUITabs : MonoBehaviour
     {
         //SAVE PRESET
         customizerScript.SaveData();
+
         customizerScript.manager.StartClient();
 
     }
