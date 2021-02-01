@@ -8,6 +8,7 @@ public class ParticipantsTest : NetworkBehaviour
 {
 
     public IntVariable versionNumberSO;
+    
     [SyncVar]
     public int versionNumber;
 
@@ -41,10 +42,11 @@ public class ParticipantsTest : NetworkBehaviour
         }
     };
 
-    // public override void OnStartClient()
-    // {
-
-    // }
+    public override void OnStartClient()
+    {
+        VersionChecker.GetVersionFunc += GetVersion;
+    }
+    
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -52,7 +54,7 @@ public class ParticipantsTest : NetworkBehaviour
         // subscribe to events from elsewhere
         NetworkManagerGC.UserAdded += AddUser;
         ParticipantsReceiver.LeavingServer += RemoveUser;
-        VersionChecker.GetVersionFunc += GetVersion;
+
 
         BuildLocalList();
     
