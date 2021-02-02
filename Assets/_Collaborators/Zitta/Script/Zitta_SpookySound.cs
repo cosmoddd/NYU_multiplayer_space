@@ -23,6 +23,9 @@ public class Zitta_SpookySound : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        return; // bypass this 
+
+
         if (Active && Source.volume < 1 * MaxVolume)
             Source.volume += VolumeSpeed * Time.deltaTime;
         else if (!Active && Source.volume > 0)
